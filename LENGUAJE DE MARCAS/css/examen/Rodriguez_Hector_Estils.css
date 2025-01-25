@@ -1,0 +1,64 @@
+/*HECTOR RODRIGUEZ LOZANO*/
+/*ESTRUCTURA*/
+*{
+    font-family: Arial, Helvetica, sans-serif; /*Toda la página tendrá este tipo de letra*/
+}
+
+body {
+    margin: 0; /*La página no tendrá margen*/
+    padding: 0; /*La página no tendrá padding*/
+    height: 100%; /*Su altura será del 100%*/
+    color: #1d9031;/*El color de todo lo que este en el body será este*/
+}
+
+header{
+    display: flex; /*Al ser un elemento de bloque aplicamos display:flex para así poder manipular el header con flexbox*/
+    flex-direction: row; /*La dirección será en fila*/
+    border:solid 1px #1d9031; /*El borde del header tendrá de tamaño 1px, será sólido y tendrá el color declarado*/
+    flex-wrap: wrap; /*Con el wrap conseguimos que se adapte al espacio que hay y no ocupe todo*/
+    justify-content: space-between; /*Conseguimos espacio entre los elementos del interior del header*/
+    align-items: center; /*Los elementos se alinean*/
+    margin-top: 5px; /* El margen superior será de 5px con esto conseguimos que se vea la parte de arriba del border*/
+}
+
+
+footer {
+
+    text-align: center; /*El texto de dentro del footer se aliniará*/
+    background-color: #1d9031; /*El color de fondo del footer será el declarado*/
+    padding: 10px; /*Tendrá un margen interior (padding) de 10px*/
+    color: white; /*El color de la letra será blanco*/
+    position: fixed; /*La posición será fija*/
+    bottom: 0; /*La posición será abajo del todo*/
+    width: 100%; /*Ocupará todo el ancho*/
+    height: 50px; /*Tendrá una altura de 50px*/
+
+}
+/*ZONA TITOL*/
+span{
+    display: block; /*Desplazamos lo que está dentro del span a la siguiente línea*/
+    text-align: center; /*Alineamos al centro la línea*/
+}
+
+h1{
+    margin-left: 30px; /*El texto tendrá un margen izquierdo de 30px*/
+}
+
+/*ZONA MENÚ*/
+
+nav,ul{
+    display: flex; /*Añadimos un display: flex para que el elemento se situe*/
+    list-style: none;/*Quitamos la decoración que nos pone por defecto ul*/
+    text-decoration: none;/*Quitamos la decoración que nos pone por defecto ul*/
+    color: #1d9031;
+}
+
+li {
+    margin: 5px; /*Los elementos de la lista tendrá un margen de 5px*/
+    padding: 10px;/*Entre los elementos de la lista hbará un margen interior (padding) de 10 px*/
+}
+
+a {
+    text-decoration: none;/*Quitamos la decoración que nos pone por defecto a*/
+    color: #1d9031;
+}

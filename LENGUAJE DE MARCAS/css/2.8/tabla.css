@@ -1,0 +1,45 @@
+caption,
+table {
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid darkblue;
+}
+
+tr:nth-child(1) {
+    background-color: maroon;
+    color: white;
+    text-transform: uppercase;
+}
+
+tr:nth-child(2) {
+    background-color: maroon;
+    color: white;
+    text-transform: uppercase;
+}
+
+tr:nth-child(6) {
+    background-color: maroon;
+    color: white;
+    text-transform: uppercase;
+}
+
+td:last-child {
+    font-weight: bold;
+}
+
+tr:nth-child(3) {
+    background-color: darkblue;
+    color: white;
+}
+
+tr:nth-child(5) {
+    background-color: darkblue;
+    color: white;
+}
+tr:nth-child(4){
+    background-color: white;
+    color: darkblue;
+}
+caption::selection{
+    color: darkviolet;
+}

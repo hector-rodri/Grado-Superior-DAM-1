@@ -1,0 +1,55 @@
+body {
+    margin: 20px;
+}
+
+
+#divEsquerra {
+    float: left;
+    width: 30%;
+    border: 1px d black;
+    padding: 5px;
+    background-color: whitesmoke;
+    margin-left: 10px;
+}
+
+
+#divDreta {
+    float: right;
+    width: 30%;
+    border: 1px dashed black;
+    padding: 5px;
+    background-color: whitesmoke;
+    margin-right: 10px;
+    text-align: right;
+}
+
+
+#divCentral {
+    margin-top: 50px;
+    margin-right: 10px;
+    padding: 200px;
+    overflow: hidden;
+    text-align: right;
+}
+
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: grey;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+/*linear-gradient(to bottom, #c795b4, #b5ecda);
+fIXED
+Static
+Relative
+Absolute
+OVERFLOW
+DISPLAY
+
+*/

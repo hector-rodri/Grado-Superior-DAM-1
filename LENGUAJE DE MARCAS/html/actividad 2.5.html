@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAME®</title>
+</head>
+
+<body>
+
+    <h1>GAME®</h1>
+    <form>
+    
+        <label for="nombre">Ingresa tu nombre:</label>
+        <br>
+        <br>
+        <input type="text" name="nombre" required>
+        <br>
+        <br>
+        <label for="edad">Edad:</label>
+        <br>
+        <br>
+        <input id="edad" type="number" name="edad" required min="18" />
+        <br>
+        <br>
+        <label for="email">Ingresa tu correo electrónico:</label>
+        <br>
+        <br>
+        <input type="email" name="email" required>
+        <br>
+        <br>
+        <label for="contraseña">Ingresa tu contraseña (obligatori, 6-12 caràcters):</label>
+        <br>
+        <br>
+        <input type="password" id="contrasenya" name="contrasenya"  required minlength="6" maxlength="12">
+        <br>
+        <br>
+        <label for="elegir consola">Ingresa tus videoconsolas favoritas:</label>
+        <br>
+        <br>
+        <select name="consola" multiple required>
+            <option value="switch">Nintendo Switch</option>
+            <option value="ps5">PS5</option>
+            <option value="xbox_x">Xbox Series X</option>
+            <option value="xbox_s">Xbox Series S</option>
+            <option value="PSP">PSP </option>
+            <option value="steam_deck">Steam Deck</option>
+            <option value="altres">Altres</option>
+        </select>
+        <br>
+        <br>
+        <br>
+        <label for="subscribción">¿Deseas recibir más información por correo electrónico?</label>
+        <br>
+        <br>
+        <input type="checkbox" name="subscribción">
+        <br>
+        <br>
+        <label for="comentario">Deja tu comentario:</label><br>
+        <textarea id="comentaris" name="comentaris" cols="50" rows="7"></textarea>
+        <br>
+        <br>
+        <br>
+        <br>
+        <input type="submit" value="ENVIAR" placeholder="ENVIAR">
+
+    </form>
+
+</body>
+
+</html>

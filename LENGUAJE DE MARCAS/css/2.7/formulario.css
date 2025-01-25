@@ -1,0 +1,22 @@
+@font-face {
+    font-family: "Roboto";
+    src: url(Roboto/Roboto-Regular.ttf);
+}
+
+* {
+    font-family: "Roboto", Verdana, sans-serif;
+}
+body{ background-color: #efeff0;
+}
+div, p{
+    color: #696969;
+}
+input{
+    width: 200px;
+}
+div{
+    margin: 5px;
+}
+main {
+    background-color: #b0f3f8;
+}
