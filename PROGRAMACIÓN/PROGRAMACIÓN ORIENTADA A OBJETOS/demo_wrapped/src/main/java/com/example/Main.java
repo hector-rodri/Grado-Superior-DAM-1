@@ -24,9 +24,7 @@ public class Main {
         String flotador = Float.toString(flotante);
         System.out.println(flotante);
 
-        Int caracterRandom = Character.toChars(caracter);
-        System.out.println(caracter);
-
+       
         
 
 
