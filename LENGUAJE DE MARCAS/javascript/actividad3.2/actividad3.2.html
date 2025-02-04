@@ -5,14 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="actividad3.1.js"></script>
-    <link rel="stylesheet" href="actividad3.1.css">
+    <script src="actividad3.2.js"></script>
+    <link rel="stylesheet" href="actividad3.2.css">
 </head>
 
 <body>
-    <div class="texto">
+    <div id="contenedor">
         <h1>HOLA ESTO ES UN TEXTO DE PRUEBA</h1>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos non doloremque cum incidunt deserunt
+        <p id="texto">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos non doloremque cum incidunt
+            deserunt
             rem.
             Eius quisquam reprehenderit unde dolore atque quae, suscipit, ex soluta vitae dolores deleniti, nisi
             ratione.
@@ -33,9 +34,13 @@
         </p>
     </div>
 
-    <button onclick="aumentarTamano()" id="GRANDE">GRANDE</button>
-    <button onsubmit="disminuirTamano()" id="PEQUEÑO">PEQUEÑO</button>
-    <button onsubmit="cambioColor()" id="CAMBIO COLOR">CAMBIO COLOR</button>
+
+    <button onclick="aumentarTamano()">GRANDE</button>
+    <button onclick="disminuirTamano()">PEQUEÑO</button>
+    <button onclick="cambiarColor()">CAMBIO COLOR</button>
+    <button onclick="tamanoInicial()">TAMAÑO INICIAL</button>
+    <button onclick="implementarTexto()">AÑADIR TEXTO</button>
+    <button onclick="borrarTexto()">BORRAR TEXTO</button>
 
 </body>
 

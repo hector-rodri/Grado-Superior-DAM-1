@@ -1,0 +1,10 @@
+#texto{
+    font-size: 20px;
+    color: blue;
+    text-align: center;
+}
+
+.añadido{
+    color: red;
+    font-weight: bold;
+}
