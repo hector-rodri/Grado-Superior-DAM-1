@@ -116,7 +116,7 @@ SELECT G.NOM FROM GENERE G
     LEFT JOIN LLIBRE_GENERE LG ON G.NOM = LG.NOM_GENERE
     WHERE LG.NOM_GENERE IS NULL;
 SELECT DISTINCT G.NOM FROM GENERE G
-    LEFT JOIN LLIBRE_GENERE LG ON G.NOM = LG.NOM_GENERE;
+    JOIN LLIBRE_GENERE LG ON G.NOM = LG.NOM_GENERE;
 
 --Sobre Biblioteca_U6.sql
 
@@ -136,9 +136,17 @@ SELECT NOM, COGNOMS, SUM(EXEMPLARS) FROM LLIBRE LL, AUTOR AU, AUTOR_LLIBRE AULL 
 
 --Amb JOIN
 --1. Llista els autors (nom i llinatges) sense llibres.
-
+SELECT A.NOM, A.COGNOMS FROM AUTOR A
+    LEFT JOIN AUTOR_LLIBRE AL ON A.ID = AL.ID_AUTOR
+    WHERE AL.ID_AUTOR IS NULL;
 --2. Llista els llibres (títol) amb el seu gènere (nom).
+SELECT L.TITOL, G.NOM FROM LLIBRE L
+    LEFT JOIN LLIBRE_GENERE LG ON L.ID=LG.ID_LLIBRE
+	LEFT JOIN GENERE G ON G.NOM = LG.NOM_GENERE;
 --3. Llista els llibres (títol) sense gènere.
+SELECT L.TITOL FROM LLIBRE L 
+    LEFT JOIN LLIBRE_GENERE LG ON L.ID = LG.ID_LLIBRE
+	WHERE LG.NOM_GENERE IS NULL;
 --4. Llista els llibres (títol) sense autor.
 --5. Llista els títols i autor (nom i llinatge) dels llibres d'autors espanyols.
 --6. Llista els títols, el gènere (nom) i l'autor (nom i llinatges) de cada llibre. (Si un llibre té més d'un autor o gènere, el seu títol sortir repetit). Mostra només els que tenen autor conegut i gènere.
