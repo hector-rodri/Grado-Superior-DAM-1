@@ -110,10 +110,24 @@ LEFT JOIN pedido p ON co.id = p.id_comercial
 WHERE p.id_comercial IS NULL;
 
 -- 8. Devuelve un listado de todos los clientes que realizaron un pedido durante el año 2017, cuya cantidad esté entre 300 € y 1000 €.
+SELECT DISTINCT c.*
+FROM cliente c
+JOIN pedido p ON c.id = p.id_cliente
+WHERE EXTRACT(YEAR FROM p.fecha) = 2017
+AND p.total BETWEEN 300 AND 1000;
 
 -- 9. Devuelve un listado con todos los comerciales junto con los datos de los pedidos que han realizado. Este listado también debe incluir los comerciales que no han realizado ningún pedido. El listado debe estar ordenado alfabéticamente por el primer apellido, segundo apellido y nombre de los comerciales.
+SELECT co.*, p.*
+FROM comercial co
+LEFT JOIN pedido p ON co.id = p.id_comercial
+ORDER BY co.apellido1, co.apellido2, co.nombre;
 
 -- 10. Devuelve el nombre y los apellidos de todos los comerciales que ha participado en algún pedido realizado por María Santana Moreno.
+SELECT DISTINCT co.nombre, co.apellido1, co.apellido2
+FROM comercial co
+JOIN pedido p ON co.id = p.id_comercial
+JOIN cliente c ON p.id_cliente = c.id
+WHERE c.nombre = 'María' AND c.apellido1 = 'Santana' AND c.apellido2 = 'Moreno';
 
 -- 11. Devuelve el nombre de todos los clientes que han realizado algún pedido con el comercial Daniel Sáez Vega.
 
