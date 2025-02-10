@@ -130,5 +130,14 @@ JOIN cliente c ON p.id_cliente = c.id
 WHERE c.nombre = 'María' AND c.apellido1 = 'Santana' AND c.apellido2 = 'Moreno';
 
 -- 11. Devuelve el nombre de todos los clientes que han realizado algún pedido con el comercial Daniel Sáez Vega.
+SELECT DISTINCT c.nombre, c.apellido1, c.apellido2
+FROM cliente c
+JOIN pedido p ON c.id = p.id_cliente
+JOIN comercial co ON p.id_comercial = co.id
+WHERE co.nombre = 'Daniel' AND co.apellido1 = 'Sáez' AND co.apellido2 = 'Vega';
 
 -- 12. Devuelve un listado con todos los clientes junto con los datos de los pedidos que han realizado. Este listado también debe incluir los clientes que no han realizado ningún pedido. El listado debe estar ordenado alfabéticamente por el primer apellido, segundo apellido y nombre de los clientes.
+SELECT c.*, p.*
+FROM cliente c
+LEFT JOIN pedido p ON c.id = p.id_cliente
+ORDER BY c.apellido1, c.apellido2, c.nombre;
