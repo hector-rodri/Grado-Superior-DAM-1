@@ -63,18 +63,51 @@ INSERT INTO pedido VALUES(15, 370.85, DATE'2019-03-11', 1, 5);
 INSERT INTO pedido VALUES(16, 2389.23, DATE'2019-03-11', 1, 5);
 
 -- 1. Devuelve un listado con el identificador, nombre y los apellidos de todos los clientes que han realizado algún pedido. El listado debe estar ordenado alfabéticamente y se deben eliminar los elementos repetidos.
-SELECT DISTINCT cliente.id, nombre, apellido1, apellido2 FROM cliente, pedido WHERE cliente.id = pedido.id_cliente ORDER BY cliente.nombre ASC;
+SELECT DISTINCT cliente.id, nombre, apellido1, apellido2
+FROM cliente, pedido 
+WHERE cliente.id = pedido.id_cliente 
+ORDER BY cliente.nombre ASC;
+
 -- 2. Devuelve un listado que solamente muestre los clientes que no han realizado ningún pedido.
-SELECT cliente.* FROM cliente LEFT JOIN pedido ON cliente.id = pedido.id_cliente WHERE pedido.id IS NULL;
+SELECT cliente.* 
+FROM cliente 
+LEFT JOIN pedido ON cliente.id = pedido.id_cliente 
+WHERE pedido.id IS NULL;
+
 -- 3. Devuelve un listado que solamente muestre los comerciales que no han realizado ningún pedido.
-SELECT comercial.* FROM comercial LEFT JOIN pedido ON comercial.id = pedido.id_comercial WHERE pedido.id IS NULL;
+SELECT comercial.* 
+FROM comercial 
+LEFT JOIN pedido ON comercial.id = pedido.id_comercial 
+WHERE pedido.id IS NULL;
+
 -- 4. Devuelve un listado que muestre todos los pedidos que ha realizado cada cliente. El resultado debe mostrar todos los datos de los pedidos y del cliente. El listado debe mostrar los datos de los clientes ordenados alfabéticamente.
+SELECT c.*, p.*
+FROM cliente c
+JOIN pedido p ON c.id = p.id_cliente
+ORDER BY c.nombre, c.apellido1, c.apellido2;
 
 -- 5. Devuelve un listado que muestre todos los pedidos en los que ha participado un comercial. El resultado debe mostrar todos los datos de los pedidos y de los comerciales. El listado debe mostrar los datos de los comerciales ordenados alfabéticamente.
+SELECT co.*, p.*
+FROM comercial co
+JOIN pedido p ON co.id = p.id_comercial
+ORDER BY co.nombre, co.apellido1, co.apellido2;
 
 -- 6. Devuelve un listado que muestre todos los clientes, con todos los pedidos que han realizado y con los datos de los comerciales asociados a cada pedido.
+SELECT c.*, p.*, co.*
+FROM cliente c
+JOIN pedido p ON c.id = p.id_cliente
+JOIN comercial co ON p.id_comercial = co.id;
 
 -- 7. Devuelve un listado con los clientes que no han realizado ningún pedido y de los comerciales que no han participado en ningún pedido. Ordene el listado alfabéticamente por los apellidos y el nombre. En en listado deberá diferenciar de algún modo los clientes y los comerciales.
+SELECT 'Cliente' AS tipo, c.nombre, c.apellido1, c.apellido2
+FROM cliente c
+LEFT JOIN pedido p ON c.id = p.id_cliente
+WHERE p.id_cliente IS NULL
+UNION
+SELECT 'Comercial' AS tipo, co.nombre, co.apellido1, co.apellido2
+FROM comercial co
+LEFT JOIN pedido p ON co.id = p.id_comercial
+WHERE p.id_comercial IS NULL;
 
 -- 8. Devuelve un listado de todos los clientes que realizaron un pedido durante el año 2017, cuya cantidad esté entre 300 € y 1000 €.
 
