@@ -26,7 +26,7 @@ public class Main {
         JPanel panelBotones = new JPanel();
         panelPrincipal.add(panelBotones);
 
-        JButton boton = new JButton("CONTAR LETRAS");
+        JButton boton = new JButton("CONTAR VOCALES");
         panelPrincipal.add(boton);
 
         JLabel letrasA= new JLabel("LETRA A: ");

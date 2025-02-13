@@ -10,4 +10,9 @@ document.getElementById("menuBurger").addEventListener("click", function () {
 
 });
 
+document.getElementById("buscador").addEventListener("input", function(){
 
+    let camisetas = document.getElementById("camisetas");
+    document.querySelectorAll().forEach
+
+});
