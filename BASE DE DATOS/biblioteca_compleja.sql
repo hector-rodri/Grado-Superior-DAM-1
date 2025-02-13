@@ -96,13 +96,13 @@ DELETE FROM LLIBRE_GENERE WHERE id_llibre = (SELECT ID FROM LLIBRE WHERE TITOL =
 DELETE FROM LLIBRE_GENERE WHERE id_llibre = (SELECT ID FROM LLIBRE WHERE TITOL = 'Harry Potter i el calze de foc');
 DELETE FROM LLIBRE_GENERE WHERE id_llibre = (SELECT ID FROM LLIBRE WHERE TITOL = 'Bellas durmientes');
 
---SIN JOIN
+--PRACTICA SIN JOIN
 SELECT NOM, TITOL FROM EDITORIAL,LLIBRE WHERE EDITORIAL.ID = LLIBRE.ID;
 SELECT NOM, TITOL FROM EDITORIAL,LLIBRE WHERE EDITORIAL.ID = LLIBRE.ID AND EDITORIAL.NOM != 'Planeta';
 SELECT LL.TITOL, AU.NOM FROM LLIBRE LL, AUTOR AU, AUTOR_LLIBRE AULL WHERE LL.ID= AULL.ID_LLIBRE AND AU.ID= AULL.ID_AUTOR;
 SELECT LL.TITOL, AU.NOM FROM LLIBRE LL, AUTOR AU, AUTOR_LLIBRE AULL WHERE LL.ID= AULL.ID_LLIBRE AND AU.ID= AULL.ID_AUTOR AND LL.AN < 1950;
 
---CON JOIN
+--PRACTICA CON JOIN
 SELECT NOM, TITOL FROM LLIBRE L JOIN EDITORIAL E ON E.ID = L.ID;
 SELECT NOM, TITOL FROM LLIBRE L JOIN EDITORIAL E ON E.ID = L.ID AND E.NOM != 'Planeta';
 SELECT NOM,TITOL FROM LLIBRE L
@@ -117,6 +117,8 @@ SELECT G.NOM FROM GENERE G
     WHERE LG.NOM_GENERE IS NULL;
 SELECT DISTINCT G.NOM FROM GENERE G
     JOIN LLIBRE_GENERE LG ON G.NOM = LG.NOM_GENERE;
+
+
 
 --Sobre Biblioteca_U6.sql
 
@@ -139,29 +141,56 @@ SELECT NOM, COGNOMS, SUM(EXEMPLARS) FROM LLIBRE LL, AUTOR AU, AUTOR_LLIBRE AULL 
 SELECT A.NOM, A.COGNOMS FROM AUTOR A
     LEFT JOIN AUTOR_LLIBRE AL ON A.ID = AL.ID_AUTOR
     WHERE AL.ID_AUTOR IS NULL;
+
 --2. Llista els llibres (títol) amb el seu gènere (nom).
 SELECT L.TITOL, G.NOM FROM LLIBRE L
     LEFT JOIN LLIBRE_GENERE LG ON L.ID=LG.ID_LLIBRE
 	LEFT JOIN GENERE G ON G.NOM = LG.NOM_GENERE;
+
 --3. Llista els llibres (títol) sense gènere.
 SELECT L.TITOL FROM LLIBRE L 
     LEFT JOIN LLIBRE_GENERE LG ON L.ID = LG.ID_LLIBRE
 	WHERE LG.NOM_GENERE IS NULL;
+
 --4. Llista els llibres (títol) sense autor.
 SELECT L.TITOL FROM LLIBRE L
     LEFT JOIN AUTOR_LLIBRE AL ON L.ID = AL.ID_LLIBRE
     WHERE AL.ID_AUTOR IS NULL;
+
 --5. Llista els títols i autor (nom i llinatge) dels llibres d'autors espanyols.
 SELECT L.TITOL, A.NOM, A.COGNOMS FROM LLIBRE L
     JOIN AUTOR_LLIBRE AL ON L.ID = AL.ID_LLIBRE
     JOIN AUTOR A ON A.ID = AL.ID_AUTOR
     WHERE A.NACIONALITAT = 'ESP';
+
 --6. Llista els títols, el gènere (nom) i l'autor (nom i llinatges) de cada llibre. (Si un llibre té més d'un autor o gènere, el seu títol sortir repetit). Mostra només els que tenen autor conegut i gènere.
+SELECT L.TITOL, G.NOM, A.NOM, A.COGNOMS FROM LLIBRE L
+    JOIN AUTOR_LLIBRE AL ON L.ID = AL.ID_LLIBRE
+    JOIN AUTOR A ON A.ID = AL.ID_AUTOR
+    JOIN LLIBRE_GENERE LG ON L.ID = LG.ID_LLIBRE
+    JOIN GENERE G ON G.NOM = LG.NOM_GENERE;
 
---8. Repeteix la consulta anterior, però també han de poder sortir els llibres sense gènere ni autor.
+--7. Repeteix la consulta anterior, però també han de poder sortir els llibres sense gènere ni autor.
+SELECT TITOL, NOM_GENERE, NOM, COGNOMS FROM LLIBRE L 
+    LEFT JOIN LLIBRE_GENERE LG ON L.ID = LG.ID_LLIBRE 
+    LEFT JOIN GENERE G ON LG.NOM_GENERE = G.NOM 
+    LEFT JOIN AUTOR_LLIBRE AL ON L.ID = AL.ID_LLIBRE 
+    LEFT JOIN AUTOR A ON AL.ID_AUTOR = A.ID;
 
---7. Llista els llibres (títol) amb més d'un autor. (Pista: HAVING)
+--8. Llista els llibres (títol) amb més d'un autor. (Pista: HAVING)
+SELECT TITOL FROM LLIBRE L 
+INNER JOIN AUTOR_LLIBRE AL ON L.ID = AL.ID_LLIBRE 
+GROUP BY TITOL 
+HAVING COUNT(*) > 1;
 
---8. Llista el nombre d'exemplars totals de l'autor "Federico García Lorca".
+--9. Llista el nombre d'exemplars totals de l'autor "Federico García Lorca".
+SELECT SUM(EXEMPLARS) FROM LLIBRE L 
+    INNER JOIN AUTOR_LLIBRE AL ON L.ID = AL.ID_LLIBRE 
+    INNER JOIN AUTOR A ON AL.ID_AUTOR = A.ID 
+    WHERE A.NOM = 'FEDERICO';
 
---9. Llista el nombre d'exemplars totals de cada autor.
+--10. Llista el nombre d'exemplars totals de cada autor.
+SELECT NOM, COGNOMS, SUM(EXEMPLARS) FROM LLIBRE L 
+    INNER JOIN AUTOR_LLIBRE AL ON L.ID = AL.ID_LLIBRE 
+    INNER JOIN AUTOR A ON AL.ID_AUTOR = A.ID 
+    GROUP BY NOM, COGNOMS;
