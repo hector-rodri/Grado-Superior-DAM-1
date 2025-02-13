@@ -148,9 +148,20 @@ SELECT L.TITOL FROM LLIBRE L
     LEFT JOIN LLIBRE_GENERE LG ON L.ID = LG.ID_LLIBRE
 	WHERE LG.NOM_GENERE IS NULL;
 --4. Llista els llibres (títol) sense autor.
+SELECT L.TITOL FROM LLIBRE L
+    LEFT JOIN AUTOR_LLIBRE AL ON L.ID = AL.ID_LLIBRE
+    WHERE AL.ID_AUTOR IS NULL;
 --5. Llista els títols i autor (nom i llinatge) dels llibres d'autors espanyols.
+SELECT L.TITOL, A.NOM, A.COGNOMS FROM LLIBRE L
+    JOIN AUTOR_LLIBRE AL ON L.ID = AL.ID_LLIBRE
+    JOIN AUTOR A ON A.ID = AL.ID_AUTOR
+    WHERE A.NACIONALITAT = 'ESP';
 --6. Llista els títols, el gènere (nom) i l'autor (nom i llinatges) de cada llibre. (Si un llibre té més d'un autor o gènere, el seu títol sortir repetit). Mostra només els que tenen autor conegut i gènere.
+
 --8. Repeteix la consulta anterior, però també han de poder sortir els llibres sense gènere ni autor.
+
 --7. Llista els llibres (títol) amb més d'un autor. (Pista: HAVING)
+
 --8. Llista el nombre d'exemplars totals de l'autor "Federico García Lorca".
+
 --9. Llista el nombre d'exemplars totals de cada autor.
