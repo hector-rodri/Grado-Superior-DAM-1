@@ -1,4 +1,3 @@
-
 document.getElementById("menuBurger").addEventListener("click", function () {
 
     let links = document.getElementById("links");
@@ -10,9 +9,18 @@ document.getElementById("menuBurger").addEventListener("click", function () {
 
 });
 
-document.getElementById("buscador").addEventListener("input", function(){
 
-    let camisetas = document.getElementById("camisetas");
-    document.querySelectorAll().forEach
+document.getElementById("buscador").addEventListener('input', function() {
 
+    var producto = document.querySelectorAll('.camiseta');
+    var condicion = document.getElementById("buscador").value.toLowerCase();
+    
+    producto.forEach(producto => {
+        let texto = producto.textContent.toLowerCase();
+        if (texto.includes(condicion)) {
+            producto.style.display = 'block';
+        } else {
+            producto.style.display = 'none';
+        }
+    });
 });
