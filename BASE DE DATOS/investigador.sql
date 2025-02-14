@@ -206,3 +206,9 @@ JOIN PARTICIPACIO PA ON
 --9. Obtén un llistat amb el cost de cada projecte (suma dels imports base i iva de les factures) que tengui factures i de cada investigador (cost anual en base al salari mensual) que participi a algun projecte.
 --Columnes: tipus (Investigador o Projecte), identificador (DNI investigador o referència projecte) i cost (sou mensual extrapolat a tot l'any o import factures).
 --Ordenació: cost descendent (U7, activitat 24/1 punt 7)
+SELECT 'INVESTIGADOR' AS TIPUS,DNI AS ID, SALARI * 12 AS cost
+FROM INVESTIGADOR I
+JOIN PARTICIPACIO P ON P.DNI_INVESTIGADOR = I.DNI_INVESTIGADOR
+UNION
+SELECT 'PROJECTE' AS TIPUS, REFERENCIA AS ID, SUM(IMPORT_BASE+IMPORT_IVA) AS cost
+FROM PROJECTE PR
