@@ -195,7 +195,7 @@ SELECT I.DNI, I.NOM || ' ' || I.LLINATGE1 || ' ' || I.LLINATGE2 AS NOM_COMPLET, 
 FROM INVESTIGADOR I
 JOIN PARTICIPACIO PA ON I.DNI = PA.DNI_INVESTIGADOR
 JOIN PROJECTE P ON PA.CODI_PROJECTE = P.CODI
-ORDER BY I.NOM;
+ORDER BY NOM_COMPLET;
 
 --8. Obtén el nom i llinatges dels investigadors que participen en qualsevol projecte distingint per les següents àrees d'especialització: Ciències (Física i Biologia), Salut (Medicina i Infermeria) i Tecnologia (Informàtica). (U7.1)
 SELECT I.NOM || ' ' || I.LLINATGE1 || ' ' || I.LLINATGE2 AS NOM_COMPLET, 
