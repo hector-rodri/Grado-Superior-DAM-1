@@ -158,11 +158,24 @@ SELECT AVG(I.SALARI), I.ESPECIALITAT FROM INVESTIGADOR I GROUP BY I.ESPECIALITAT
 --4.Obtén el DNI, nom i llinatges d'aquells investigadors que NO són responsables de cap projecte. (U7)
 SELECT I.DNI, I.NOM, I.LLINATGE1, I.LLINATGE2 FROM INVESTIGADOR I LEFT JOIN PROJECTE P ON I.DNI = P.DNI_RESPONSABLE WHERE P.DNI_RESPONSABLE IS NULL;
 --5.Obtén els ingressos obtinguts (imports base) per cada proveidor, de les seves factures, però només si ha ingressat 100 euros o més. Una columna ha de mostrar el nom del proveïdor i l'altre el total d'ingressos. 
+SELECT P.NOM AS PROVEIDOR, SUM(LF.IMPORT_BASE) AS TOTAL_INGRESSOS FROM FACTURA F JOIN PROVEIDOR P ON F.NIF_PROVEIDOR = P.NIF JOIN LINIA_FACTURA LF ON F.ID = LF.ID_FACTURA GROUP BY P.NOM HAVING SUM(LF.IMPORT_BASE) >= 100;
 
 --6.Obtén el total d'IVA pagat per cada projecte. Una columna ha de mostrar la referència del projecte i l'altres l'IVA pagat. Si algun projecte no té factures, ha d'aparèixer un 0. (U7.1)
+SELECT P.REFERENCIA, COALESCE(SUM(LF.IMPORT_IVA), 0) AS TOTAL_IVA
+FROM PROJECTE P
+LEFT JOIN FACTURA F ON P.CODI = F.CODI_PROJECTE
+LEFT JOIN LINIA_FACTURA LF ON F.ID = LF.ID_FACTURA
+GROUP BY P.REFERENCIA;
 
 --7. Obtén una llista d'investigadors (dni i nom complet) amb els projectes en que participen (referència i descripció) i el percentatge de participació entre projecte i investigador.
 --Només hi han de sortir els investigadors que participen en algun projecte. El percentatge de participació ha d'estar entre 0 i 100. Ordena per nom complet de manera alfabètica.
+SELECT I.DNI, I.NOM || ' ' || I.LLINATGE1 || ' ' || I.LLINATGE2 AS NOM_COMPLET, 
+       P.REFERENCIA, P.DESCRIPCIO, 
+       (PA.PERCENTATGE * 100) AS PARTICIPACIO
+FROM INVESTIGADOR I
+JOIN PARTICIPACIO PA ON I.DNI = PA.DNI_INVESTIGADOR
+JOIN PROJECTE P ON PA.CODI_PROJECTE = P.CODI
+ORDER BY I.NOM;
 
 --8. Obtén el nom i llinatges dels investigadors que participen en qualsevol projecte distingint per les següents àrees d'especialització: Ciències (Física i Biologia), Salut (Medicina i Infermeria) i Tecnologia (Informàtica). (U7.1)
 
