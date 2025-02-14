@@ -199,6 +199,9 @@ ORDER BY NOM_COMPLET;
 
 --8. Obtén el nom i llinatges dels investigadors que participen en qualsevol projecte distingint per les següents àrees d'especialització: Ciències (Física i Biologia), Salut (Medicina i Infermeria) i Tecnologia (Informàtica). (U7.1)
 SELECT I.NOM || ' ' || I.LLINATGE1 || ' ' || I.LLINATGE2 AS NOM_COMPLET, 
+CASE ESPECIALITAT WHEN 'Física' THEN 'Ciències' WHEN 'Biologia' THEN 'Ciències' WHEN 'Medicina' THEN 'Salut' WHEN 'Infermeria' THEN 'Salut' WHEN 'Informàtica' THEN 'Tecnologia'
+FROM INVESTIGADOR I 
+JOIN PARTICIPACIO PA ON 
 
 --9. Obtén un llistat amb el cost de cada projecte (suma dels imports base i iva de les factures) que tengui factures i de cada investigador (cost anual en base al salari mensual) que participi a algun projecte.
 --Columnes: tipus (Investigador o Projecte), identificador (DNI investigador o referència projecte) i cost (sou mensual extrapolat a tot l'any o import factures).
