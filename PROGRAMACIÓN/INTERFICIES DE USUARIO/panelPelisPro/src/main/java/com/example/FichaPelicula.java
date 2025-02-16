@@ -1,4 +1,4 @@
-package es.cide.programacio;
+package com.example;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -17,9 +17,12 @@ public class FichaPelicula {
    }
 
    public static void main(String[] args) {
+      //VENTANA
       JFrame frame = new JFrame("Ficha de Pel\u00edcula");
       frame.setDefaultCloseOperation(3);
       frame.setSize(400, 400);
+      
+      //SWING UTILIZADO
       JPanel panel = new JPanel(new GridBagLayout());
       GridBagConstraints gbc = new GridBagConstraints();
       gbc.insets = new Insets(5, 5, 5, 5);
@@ -43,9 +46,13 @@ public class FichaPelicula {
       JComboBox<String> vocalBox = new JComboBox(vocales);
       JButton contarVocalesButton = new JButton("Contar Vocales");
       JLabel resultadoVocalesLabel = new JLabel("N\u00famero de vocales: 0");
+
+      //LISTENER AÑO
       añoSlider.addChangeListener((e) -> {
          añoSeleccionadoLabel.setText(String.valueOf(añoSlider.getValue()));
       });
+
+      //LISTENER GÉNERO
       generoBox.addActionListener((e) -> {
          String generoSeleccionado = (String)generoBox.getSelectedItem();
          if ("Terror".equals(generoSeleccionado)) {
@@ -53,12 +60,16 @@ public class FichaPelicula {
          }
 
       });
+
+      //LISTENER BOTÓN INFO
       mostrarButton.addActionListener((e) -> {
          String titulo = tituloField.getText();
          String genero = (String)generoBox.getSelectedItem();
          int año = añoSlider.getValue();
          resultadoLabel.setText("Pel\u00edcula: " + titulo + " | G\u00e9nero: " + genero + " | A\u00f1o: " + año);
       });
+
+      //LISTENER BOTÓN VOCALES
       contarVocalesButton.addActionListener((e) -> {
          String titulo = tituloField.getText().toLowerCase();
          String vocalSeleccionada = ((String)vocalBox.getSelectedItem()).toLowerCase();
@@ -67,6 +78,8 @@ public class FichaPelicula {
          }).count();
          resultadoVocalesLabel.setText("N\u00famero de vocales: " + count);
       });
+
+      //COLACACIONES EN PANTALLA DE LOS ELEMENTOS SWING CON GridBagLayaout
       gbc.gridx = 0;
       gbc.gridy = 0;
       panel.add(tituloLabel, gbc);
