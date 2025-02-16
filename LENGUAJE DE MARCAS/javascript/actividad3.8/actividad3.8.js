@@ -1,49 +1,31 @@
-
-
-const nom = document.getElementById("nom").value.trim();
-const email = document.getElementById("email").value.trim();
-const assumpte = document.getElementById("assumpte").value.trim();
-const missatge = document.getElementById("descripcio").value.trim();
-const boton = document.getElementById("boton");
-
-
-document.getElementById("formulariContacte").addEventListener("submit", function(event) {
-
+document.getElementById('formulariContacte').addEventListener('submit', function (event) {
     event.preventDefault();
+    let formatValidEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    let nombre = document.getElementById('nom').value.trim();
+    let email = document.getElementById('email').value.trim();
+    let asunto = document.getElementById('assumpte').value.trim();
+    let mensaje = document.getElementById('descripcio').value.trim();
+    let nombreInput = document.getElementById('nom');
+    let emailInput = document.getElementById('email');
+    let asuntoInput = document.getElementById('assumpte');
+    let mensajeInput = document.getElementById('descripcio');
 
-    
-    let emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    let errors = [];
-
-    if (nom === "") {
-        errors.push("El nom és obligatori.");
-    }
-
-    if (email === "" || !emailRegex.test(email)) {
-        errors.push("Introdueix un correu electrònic vàlid.");
-    }
-
-    if (assumpte === "") {
-        errors.push("L'assumpte és obligatori.");
-    }
-
-    if (missatge === "") {
-        errors.push("El missatge no pot estar buit.");
-    }
-
-    if (errors.length > 0) {
-        missatgeValidacio.innerHTML = errors.join("<br>");
-        missatgeValidacio.style.color = "red";
+    if (nombre === '') {
+        alert('El campo nombre no puede estar vacío');
+        nombreInput.focus();
+    } else if (formatValidEmail.test(email) == false) {
+        alert('El campo email no cumple con el formato de email');
+        emailInput.focus();
+    } else if (asunto === '') {
+        alert('El campo asunto no puede estar vacío');
+        asuntoInput.focus();
+    } else if (mensaje === '') {
+        alert('El campo mensaje no puede estar vacío');
+        mensajeInput.focus();
     } else {
-        missatgeValidacio.innerHTML = "El formulari s'ha enviat correctament.";
-        missatgeValidacio.style.color = "green";
-
-        // Opcional: Pots afegir un timeout per eliminar el missatge després d'uns segons
-        setTimeout(() => {
-            missatgeValidacio.innerHTML = "";
-        }, 5000);
-
-        // Reset del formulari després de l'enviament correcte
-        document.getElementById("formulariContacte").reset();
+        alert('Formulario enviado correctamente :)');
     }
+
+    document.getElementById("formulariContacte").reset();
+
 });
