@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer async></script>
+</head>
+<body>
+    <h1>CONTADOR DE CLICKS</h1>
+    <p id="resultado">0</p>
+
+    <button id="contar" onclick="contar()">HAZME CLICK</button>
+    <button id="reiniciar" onclick="reiniciar()">REINICIAR CONTADOR</button>
+
+    <h2>AÑADIR COMENTARIOS</h2>
+
+    
+    <input type="text" id="nuevoComentario" placeholder="Escribe un comentario">
+    <button onclick="agregarComentario()">AÑADE TU COMENTARIO</button>
+        
+    
+    <button onclick="eliminarComentario()">ELIMINA TU COMENTARIO</button>
+    <div id="comentarios">
+
+    </div>
+</body>
+</html>
