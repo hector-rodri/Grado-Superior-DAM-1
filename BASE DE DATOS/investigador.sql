@@ -198,17 +198,21 @@ JOIN PROJECTE P ON PA.CODI_PROJECTE = P.CODI
 ORDER BY NOM_COMPLET;
 
 --8. Obtén el nom i llinatges dels investigadors que participen en qualsevol projecte distingint per les següents àrees d'especialització: Ciències (Física i Biologia), Salut (Medicina i Infermeria) i Tecnologia (Informàtica). (U7.1)
--- SELECT I.NOM || ' ' || I.LLINATGE1 || ' ' || I.LLINATGE2 AS NOM_COMPLET, 
--- CASE ESPECIALITAT WHEN 'Física' THEN 'Ciències' WHEN 'Biologia' THEN 'Ciències' WHEN 'Medicina' THEN 'Salut' WHEN 'Infermeria' THEN 'Salut' WHEN 'Informàtica' THEN 'Tecnologia'
--- FROM INVESTIGADOR I 
--- JOIN PARTICIPACIO PA ON 
-
+SELECT DISTINCT nom, llinatge1||' '||llinatge2, CASE
+        WHEN especialitat IN ('Física', 'Biologia') THEN 'Ciències'
+        WHEN especialitat IN ('Medicina', 'Infermeria') THEN 'Ciències de la Salut'
+        ELSE 'Tecnologia' 
+    END
+    FROM investigador inv
+    JOIN participacio par ON par.dni_investigador = inv.dni;
+    
 --9. Obtén un llistat amb el cost de cada projecte (suma dels imports base i iva de les factures) que tengui factures i de cada investigador (cost anual en base al salari mensual) que participi a algun projecte.
 --Columnes: tipus (Investigador o Projecte), identificador (DNI investigador o referència projecte) i cost (sou mensual extrapolat a tot l'any o import factures).
 --Ordenació: cost descendent (U7, activitat 24/1 punt 7)
--- SELECT 'INVESTIGADOR' AS TIPUS,DNI AS ID, SALARI * 12 AS cost
--- FROM INVESTIGADOR I
--- JOIN PARTICIPACIO P ON P.DNI_INVESTIGADOR = I.DNI_INVESTIGADOR
--- UNION
--- SELECT 'PROJECTE' AS TIPUS, REFERENCIA AS ID, SUM(IMPORT_BASE+IMPORT_IVA) AS cost
--- FROM PROJECTE;
+SELECT 'INVESTIGADOR' as tipus, dni as id, salari * 12 as cost FROM investigador JOIN participacio ON participacio.dni_investigador = investigador.dni
+UNION
+SELECT 'PROJECTE' as tipus, referencia as id, sum(import_base + import_iva) as cost FROM projecte 
+    JOIN factura ON factura.codi_projecte = projecte.codi 
+    JOIN linia_factura ON linia_factura.id_factura = factura.id
+    GROUP BY referencia
+order by cost desc;
