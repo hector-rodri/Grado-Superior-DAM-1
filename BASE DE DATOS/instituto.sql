@@ -142,17 +142,38 @@ SELECT A.* FROM ALUMNE A LEFT JOIN NOTA N ON A.DNI = N.DNI_ALUMNE WHERE N.ID IS 
 --7. Retorna el nombre d'assignatures per cada grau (nom), ordenant pel nombre d'assignatures, del grau que en té més al que en té menys.
 --Columnes: Nom grau, nombre d'assignatures
 --Ordenació: Nombre d'assignatures, de més a menys
+SELECT G.NOM AS NOM_GRAU, COUNT(A.ID) AS NOMBRE_ASSIGNATURES
+FROM GRAU G
+LEFT JOIN ASSIGNATURA A ON G.ID = A.ID_GRAU
+GROUP BY G.NOM
+ORDER BY NOMBRE_ASSIGNATURES DESC;
 
 
 --8. Retorna informació de totes les notes (dni alumne, convocatòria, nota) juntament amb la informació de l'assignatura (nom, pla) i grau (nom) corresponent.
 --Columnes: DNI alumne, any de convocatòria, nota, nom de l'assignatura, pla de l'assignatura, nom del grau.
+SELECT N.DNI_ALUMNE, N.CONVOCATORIA, N.NOTA, A.NOM AS NOM_ASSIGNATURA, A.PLA, G.NOM AS NOM_GRAU
+FROM NOTA N
+JOIN ASSIGNATURA A ON N.ID_ASSIGNATURA = A.ID
+JOIN GRAU G ON A.ID_GRAU = G.ID;
 
 
 --9. Retorna la nota mitjana de cada assignatura del grau "Informàtica", ordenant de menys nota a més.
 --Columnes: nom de l'assignatura, nota mitjana
 --Ordenació: nota mitjana, de menys a més
+SELECT A.NOM AS NOM_ASSIGNATURA, AVG(N.NOTA) AS NOTA_MITJANA
+FROM NOTA N
+JOIN ASSIGNATURA A ON N.ID_ASSIGNATURA = A.ID
+JOIN GRAU G ON A.ID_GRAU = G.ID
+WHERE G.NOM = 'Informàtica'
+GROUP BY A.NOM
+ORDER BY NOTA_MITJANA ASC;
 
 
 --10.Retorna el salari combinat (sumat) de dels professors de cada grau. Si un grau no té assignatures o professors assignats a les seves assignatures, ha de sortir un 0.
 --Columnes: Nom grau, salari total professors
+SELECT G.NOM AS NOM_GRAU, COALESCE(SUM(P.SALARI), 0) AS SALARI_TOTAL
+FROM GRAU G
+LEFT JOIN ASSIGNATURA A ON G.ID = A.ID_GRAU
+LEFT JOIN PROFESSOR P ON A.ID_PROFESSOR = P.DNI
+GROUP BY G.NOM;
 
