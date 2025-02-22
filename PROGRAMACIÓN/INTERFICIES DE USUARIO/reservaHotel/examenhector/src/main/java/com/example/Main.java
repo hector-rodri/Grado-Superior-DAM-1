@@ -1,6 +1,5 @@
 //HÉCTOR RODRÍGUEZ LOZANO
 //PROGRAMACIÓN
-//DNI:45372775P
 
 package com.example;//Nombre del paquete donde se encuentra el archivo
 
@@ -55,14 +54,14 @@ public class Main {//Clase principal
         JLabel okKo = new JLabel("-");//Etiqueta para indicar el si el dni es válido
         panelDni.add(okKo);//Agregamos al panel 
 
-        respuestaDni.addKeyListener(new KeyAdapter() {
+        respuestaDni.addKeyListener(new KeyAdapter() {//Añadimos un action listener al campo de texto para saber los digitos que se entran introduciendo
             @Override
-            public void keyTyped(KeyEvent e){//INTENTO DE LISTENER
+            public void keyReleased(KeyEvent e){
 
-                if (validarDNI(respuestaDni.getText()) == true) {
+                if (validarDNI(respuestaDni.getText()) == true) {//Si al añadir el cotenido que se va actualizando cada vez que se pone un nuevo digito, la función de validación del dni da TRUE el texto cambiará a OK
                     okKo.setText("OK");
                 }else{
-                    okKo.setText("KO");
+                    okKo.setText("KO");//Si el booleano devuelto es false, seguirá siendo KO
                 }
             }
         });
