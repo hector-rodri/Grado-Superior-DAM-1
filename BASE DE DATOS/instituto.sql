@@ -91,3 +91,18 @@ INSERT INTO ASSIGNATURA (nom, id_grau, pla, dni_professor) VALUES ('Càlcul Dife
 INSERT INTO ASSIGNATURA (nom, id_grau, pla, dni_professor) VALUES ('Programació I', 8, 2020, '88990011S');
 INSERT INTO ASSIGNATURA (nom, id_grau, pla, dni_professor) VALUES ('Estructura de computadors', 8, 2020, '99001122T');
 INSERT INTO ASSIGNATURA (nom, id_grau, pla, dni_professor) VALUES ('Teoria de la computació', 8, 2020, '00112233U');
+
+-- Inserció de notes
+INSERT INTO NOTA (dni_alumne, ID_assignatura, convocatoria, nota) VALUES ('12345678A', 1, 2021, 7.5);
+INSERT INTO NOTA (dni_alumne, ID_assignatura, convocatoria, nota) VALUES ('23456789B', 2, 2021, 6.0);
+INSERT INTO NOTA (dni_alumne, ID_assignatura, convocatoria, nota) VALUES ('34567890C', 3, 2021, 4.5);
+INSERT INTO NOTA (dni_alumne, ID_assignatura, convocatoria, nota) VALUES ('56789012E', 5, 2021, 5.5);
+INSERT INTO NOTA (dni_alumne, ID_assignatura, convocatoria, nota) VALUES ('67890123F', 6, 2021, 7.0);
+INSERT INTO NOTA (dni_alumne, ID_assignatura, convocatoria, nota) VALUES ('89012345H', 8, 2021, 6.5);
+INSERT INTO NOTA (dni_alumne, ID_assignatura, convocatoria, nota) VALUES ('89012345H', 9, 2021, 7.5);
+INSERT INTO NOTA (dni_alumne, ID_assignatura, convocatoria, nota) VALUES ('89012345H', 10, 2021, 4.5);
+INSERT INTO NOTA (dni_alumne, ID_assignatura, convocatoria, nota) VALUES ('90123456I', 8, 2021, 4.0);
+INSERT INTO NOTA (dni_alumne, ID_assignatura, convocatoria, nota) VALUES ('90123456I', 9, 2021, 5.5);
+INSERT INTO NOTA (dni_alumne, ID_assignatura, convocatoria, nota) VALUES ('01234567J', 8, 2021, 8.5);
+INSERT INTO NOTA (dni_alumne, ID_assignatura, convocatoria, nota) VALUES ('01234567J', 9, 2021, 9.0);
+INSERT INTO NOTA (dni_alumne, ID_assignatura, convocatoria, nota) VALUES ('01234567J', 10, 2021, 9.5);
