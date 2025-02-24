@@ -186,7 +186,7 @@ ORDER BY NOTA_MITJANA ASC;
 
 --10.Retorna el salari combinat (sumat) de dels professors de cada grau. Si un grau no té assignatures o professors assignats a les seves assignatures, ha de sortir un 0.
 --Columnes: Nom grau, salari total professors
-SELECT G.NOM AS NOM_GRAU, COALESCE(SUM(P.SALARI), 0) AS SALARI_TOTAL
+SELECT G.NOM AS NOM_GRAU, NVL(SUM(P.SALARI), 0) AS SALARI_TOTAL
 FROM GRAU G
 LEFT JOIN ASSIGNATURA A ON G.ID = A.ID_GRAU
 LEFT JOIN PROFESSOR P ON A.ID_PROFESSOR = P.DNI
