@@ -48,6 +48,15 @@ CREATE TABLE countries
       REFERENCES regions( region_id ) 
       ON DELETE CASCADE
   );
+  
+  -- v_countryName varchar2(5) :='Spain'
+  -- v_countryID varchar2(2) := 'ES'
+  -- v_regionId number;
+  -- BEGIN
+  -- SELECT region_id into v_regionID FROM regions WHERE region_name = 'Europe'
+  -- INSERT INTO COUNTRIES VALUES (v_countryId, v_countryName,v_regionId);
+
+  -- END;
 
 -- location
 CREATE TABLE locations
@@ -267,6 +276,7 @@ Insert into COUNTRIES (COUNTRY_ID,COUNTRY_NAME,REGION_ID) values ('UK','United K
 Insert into COUNTRIES (COUNTRY_ID,COUNTRY_NAME,REGION_ID) values ('US','United States of America',2);
 Insert into COUNTRIES (COUNTRY_ID,COUNTRY_NAME,REGION_ID) values ('ZM','Zambia',4);
 Insert into COUNTRIES (COUNTRY_ID,COUNTRY_NAME,REGION_ID) values ('ZW','Zimbabwe',4);
+
 
 SET DEFINE OFF;
 Insert into LOCATIONS (LOCATION_ID,ADDRESS,POSTAL_CODE,CITY,STATE,COUNTRY_ID) values (1,'1297 Via Cola di Rie','00989','Roma',null,'IT');
