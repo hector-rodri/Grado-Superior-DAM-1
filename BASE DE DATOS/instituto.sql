@@ -108,12 +108,18 @@ INSERT INTO NOTA (dni_alumne, ID_assignatura, convocatoria, nota) VALUES ('01234
 INSERT INTO NOTA (dni_alumne, ID_assignatura, convocatoria, nota) VALUES ('01234567J', 10, 2021, 9.5);
 
 --1. Retorna les dades (totes) de la nota més alta.
-SELECT * FROM NOTA ORDER BY NOTA DESC FETCH FIRST ROW ONLY;
+SELECT * 
+FROM NOTA 
+ORDER BY NOTA DESC 
+FETCH FIRST ROW ONLY;
 
 --2. Retorna el DNI i el correu electrònic dels alumnes amb un nom que acabi per "ra" i amb un primer llinatge que comenci per "Mar” , ordenant per DNI ascendent.
 --Columnes: DNI, correu electrònic
 --Ordenació: DNI ascendent
-SELECT A.DNI, A.EMAIL FROM ALUMNE A WHERE A.NOM LIKE ('%ra') AND A.LLINATGE1 LIKE ('Mar%') ORDER BY DNI ASC;
+SELECT A.DNI, A.EMAIL 
+FROM ALUMNE A 
+WHERE A.NOM LIKE ('%ra') AND A.LLINATGE1 LIKE ('Mar%') 
+ORDER BY DNI ASC;
 
 --3. Retorna el DNI i el nom complet (nom i llinatges) del professor que cobra MÉS.
 --Columnes: DNI, nom complet
@@ -125,19 +131,28 @@ FETCH FIRST ROW ONLY;
 --4. Retorna la mitjana de notes per ID d'assignatura ordenant per nota promig descendent.
 --Columnes: ID d'assignatura, nota mitjana
 --Ordenació: nota mitjana descendent
-SELECT ID_ASSIGNATURA, AVG(NOTA) FROM ASSIGNATURA A JOIN NOTA N ON A.ID = N.ID_ASSIGNATURA GROUP BY ID_ASSIGNATURA ORDER BY AVG(NOTA) DESC;
+SELECT ID_ASSIGNATURA, AVG(NOTA) 
+FROM ASSIGNATURA A 
+JOIN NOTA N ON A.ID = N.ID_ASSIGNATURA 
+GROUP BY ID_ASSIGNATURA 
+ORDER BY AVG(NOTA) DESC;
 
 
 --5. Retorna informació de les notes (DNI alumne, convocatòria, nota) de l'assignatura "Estructura de computadors".
 --Columnes: DNI alumne, convocatòria, nota
-SELECT N.DNI_ALUMNE, N.CONVOCATORIA, N.NOTA FROM ASSIGNATURA A 
+SELECT N.DNI_ALUMNE, N.CONVOCATORIA, N.NOTA 
+FROM ASSIGNATURA A 
 JOIN NOTA N ON A.ID = N.ID_ASSIGNATURA
 WHERE A.NOM = 'Estructura de computadors';
 
 --6. Retorna les dades dels alumnes (NOMÉS dels alumnes) que NO tenen cap nota, ordenant els resultats alfabèticament seguint la següent prioritat: primer llinatge, segon llinatge, nom.
 --Columnes: totes les d'alumnes
 --Ordenació: alfabèticament segons la prioritat indicada: 1r llinatge, 2n llinatge, nom
-SELECT A.* FROM ALUMNE A LEFT JOIN NOTA N ON A.DNI = N.DNI_ALUMNE WHERE N.ID IS NULL ORDER BY LLINATGE1,LLINATGE2,NOM ASC;
+SELECT A.* 
+FROM ALUMNE A 
+LEFT JOIN NOTA N ON A.DNI = N.DNI_ALUMNE 
+WHERE N.ID IS NULL 
+ORDER BY LLINATGE1,LLINATGE2,NOM ASC;
 
 --7. Retorna el nombre d'assignatures per cada grau (nom), ordenant pel nombre d'assignatures, del grau que en té més al que en té menys.
 --Columnes: Nom grau, nombre d'assignatures
