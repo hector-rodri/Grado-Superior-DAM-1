@@ -1,17 +1,30 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Tareas</title>
-    <script src="tareas.js"></script>
+    <title>Document</title>
+    <script src="tareas.js" defer ></script>
+    <link rel="stylesheet" href="tareas.css">
 </head>
-<body>
-    <h2>Lista de Tareas</h2>
-    <input type="text" id="nuevaTarea" placeholder="Escribe una tarea">
-    <button onclick="agregarTarea()">Agregar</button>
-    <ul id="listaTareas"></ul>
 
-    
+<body>
+    <div class="container">
+        <h1>Mi lista de tareas</h1>
+
+        <input type="text" id="nuevaTarea" placeholder="Escribe una tarea">
+        <button onclick="agregarTarea()">Agregar</button>
+
+        <div class="filtros">
+            <button >Totes</button>
+            <button >Actives</button>
+            <button >Completades</button>
+            <button >Eliminar completades</button>
+        </div>
+
+        <ul id="listaTareas"></ul>
+    </div>
 </body>
+
 </html>

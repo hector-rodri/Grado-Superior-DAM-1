@@ -1,0 +1,12 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Times New Roman', Times, serif;
+    box-sizing: border-box;
+}
+
+.container{
+    width: 100%;
+    background: linear-gradient(to right, #375080, #002058);
+    min-height: 100vh;
+}
