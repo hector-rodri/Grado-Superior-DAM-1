@@ -9,10 +9,9 @@ function agregarTarea() {
 
     let nuevaTarea = document.createElement("li");
     nuevaTarea.textContent = tareaInput.value;
-    nuevaTarea.onclick = function() {
-        lista.removeChild(nuevaTarea);
-    };
-
+    // nuevaTarea.onclick = function() {
+    //     lista.removeChild(nuevaTarea);
+    // };
     lista.appendChild(nuevaTarea);
     tareaInput.value = "";
 }
