@@ -1,12 +1,43 @@
 *{
     margin: 0;
     padding: 0;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: Arial, Helvetica, sans-serif;
     box-sizing: border-box;
 }
 
-.container{
+.container {
     width: 100%;
-    background: linear-gradient(to right, #375080, #002058);
     min-height: 100vh;
+    padding: 20px;
+    text-align: center;
+    background: linear-gradient(to right, #375080, #002058);
+    
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+.tarea {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.completada span {
+    text-decoration: line-through;
+    color: gray;
+}
+
+.btn-eliminar {
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
 }
