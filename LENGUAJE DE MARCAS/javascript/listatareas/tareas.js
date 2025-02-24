@@ -13,7 +13,7 @@ function agregarTarea() {
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.addEventListener("change", function() {
-        nuevaTarea.classList.toggle("completada");
+        
     });
 
     let botonEliminar = document.createElement("button");
