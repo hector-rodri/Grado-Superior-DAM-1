@@ -1,3 +1,4 @@
+//HÉCTOR RODRÍGUEZ LOZANO
 function agregarTarea() {
     let tareaInput = document.getElementById("nuevaTarea");
     let lista = document.getElementById("listaTareas");
@@ -18,8 +19,10 @@ function agregarTarea() {
     checkbox.addEventListener("change", function () {
         if (checkbox.checked) {
             tareaTexto.style.textDecoration = "line-through";
+            nuevaTarea.style.backgroundColor = "#BDECB6";
         } else {
             tareaTexto.style.textDecoration = "none";
+            nuevaTarea.style.backgroundColor = "gray";
         }
     });
 

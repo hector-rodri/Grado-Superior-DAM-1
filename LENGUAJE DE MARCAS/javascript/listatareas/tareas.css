@@ -1,4 +1,5 @@
-*{
+/*HÉCTOR RODRÍGUEZ LOZANO*/
+* {
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
@@ -8,8 +9,14 @@
 body {
     width: 100%;
     text-align: center;
-    background: linear-gradient(to right, #375080, #002058);
+    background: linear-gradient(to right, #414f6a, #002058);
 
+}
+
+#nuevaTarea {
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 button {
@@ -21,7 +28,7 @@ button {
 
 }
 
-.eliminarTodo{
+.eliminarTodo {
     background-color: #DC3545;
 }
 
@@ -40,8 +47,8 @@ ul {
     padding: 10px;
     margin: 5px;
     border-radius: 5px;
-   
-    
+
+
 }
 
 .botonEliminar {
