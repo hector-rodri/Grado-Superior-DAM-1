@@ -10,10 +10,17 @@ function agregarTarea() {
     let nuevaTarea = document.createElement("li");
     nuevaTarea.classList.add("tarea");
     
+    let tareaTexto = document.createElement("p");
+    tareaTexto.textContent = tareaInput.value;
+   
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.addEventListener("change", function() {
-        
+        if (checkbox.checked) {
+            tareaTexto.style.textDecoration = "line-through";
+        } else {
+            tareaTexto.style.textDecoration = "none";
+        }
     });
 
     let botonEliminar = document.createElement("button");
@@ -22,15 +29,21 @@ function agregarTarea() {
     botonEliminar.onclick = function() {
         lista.removeChild(nuevaTarea);
     };
-    
+
     nuevaTarea.appendChild(checkbox);
-    nuevaTarea.textContent = tareaInput.value;
+    nuevaTarea.appendChild(tareaTexto);
     nuevaTarea.appendChild(botonEliminar);
     lista.appendChild(nuevaTarea);
 
     tareaInput.value = "";
 }
 
+function eliminarCompletadas() {
+    
 
 
 
+
+
+    
+}
