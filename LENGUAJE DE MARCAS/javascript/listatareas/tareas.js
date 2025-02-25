@@ -13,7 +13,7 @@ function agregarTarea() {
     let tareaTexto = document.createElement("p");
     tareaTexto.textContent = tareaInput.value;
    
-    let checkbox = document.createElement("input");
+    var checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.addEventListener("change", function() {
         if (checkbox.checked) {
@@ -39,11 +39,13 @@ function agregarTarea() {
 }
 
 function eliminarCompletadas() {
+    let lista = document.getElementById("listaTareas");
+    let tareas = document.querySelectorAll(".tarea");
     
+    tareas.forEach(tarea => {
 
-
-
-
-
-    
+        if (checkbox.checked) {
+            lista.removeChild(tarea);
+        }
+    });
 }
