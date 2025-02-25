@@ -17,10 +17,10 @@
     <button onclick="agregarTarea()">Agregar</button>
 
     <div class="filtros">
-        <button>Totes</button>
-        <button>Actives</button>
-        <button>Completades</button>
-        <button onclick="eliminarCompletadas()">Eliminar completades</button>
+        <button onclick="todas()">Totes</button>
+        <button onclick="sinCompletar()">Actives</button>
+        <button onclick="tareasCompletadas()">Completades</button>
+        <button onclick="eliminarCompletadas()" class="eliminarTodo">Eliminar completades</button>
     </div>
 
     <ul id="listaTareas"></ul>

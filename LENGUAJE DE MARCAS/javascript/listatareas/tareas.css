@@ -21,6 +21,10 @@ button {
 
 }
 
+.eliminarTodo{
+    background-color: #DC3545;
+}
+
 ul {
     list-style: none;
     padding: 0;

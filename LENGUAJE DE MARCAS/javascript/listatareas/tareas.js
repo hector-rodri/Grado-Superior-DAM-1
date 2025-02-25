@@ -9,13 +9,13 @@ function agregarTarea() {
 
     let nuevaTarea = document.createElement("li");
     nuevaTarea.classList.add("tarea");
-    
+
     let tareaTexto = document.createElement("p");
     tareaTexto.textContent = tareaInput.value;
-   
+
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
-    checkbox.addEventListener("change", function() {
+    checkbox.addEventListener("change", function () {
         if (checkbox.checked) {
             tareaTexto.style.textDecoration = "line-through";
         } else {
@@ -26,7 +26,7 @@ function agregarTarea() {
     let botonEliminar = document.createElement("button");
     botonEliminar.textContent = "Eliminar";
     botonEliminar.classList.add("botonEliminar");
-    botonEliminar.onclick = function() {
+    botonEliminar.onclick = function () {
         lista.removeChild(nuevaTarea);
     };
 
@@ -46,5 +46,36 @@ function eliminarCompletadas() {
         if (tarea.querySelector("input").checked) {
             lista.removeChild(tarea);
         }
+    });
+}
+
+function tareasCompletadas() {
+    let tareas = document.querySelectorAll(".tarea");
+    tareas.forEach(tarea => {
+        if (!tarea.querySelector("input").checked) {
+            tarea.style.display = "none";
+        }
+        if (tarea.querySelector("input").checked) {
+            tarea.style.display = "flex";
+        }
+    });
+}
+
+function sinCompletar() {
+    let tareas = document.querySelectorAll(".tarea");
+    tareas.forEach(tarea => {
+        if (tarea.querySelector("input").checked) {
+            tarea.style.display = "none";
+        }
+        if (!tarea.querySelector("input").checked) {
+            tarea.style.display = "flex";
+        }
+    });
+}
+
+function todas() {
+    let tareas = document.querySelectorAll(".tarea");
+    tareas.forEach(tarea => {
+        tarea.style.display = "flex";
     });
 }
