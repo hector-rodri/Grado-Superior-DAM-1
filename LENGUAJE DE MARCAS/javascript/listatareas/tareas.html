@@ -11,16 +11,17 @@
 
 <body>
 
-    <h1>Mi lista de tareas</h1>
+    <h1>La meva llista de tasques</h1>
 
-    <input type="text" id="nuevaTarea" placeholder="Escribe una tarea">
-    <button onclick="agregarTarea()">Agregar</button>
+    <input type="text" id="nuevaTarea" placeholder="Escriu la teva tasca...">
+    <button onclick="agregarTarea()">Afegir</button>
 
     <div class="filtros">
         <button onclick="todas()">Totes</button>
         <button onclick="sinCompletar()">Actives</button>
         <button onclick="tareasCompletadas()">Completades</button>
         <button onclick="eliminarCompletadas()" class="eliminarTodo">Eliminar completades</button>
+        <button onclick="eliminarTodas()" class="eliminarTodo">Eliminar totes</button>
     </div>
 
     <ul id="listaTareas"></ul>

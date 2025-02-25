@@ -79,3 +79,11 @@ function todas() {
         tarea.style.display = "flex";
     });
 }
+
+function eliminarTodas() {
+    let lista = document.getElementById("listaTareas");
+    let tareas = document.querySelectorAll(".tarea");
+    tareas.forEach(tarea => {
+        lista.removeChild(tarea);
+    });
+}
