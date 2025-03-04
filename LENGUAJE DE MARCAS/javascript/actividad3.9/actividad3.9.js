@@ -2,6 +2,10 @@ const colores = ["red", "blue", "green", "purple", "yellow"];
 
 function nuevaImagen() {
     let url = document.getElementById("url").value;
+    if (url.trim() === "") {
+        alert("Escribe una url");
+        return;
+    }
 
     let container = document.createElement("div");
     container.classList.add("imagenNueva");
