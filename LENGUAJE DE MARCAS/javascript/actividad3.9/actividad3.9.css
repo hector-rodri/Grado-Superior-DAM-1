@@ -44,8 +44,8 @@ button {
     padding: 10px;
     margin: 5px;
     border-radius: 5px;
-    border: 5px solid red;
-    /* initial border color */
+    border: 3px solid red;
+    
 }
 
 .imagenNueva img {
@@ -54,7 +54,6 @@ button {
 }
 
 .imagenNueva button {
-    background: white;
     cursor: pointer;
-    border: solid 1px;
+    border: none;
 }

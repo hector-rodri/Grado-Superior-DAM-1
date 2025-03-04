@@ -1,9 +1,9 @@
-const colores = ["red", "blue", "green", "purple", "yellow"];
+const colores = ["black", "blue", "green", "purple", "yellow","red","orange"];
 
 function nuevaImagen() {
     let url = document.getElementById("url").value;
     if (url.trim() === "") {
-        alert("Escribe una url");
+        alert("Escribe una url, para añadir tu imagen");
         return;
     }
 
@@ -16,6 +16,7 @@ function nuevaImagen() {
 
     let borrarImagen = document.createElement("button");
     borrarImagen.textContent = "X";
+    borrarImagen.style.background = "#DC3545";
     borrarImagen.onclick = function () {
         container.remove();
     }
@@ -23,6 +24,7 @@ function nuevaImagen() {
 
     let cambiarBorde = document.createElement("button");
     cambiarBorde.textContent = "Canvi Color";
+    cambiarBorde.style.background = "linear-gradient(to right, rgb(255, 30, 140) 10%, rgb(255, 102, 57), rgb(255, 230, 29) 40%, rgb(255, 230, 29), rgb(255, 230, 29) 60%, rgb(87, 229, 98), rgb(31, 179, 253) 85%, rgb(31, 179, 253), rgb(31, 179, 253))";
     cambiarBorde.onclick = function () {
         let colorInicial = container.style.borderColor;
         let otroColor = colores[(colores.indexOf(colorInicial) + 1) % colores.length];
