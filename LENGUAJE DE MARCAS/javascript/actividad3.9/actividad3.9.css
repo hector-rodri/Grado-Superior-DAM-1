@@ -5,6 +5,30 @@ body {
     padding: 0;
 }
 
+input {
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(139, 139, 149, 0.555);
+}
+
+#afegir {
+    background-color: #d6f391;
+}
+
+#eliminar {
+    background-color: #DC3545;
+}
+
+button {
+    border: none;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+
+}
+
 #imagenes {
     display: flex;
     flex-wrap: wrap;
@@ -20,7 +44,8 @@ body {
     padding: 10px;
     margin: 5px;
     border-radius: 5px;
-    border: 5px solid red; /* initial border color */
+    border: 5px solid red;
+    /* initial border color */
 }
 
 .imagenNueva img {
@@ -31,4 +56,5 @@ body {
 .imagenNueva button {
     background: white;
     cursor: pointer;
+    border: solid 1px;
 }
