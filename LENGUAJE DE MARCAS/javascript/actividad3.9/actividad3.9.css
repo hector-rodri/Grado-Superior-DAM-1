@@ -61,7 +61,7 @@ button {
 footer {
     text-align: center;
     background-color:rgba(139, 139, 149, 0.555);;
-    color: white;
+    color: rgb(107, 106, 106);
     padding: 10px;
     position: fixed;
     bottom: 0;
