@@ -13,13 +13,13 @@
     <h1>Adivina el número</h1>
     <div id="botonesDificultad">
         <h2>Elige la dificultad:</h2>
-        <button onclick="generarNumeroFacil()">FÁCIL</button>
-        <button onclick="generarNumeroMedio()">MEDIO</button>
-        <button onclick="generarNumeroDificil()">DÍFICIL</button>
+        <select id="dificultad" onchange="showSelectedValue()">
+            <option value="facil">FÁCIL</option>
+            <option value="medio">MEDIO</option>
+            <option value="dificil">DIFÍCIL</option>
+        </select>
+        <button onclick="jugar()" id="jugar">JUGAR</button>
     </div>
-
-    <!-- <button onclick="generarNumero()">Generar</button>
-    <p>Número: <span id="numero">?</span></p> -->
 
 
 </body>
