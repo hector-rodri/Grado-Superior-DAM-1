@@ -7,6 +7,7 @@ var intentosMensaje = document.getElementById("intentos");
 var maxValor;
 var numero;
 var intentos = 0;
+var juegoTerminado = false;
 
 function jugar() {
     switch (dificultad.value) {
@@ -24,6 +25,7 @@ function jugar() {
             break;
     }
     document.getElementById("titulo").textContent = "Adivina el número entre 1 y " + maxValor;
+    juegoTerminado = false;
 }
 
 function generarNumeroFacil() {
@@ -54,6 +56,8 @@ function generarNumeroDificil() {
 }
 
 function comprovarNumero() {
+    if (juegoTerminado) return;
+
     let input = document.getElementById("inputNumero");
     let numeroUsuario = input.value;
 
@@ -82,6 +86,7 @@ function comprovarNumero() {
     } else if (numeroUsuario == numero) {
         mensaje.textContent = "HAS ACERTADO";
         mensaje.style.color = "green";
+        juegoTerminado = true;
     }
 }
 
@@ -94,4 +99,5 @@ function reiniciar() {
     maxValor = null;
     intentos = 0;
     intentosMensaje.textContent = "Intentos: " + intentos;
+    juegoTerminado = false;
 }
