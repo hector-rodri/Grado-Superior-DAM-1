@@ -55,7 +55,15 @@ function generarNumeroDificil() {
 
 function comprovarNumero() {
     let input = document.getElementById("inputNumero");
-    let numeroUsuario = parseInt(input.value);
+    let numeroUsuario = input.value;
+
+    if (numeroUsuario === "") {
+        mensaje.textContent = "Introduce un número";
+        mensaje.style.color = "red";
+        return;
+    }
+
+    numeroUsuario = parseInt(numeroUsuario);
 
     if (numeroUsuario < 1 || numeroUsuario > maxValor) {
         mensaje.textContent = "Introduce un número válido";
