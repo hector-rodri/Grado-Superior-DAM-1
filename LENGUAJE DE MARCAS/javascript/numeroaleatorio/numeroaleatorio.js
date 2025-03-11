@@ -1,43 +1,88 @@
 var menuInicio = document.getElementById("botonesDificultad");
 var dificultad = document.getElementById("dificultad");
 var botonJugar = document.getElementById("jugar");
+var tipoJuego = document.getElementById("tipoJuego");
+var mensaje = document.getElementById("mensaje");
+var intentosMensaje = document.getElementById("intentos");
+var maxValor;
+var numero;
+var intentos = 0;
 
 function jugar() {
-    if (dificultad.value == "") {
-        alert("Elige una dificultad para empezar a jugar");
-        return;
-    }
     switch (dificultad.value) {
         case "10":
-        generarNumeroFacil();
+            generarNumeroFacil();
             break;
-
         case "50":
-        generarNumeroMedio();
+            generarNumeroMedio();
             break;
         case "100":
-        generarNumeroDificil();
+            generarNumeroDificil();
             break;
         default:
+            alert("Elige una dificultad para empezar a jugar");
             break;
-
     }
 }
 
-    function generarNumeroFacil() {
-        menuInicio.style.display = "none";
-        var numero = Math.floor(Math.random() * 10) + 1;
-        document.getElementById("numero").textContent = numero;
-    }
+function generarNumeroFacil() {
+    menuInicio.style.display = "none";
+    tipoJuego.style.display = "block";
+    numero = Math.floor(Math.random() * 10) + 1;
+    maxValor = 10;
+    intentos = 0;
+    intentosMensaje.textContent = "Intentos: " + intentos;
+}
 
-    function generarNumeroMedio() {
-        menuInicio.style.display = "none";
-        let numero = Math.floor(Math.random() * 50) + 1;
-        document.getElementById("numero").textContent = numero;
-    }
+function generarNumeroMedio() {
+    menuInicio.style.display = "none";
+    tipoJuego.style.display = "block";
+    numero = Math.floor(Math.random() * 50) + 1;
+    maxValor = 50;
+    intentos = 0;
+    intentosMensaje.textContent = "Intentos: " + intentos;
+}
 
-    function generarNumeroDificil() {
-        menuInicio.style.display = "none";
-        let numero = Math.floor(Math.random() * 100) + 1;
-        document.getElementById("numero").textContent = numero;
+function generarNumeroDificil() {
+    menuInicio.style.display = "none";
+    tipoJuego.style.display = "block";
+    numero = Math.floor(Math.random() * 100) + 1;
+    maxValor = 100;
+    intentos = 0;
+    intentosMensaje.textContent = "Intentos: " + intentos;
+}
+
+function comprovarNumero() {
+    let input = document.getElementById("inputNumero");
+    let numeroUsuario = parseInt(input.value);
+
+    if (numeroUsuario < 1 || numeroUsuario > maxValor) {
+        mensaje.textContent = "Introduce un número válido";
+        mensaje.style.color = "red";
+        return;
     }
+    intentos++;
+    intentosMensaje.textContent = "Intentos: " + intentos;
+
+    if (numeroUsuario < numero) {
+        mensaje.textContent = "Número bajo";
+        mensaje.style.color = "red";
+    } else if (numeroUsuario > numero) {
+        mensaje.textContent = "Número alto";
+        mensaje.style.color = "red";
+    } else if (numeroUsuario == numero) {
+        mensaje.textContent = "HAS CERTADO";
+        mensaje.style.color = "green";
+    }
+}
+
+function reiniciar() {
+    menuInicio.style.display = "block";
+    tipoJuego.style.display = "none";
+    mensaje.textContent = "";
+    document.getElementById("inputNumero").value = "";
+    numero = null;
+    maxValor = null;
+    intentos = 0;
+    intentosMensaje.textContent = "Intentos: " + intentos;
+}
