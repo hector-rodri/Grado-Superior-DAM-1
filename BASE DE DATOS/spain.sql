@@ -104,6 +104,23 @@ CREATE TABLE employees
         REFERENCES employees( employee_id )
         ON DELETE CASCADE
   );
+
+DECLARE
+ id number := 107;
+ salari number;
+ titulo employees.job_tittle%type;
+BEGIN
+  SELECT job_title INTO titulo FROM employees WHERE employee_id = id;
+
+  IF titulo !='Programador' THEN
+  DBMS_OUTPUT.PUT.LINE("IMPOSTOR");
+  ELSE
+    SELECT salary INTO salari FROM employees WHERE 
+  DBMS_OUTPUT.PUT.LINE("VERDADERO PROGRAMADOR");
+  END IF;
+  
+END;
+
 -- product category
 CREATE TABLE product_categories
   (
