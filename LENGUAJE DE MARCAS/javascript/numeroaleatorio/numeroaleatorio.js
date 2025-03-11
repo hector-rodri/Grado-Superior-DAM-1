@@ -23,6 +23,7 @@ function jugar() {
             alert("Elige una dificultad para empezar a jugar");
             break;
     }
+    document.getElementById("titulo").textContent = "Adivina el número entre 1 y " + maxValor;
 }
 
 function generarNumeroFacil() {
@@ -71,7 +72,7 @@ function comprovarNumero() {
         mensaje.textContent = "Número alto";
         mensaje.style.color = "red";
     } else if (numeroUsuario == numero) {
-        mensaje.textContent = "HAS CERTADO";
+        mensaje.textContent = "HAS ACERTADO";
         mensaje.style.color = "green";
     }
 }
