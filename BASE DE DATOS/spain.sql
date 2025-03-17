@@ -3296,3 +3296,17 @@ BEGIN
         UPDATE LLIBRE SET EXEMPLARS = EXEMPLARS - 1 WHERE ID = LLIBRE_ID;
     END LOOP;
 END;
+
+DECLARE
+    TYPE t_system IS varray(5000) OF varchar2(20);
+    c_solarSystem t_system;
+BEGIN
+    c_solarSystem := t_system('Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter','Saturn', 'Uranus', 'Neptune');
+
+    c_solarSystem.EXTEND;
+    c_solarSystem(c_solarSystem.LAST) := 'Pluto';
+    DBMS_OUTPUT.PUT_LINE(c_solarSystem(c_solarSystem.LAST) || ' torna ser un planeta');
+    
+    c_solarSystem.TRIM;
+    DBMS_OUTPUT.PUT_LINE('El darrer planeta del Sistema Solar torna ser ' || c_solarSystem(c_solarSystem.LAST) || '. Pobre Pluto :(');
+END;
