@@ -105,22 +105,6 @@ CREATE TABLE employees
         ON DELETE CASCADE
   );
 
-DECLARE
- id number := 107;
- salari number;
- titulo employees.job_tittle%type;
-BEGIN
-  SELECT job_title INTO titulo FROM employees WHERE employee_id = id;
-
-  IF titulo !='Programador' THEN
-  DBMS_OUTPUT.PUT.LINE("IMPOSTOR");
-  ELSE
-    SELECT salary INTO salari FROM employees WHERE 
-  DBMS_OUTPUT.PUT.LINE("VERDADERO PROGRAMADOR");
-  END IF;
-  
-END;
-
 -- product category
 CREATE TABLE product_categories
   (
@@ -3281,3 +3265,22 @@ ALTER TABLE order_items ENABLE CONSTRAINT fk_order_items_products;
 ALTER TABLE order_items ENABLE CONSTRAINT fk_order_items_orders;
 ALTER TABLE inventories ENABLE CONSTRAINT fk_inventories_products;
 ALTER TABLE inventories ENABLE CONSTRAINT fk_inventories_warehouses;
+
+DECLARE
+	EMPLEAT_ID HR.EMPLOYEES.EMPLOYEE_ID%TYPE := 103;
+	JOB HR.EMPLOYEES.JOB_ID%TYPE;
+	SALARI HR.EMPLOYEES.SALARY%TYPE;
+BEGIN
+	SELECT JOB_ID INTO JOB FROM HR.EMPLOYEES WHERE EMPLOYEE_ID = EMPLEAT_ID;
+	IF JOB != 'IT_PROG' THEN
+        DBMS_OUTPUT.PUT_LINE('No és programador');
+	ELSE
+        SELECT SALARY INTO SALARI FROM HR.EMPLOYEES WHERE EMPLOYEE_ID = EMPLEAT_ID;
+		CASE SALARI
+            WHEN 4200 THEN DBMS_OUTPUT.PUT_LINE('Junior');
+			WHEN 4800 THEN DBMS_OUTPUT.PUT_LINE('Mid');
+			WHEN 6000 THEN DBMS_OUTPUT.PUT_LINE('Senior');
+			WHEN 9000 THEN DBMS_OUTPUT.PUT_LINE('Lead');
+		END CASE;
+	END IF;
+END;
