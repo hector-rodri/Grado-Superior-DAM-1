@@ -11,27 +11,42 @@
 
 <body>
     <h1>BUSCA TU VIAJE</h1>
-    <form action="">
-        <label for="">Origen</label>
-        <input type="text">
+    <form action="actividad3.11.2.html" method="post">
+        <label>Origen:
+            <select id="origen" name="origen" required>
+                <option value="Palma">Palma</option>
+                <option value="Madrid">Madrid</option>
+                <option value="Barcelona">Barcelona</option>
+            </select>
+        </label>
+        <label>Destino:
+            <select id="destino" name="destino" required>
+                <option value="Palma">Palma</option>
+                <option value="Madrid">Madrid</option>
+                <option value="Barcelona">Barcelona</option>
+                <option value="Londres">Londres</option>
+                <option value="París">París</option>
+                <option value="Roma">Roma</option>
+            </select>
+        </label>
 
-        <label for="">Destino</label>
-        <input type="text">
+        <label>Fecha de inicio: <input type="date" id="fechaInicio" name="fechaInicio" required></label>
 
-        <label for="">Fecha de inicio</label>
-        <input type="text">
+        <label>Fecha de fin: <input type="date" id="fechaFin" name="fechaFin" required></label>
 
-        <label for="">Fecha de fin</label>
-        <input type="text">
+        <label>Número de adultos: <input type="number" id="adultos" name="adultos" min="1" required></label>
 
-        <label for="">Número de adultos</label>
-        <input type="number">
+        <label>Número de niños: <input type="number" id="ninos" name="ninos" min="0" required></label>
 
-        <label for="">Número de niños</label>
-        <input type="number">
+        <label>Descuento:
+            <select id="descuento" name="descuento">
+                <option value="">Ninguno</option>
+                <option value="Residente">Descuento Residente</option>
+                <option value="Familia Numerosa">Descuento Familia Numerosa</option>
+            </select>
+        </label>
 
-        <label for="">Descuento</label>
-        <input type="text">
+        <button type="submit">Enviar</button>
     </form>
 </body>
 
