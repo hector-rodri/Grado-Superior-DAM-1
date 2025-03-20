@@ -27,9 +27,9 @@ public class poong extends JPanel implements ActionListener {
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_W -> barraIzquierdaY = Math.max(barraIzquierdaY - velocidadPala, 0);
-                    case KeyEvent.VK_S -> barraIzquierdaY = Math.min(barraIzquierdaY + velocidadPala, 600 - barraLargo);
+                    case KeyEvent.VK_S -> barraIzquierdaY = Math.min(barraIzquierdaY + velocidadPala, getHeight() - barraLargo);
                     case KeyEvent.VK_UP -> barraDerechaY = Math.max(barraDerechaY - velocidadPala, 0);
-                    case KeyEvent.VK_DOWN -> barraDerechaY = Math.min(barraDerechaY + velocidadPala, 600 - barraLargo);
+                    case KeyEvent.VK_DOWN -> barraDerechaY = Math.min(barraDerechaY + velocidadPala, getHeight() - barraLargo);
                 }
                 repaint();
             }
@@ -72,20 +72,20 @@ public class poong extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        // Verificar si la pelota toca el borde izquierdo
-        if (x < 0) {
-            puntuacionDerecha++; // Aumentar la puntuación del jugador de la derecha
-            x = 400; // Reiniciar la posición de la pelota
+        //Comprueba si la pelota toca el borde izquierdo
+        if (x < 0) {//Si la pelota pasa de la posición 0 en X
+            puntuacionDerecha++;//Aumentar la puntuación del jugador de la derecha
+            x = 400;//Reiniciar la posición de la pelota
             y = 300;
-            velocidadX = 2; // Reiniciar la velocidad
+            velocidadX = 2;//Reiniciar la velocidad
             velocidadY = 2;
         }
-        // Verificar si la pelota toca el borde derecho
-        else if (x > getWidth() - 40) {
-            puntuaciónIzquierda++;
-            x = 400;
+        //Verificar si la pelota toca el borde derecho
+        else if (x > getWidth()) {//Si la pelota pasa de la posición de la ventana en X
+            puntuaciónIzquierda++;//Aumentar la puntuación del jugador de la izquierda
+            x = 400;//Reiniciar la posición de la pelota
             y = 300;
-            velocidadX = -2; // Reiniciar la velocidad
+            velocidadX = 2;//Reiniciar la velocidad
             velocidadY = 2;
         }
 
@@ -94,16 +94,20 @@ public class poong extends JPanel implements ActionListener {
             velocidadY = -velocidadY; // Invertir la dirección en Y
         }
 
-        // Verificar colisión con la pala izquierda
+        //Verificar colisión con la pala izquierda
+        // Si la posición X de la pelota está cerca de la pala izquierda
+        // y la posición Y de la pelota está dentro del rango de la pala
         if (x <= 30 && y + 40 >= barraIzquierdaY && y <= barraIzquierdaY + barraLargo) {
-            velocidadX = -velocidadX; // Invertir la dirección en X
-            x = 30; // Ajustar la posición para evitar que se quede pegada
+            velocidadX = -velocidadX; // Cambiar la dirección de la pelota en X
+            x = 30; // Ajustar la posición para que no atraviese la pala
         }
 
         // Verificar colisión con la pala derecha
+        // Si la posición X de la pelota está cerca de la pala derecha
+        // y la posición Y de la pelota está dentro del rango de la pala
         if (x + 40 >= 755 && y + 40 >= barraDerechaY && y <= barraDerechaY + barraLargo) {
-            velocidadX = -velocidadX; // Invertir la dirección en X
-            x = 755 - 40; // Ajustar la posición para evitar que se quede pegada
+            velocidadX = -velocidadX; // Cambiar la dirección de la pelota en X
+            x = 755 - 40; // Ajustar la posición para que no atraviese la pala
         }
 
         // Mover la pelota
