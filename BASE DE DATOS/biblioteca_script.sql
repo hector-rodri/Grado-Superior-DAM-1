@@ -109,38 +109,29 @@ OUTPUT d'exemple (és seqüela d'un altre):
 El llibre Harry Potter i la cambra secreta i és seqüela de Harry Potter i la pedra filosofal.
 */
 
+SET SERVEROUTPUT ON;/*Recordar ejecutar esto si solo sale Procedimiento PL/SQL terminado correctamente.*/
+
 DECLARE
-    v_id_llibre NUMBER :=  -- Aquí posa l'ID del llibre a comprovar
-        (SELECT ID FROM LLIBRE WHERE TITOL = 'Harry Potter i la cambra secreta');
-    
-    v_titol_actual LLIBRE.TITOL%TYPE;
-    v_id_pare LLIBRE.ID_SEQUELA_DE%TYPE;
-    v_titol_pare LLIBRE.TITOL%TYPE;
-    v_autor_pare AUTOR.NOM%TYPE;
+    id_llibre_comprovar LLIBRE.ID%TYPE;
+    titol_llibre LLIBRE.TITOL%TYPE;
+    id_padre LLIBRE.ID_SEQUELA_DE%TYPE;
+    titol_padre LLIBRE.TITOL%TYPE;
+    autor_padre AUTOR.NOM%TYPE;
 BEGIN
-    -- Obtenim la informació del llibre
-    SELECT TITOL, ID_SEQUELA_DE INTO v_titol_actual, v_id_pare
-    FROM LLIBRE WHERE ID = v_id_llibre;
+    SELECT LLIBRE.ID INTO id_llibre_comprovar FROM LLIBRE WHERE TITOL = 'Harry Potter i la cambra secreta';
     
-    -- Comprovem si és seqüela d'un altre llibre
-    IF v_id_pare IS NULL THEN
-        DBMS_OUTPUT.PUT_LINE('El llibre ' || v_titol_actual || ' no és seqüela de cap altre.');
+    SELECT TITOL, ID_SEQUELA_DE INTO titol_llibre, id_padre
+    FROM LLIBRE WHERE ID = id_llibre_comprovar;
+    
+    IF id_padre IS NULL THEN
+        DBMS_OUTPUT.PUT_LINE('El llibre ' || titol_llibre || ' no és seqüela de cap altre.');
     ELSE
-        -- Obtenim el títol i autor del llibre anterior
-        SELECT L.TITOL, A.NOM INTO v_titol_pare, v_autor_pare
+        SELECT L.TITOL, A.NOM INTO titol_padre, autor_padre
         FROM LLIBRE L
         JOIN AUTOR_LLIBRE AL ON L.ID = AL.ID_LLIBRE
         JOIN AUTOR A ON AL.ID_AUTOR = A.ID
-        WHERE L.ID = v_id_pare
-        FETCH FIRST 1 ROW ONLY; -- En cas que hi hagi múltiples autors, només en mostrem un
-        
-        DBMS_OUTPUT.PUT_LINE('El llibre ' || v_titol_actual || ' és seqüela de ' || v_titol_pare || ' de ' || v_autor_pare || '.');
+        WHERE L.ID = id_padre;
+        DBMS_OUTPUT.PUT_LINE('El llibre ' || titol_llibre || ' és seqüela de ' || titol_padre || ' de ' || autor_padre || '.');
     END IF;
 END;
-
-
-
-
-
-
 
