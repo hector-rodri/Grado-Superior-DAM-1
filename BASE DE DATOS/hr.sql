@@ -3266,6 +3266,7 @@ ALTER TABLE order_items ENABLE CONSTRAINT fk_order_items_orders;
 ALTER TABLE inventories ENABLE CONSTRAINT fk_inventories_products;
 ALTER TABLE inventories ENABLE CONSTRAINT fk_inventories_warehouses;
 
+/* 1.1 */
 DECLARE
 	EMPLEAT_ID HR.EMPLOYEES.EMPLOYEE_ID%TYPE := 103;
 	JOB HR.EMPLOYEES.JOB_ID%TYPE;
@@ -3285,6 +3286,7 @@ BEGIN
 	END IF;
 END;
 
+/* 1.2 */
 DECLARE
     CLIENT_DNI VARCHAR2(9) := '0000000A';
     LLIBRE_ID NUMBER := 1;
@@ -3297,16 +3299,34 @@ BEGIN
     END LOOP;
 END;
 
+/* 1.3 */
 DECLARE
-    TYPE t_system IS varray(5000) OF varchar2(20);
-    c_solarSystem t_system;
+  TYPE t_system IS varray(5000) OF varchar2(20);
+  c_solarSystem t_system;
 BEGIN
-    c_solarSystem := t_system('Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter','Saturn', 'Uranus', 'Neptune');
+  c_solarSystem := t_system('Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune');
 
-    c_solarSystem.EXTEND;
-    c_solarSystem(c_solarSystem.LAST) := 'Pluto';
-    DBMS_OUTPUT.PUT_LINE(c_solarSystem(c_solarSystem.LAST) || ' torna ser un planeta');
-    
-    c_solarSystem.TRIM;
-    DBMS_OUTPUT.PUT_LINE('El darrer planeta del Sistema Solar torna ser ' || c_solarSystem(c_solarSystem.LAST) || '. Pobre Pluto :(');
+  c_solarSystem.EXTEND;
+  c_solarSystem(c_solarSystem.LAST) := 'Pluto';
+  DBMS_OUTPUT.PUT_LINE(c_solarSystem(c_solarSystem.LAST) || ' torna a ser un planeta');
+  
+  c_solarSystem.TRIM;
+  DBMS_OUTPUT.PUT_LINE('El darrer planeta del Sistema Solar torna a ser ' || c_solarSystem(c_solarSystem.LAST) || '. Pobre Pluto :(');
 END;
+
+/* 2.1 */
+
+DECLARE
+    function get_job_title (v_first_name varchar2, v_last_name varchar2)
+    RETURN varchar2
+    IS
+        v_job_title varchar2(50);
+    BEGIN
+        SELECT job_title INTO v_job_title FROM employees WHERE first_name = v_first_name AND last_name = v_last_name;
+        RETURN v_job_title;
+        END;
+BEGIN
+    null;
+END;
+
+

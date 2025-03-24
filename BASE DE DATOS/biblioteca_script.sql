@@ -198,4 +198,30 @@ No queden més exemplars. 2 exemplars han quedat sense eliminar.
 Exemplars finals: 0
 */
 
-
+DECLARE
+    id_nuevo_llibre LLIBRE.ID%TYPE;
+    numero NUMBER := 8; 
+    exemplars_nuevo_llibre LLIBRE.EXEMPLARS%TYPE;
+    exemplars_no_eliminats NUMBER := 0;
+BEGIN
+    SELECT LLIBRE.ID INTO id_nuevo_llibre FROM LLIBRE WHERE TITOL = 'Harry Potter i la cambra secreta';
+    SELECT EXEMPLARS INTO exemplars_nuevo_llibre FROM LLIBRE WHERE TITOL = 'Harry Potter i la cambra secreta';
+    DBMS_OUTPUT.PUT_LINE('El llibre amb ID ' || id_nuevo_llibre || ' té ' || exemplars_nuevo_llibre || ' exemplars');
+    DBMS_OUTPUT.PUT_LINE('Hem de eliminar ' || numero || ' exemplars');
+    
+    FOR i IN 1..numero LOOP
+        IF exemplars_nuevo_llibre > 0 THEN
+            exemplars_nuevo_llibre := exemplars_nuevo_llibre - 1;
+            DBMS_OUTPUT.PUT_LINE('Eliminat exemplar. Exemplars: ' || exemplars_nuevo_llibre);
+        ELSE
+            exemplars_no_eliminats := numero - i + 1;
+            EXIT;
+        END IF;
+        
+    END LOOP;
+    
+    IF exemplars_no_eliminats > 0 THEN
+        DBMS_OUTPUT.PUT_LINE('No s''han pogut eliminar ' || exemplars_no_eliminats || ' exemplars perquè no queden més');
+    END IF;
+    DBMS_OUTPUT.PUT_LINE('Exemplars finals: ' || exemplars_nuevo_llibre);
+END;
