@@ -3329,4 +3329,20 @@ BEGIN
     null;
 END;
 
+/* 2.2 */
+
+DECLARE
+    procedure get_email_and_phone (v_first_name varchar2,
+    v_last_name varchar2
+    p_email OUT EMPLOYEES.EMAIL%TYPE,
+    p_phone OUT EMPLOYEES.PHONE%TYPE)
+    IS
+    BEGIN
+        SELECT email, phone INTO p_email, p_phone FROM employees WHERE first_name = v_first_name AND last_name = v_last_name;
+        RETURN v_email, v_phone;
+        END;
+BEGIN
+    null;
+END;
+
 
