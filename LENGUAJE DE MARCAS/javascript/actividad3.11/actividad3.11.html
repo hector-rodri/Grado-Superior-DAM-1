@@ -11,42 +11,44 @@
 
 <body>
     <h1>BUSCA TU VIAJE</h1>
-    <form>
-        <label>Origen:
-            <select id="origen" name="origen" required>
-                <option value="Palma">Palma</option>
-                <option value="Madrid">Madrid</option>
-                <option value="Barcelona">Barcelona</option>
-            </select>
-        </label>
-        <label>Destino:
-            <select id="destino" name="destino" required>
-                <option value="Palma">Palma</option>
-                <option value="Madrid">Madrid</option>
-                <option value="Barcelona">Barcelona</option>
-                <option value="Londres">Londres</option>
-                <option value="París">París</option>
-                <option value="Roma">Roma</option>
-            </select>
-        </label>
+    <form action="actividad3.11.2.html" method="post" id="formulario">
+        <label for="origen">Origen</label>
+        <select name="origen" id="Origen" required>
+            <option value="PMI">Palma</option>
+            <option value="MAD">Madrid</option>
+            <option value="BCN">Barcelona</option>
+        </select>
 
-        <label>Fecha de inicio: <input type="date" id="fechaInicio" name="fechaInicio" required></label>
+        <label for="destino">Destino</label>
+        <select name="destino" id="Destino" required>
+            <option value="MAD">Madrid</option>
+            <option value="PMI">Palma</option>
+            <option value="BCN">Barcelona</option>
+            <option value="LGW">Londres</option>
+            <option value="ORY">Paris</option>
+        </select>
 
-        <label>Fecha de fin: <input type="date" id="fechaFin" name="fechaFin" required></label>
+        <label for="fechaInicio">Fecha Inicio</label>
+            <input type="date" name="fechaInicio" id="FechaInicio" required>
 
-        <label>Número de adultos: <input type="number" id="adultos" name="adultos" min="1" required></label>
+            <label for="fechaFin">Fecha Fin</label>
+            <input type="date" name="fechaFin" id="FechaFin" required>
 
-        <label>Número de niños: <input type="number" id="ninos" name="ninos" min="0" required></label>
+            <label for="numAdultos">Número de adultos</label>
+            <input type="number" name="numAdultos" id="NumAdultos" required>
+
+            <label for="numNiños">Número de niños</label>
+            <input type="number" name="numNiños" id="NumNiños" placeholder="0" min="0">
 
         <label>Descuento:
             <select id="descuento" name="descuento">
-                <option value="">Ninguno</option>
+                <option value="Ninguno">Ninguno</option>
                 <option value="Residente">Descuento Residente</option>
                 <option value="Familia Numerosa">Descuento Familia Numerosa</option>
             </select>
         </label>
 
-        <button  onclick="validarFormulario()">Enviar</button>
+        <input type="submit" value="Buscar">
     </form>
 </body>
 
