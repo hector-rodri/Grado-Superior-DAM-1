@@ -12,6 +12,10 @@ body {
     background: linear-gradient(to right, #414f6a, #002058);
 
 }
+h1{
+    color: white;
+    margin: 20px;
+}
 
 #nuevaTarea {
     border: none;
