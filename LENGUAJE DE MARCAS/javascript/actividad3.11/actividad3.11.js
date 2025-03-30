@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const numNinosInput = document.getElementById("NumNiños");
     const origenInput = document.getElementById("Origen");
     const destinoInput = document.getElementById("Destino");
+    const descuentoInput = document.getElementById("descuento");
 
     if (formulario) {
         const hoy = new Date().toISOString().split("T")[0];
@@ -19,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const numNinos = numNinosInput.value;
             const origen = origenInput.value;
             const destino = destinoInput.value;
+            const descuento = descuentoInput.value;
             
             if (fechaInicio < hoy) {
                 alert("La fecha de inicio ya pasó");
@@ -43,13 +45,14 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.setItem("fechaFin", fechaFin);
             localStorage.setItem("numAdultos", numAdultos);
             localStorage.setItem("numNinos", numNinos);
+            localStorage.setItem("descuento", descuento);
 
-            sessionStorage.setItem("origen", origen);
-            sessionStorage.setItem("destino", destino);
-            sessionStorage.setItem("fechaInicio", fechaInicio);
-            sessionStorage.setItem("fechaFin", fechaFin);
-            sessionStorage.setItem("numAdultos", numAdultos);
-            sessionStorage.setItem("numNinos", numNinos);
+            // sessionStorage.setItem("origen", origen);
+            // sessionStorage.setItem("destino", destino);
+            // sessionStorage.setItem("fechaInicio", fechaInicio);
+            // sessionStorage.setItem("fechaFin", fechaFin);
+            // sessionStorage.setItem("numAdultos", numAdultos);
+            // sessionStorage.setItem("numNinos", numNinos);
 
             window.location.href = "actividad3.11.2.html";
         });

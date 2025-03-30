@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="actividad3.11.js"></script>
+    <script src="actividad3.11.js" async></script>
     <link rel="stylesheet" href="actividad3.11.css">
 </head>
 
@@ -29,24 +29,24 @@
         </select>
 
         <label for="fechaInicio">Fecha Inicio</label>
-            <input type="date" name="fechaInicio" id="FechaInicio" required>
+        <input type="date" name="fechaInicio" id="FechaInicio" required>
 
-            <label for="fechaFin">Fecha Fin</label>
-            <input type="date" name="fechaFin" id="FechaFin" required>
+        <label for="fechaFin">Fecha Fin</label>
+        <input type="date" name="fechaFin" id="FechaFin" required>
 
-            <label for="numAdultos">Número de adultos</label>
-            <input type="number" name="numAdultos" id="NumAdultos" placeholder="0" min="0" required>
+        <label for="numAdultos">Número de adultos</label>
+        <input type="number" name="numAdultos" id="NumAdultos" placeholder="0" min="0" required>
 
-            <label for="numNiños">Número de niños</label>
-            <input type="number" name="numNiños" id="NumNiños" placeholder="0" min="0">
+        <label for="numNiños">Número de niños</label>
+        <input type="number" name="numNiños" id="NumNiños" placeholder="0" min="0">
 
-        <label>Descuento:
-            <select id="descuento" name="descuento">
-                <option value="Ninguno">Ninguno</option>
-                <option value="Residente">Descuento Residente</option>
-                <option value="Familia Numerosa">Descuento Familia Numerosa</option>
-            </select>
-        </label>
+        <label>Descuento:</label>
+        <select id="descuento" name="descuento">
+            <option value="Ninguno">Ninguno</option>
+            <option value="Residente">Descuento Residente</option>
+            <option value="Familia Numerosa">Descuento Familia Numerosa</option>
+        </select>
+
 
         <input type="submit" value="Buscar">
     </form>
