@@ -3336,7 +3336,7 @@ DECLARE
     v_last_name varchar2
     p_email OUT EMPLOYEES.EMAIL%TYPE,
     p_phone OUT EMPLOYEES.PHONE%TYPE)
-    IS
+    IS 
     BEGIN
         SELECT email, phone INTO p_email, p_phone FROM employees WHERE first_name = v_first_name AND last_name = v_last_name;
         RETURN v_email, v_phone;
@@ -3345,4 +3345,28 @@ BEGIN
     null;
 END;
 
+
+DECLARE 
+    v_id NUMBER;
+    no_trobat exception;
+    function coincidencia_nom (texte varchar2) 
+    RETURN NUMBER
+    IS 
+        v_id NUMBER;
+        v_aux NUMBER;
+    BEGIN
+        SELECT count(*) INTO v_aux FROM EMPLOYEES WHERE first_name||''||last_name LIKE texte;
+        if v_aux = 0 then
+            raise no_trobat;
+        end if;
+        SELECT EMPLOYEE_ID INTO v_id FROM EMPLOYEES WHERE first_name||''||last_name LIKE texte FETCH FIRST ROW ONLY;
+        RETURN v_id;
+    END;
+BEGIN
+    v_id := coincidencia_nom('Paco');
+EXCEPTION
+    WHEN no_trobat THEN DBMS_OUTPUT.PUT_LINE('NO ENCUENTRO ESTA COINCIDENCIA');
+END;
+
+    
 
