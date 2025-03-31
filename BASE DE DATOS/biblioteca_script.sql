@@ -225,3 +225,49 @@ BEGIN
     END IF;
     DBMS_OUTPUT.PUT_LINE('Exemplars finals: ' || exemplars_nuevo_llibre);
 END;
+
+/*1. Crea una funció GET_LLIBRES_BY_AUTOR_ID que, donat un ID d'autor, retorni una NESTED
+TABLE amb records dels llibres d'aquest autor.
+Crida aquesta funció des d'un bloc anonim passant-li com a parametre un ID d'autor que tengui
+llibres i mostra (DBMS_OUTPUT) els seus títols utilitzant alguna estructura iterativa.
+*/
+
+DECLARE
+    TYPE llibres_t IS TABLE OF LLIBRE%ROWTYPE;
+    llibres llibres_t;
+    
+    FUNCTION GET_LLIBRES_BY_AUTOR_ID(p_autor_id NUMBER) 
+    RETURN T_TITOLS 
+    IS
+    v_titols T_TITOLS := T_TITOLS();
+    
+    BEGIN
+        SELECT L.TITOL 
+        BULK COLLECT INTO v_titols
+        FROM LLIBRE L
+        JOIN AUTOR_LLIBRE AL ON L.ID = AL.ID_LLIBRE
+        
+    END;
+BEGIN
+
+
+   
+
+
+
+
+END;
+
+
+/*2. Crea un procedure nested ACTUALITZA_LLIBRE_TITOL que, donat l'ID d'un llibre i un VARCHAR2, 
+actualitzi el títol del llibre que té l'ID indicat al varchar2 passat.
+Si el llibre no existeix, el procediment ha de mostrar al DBMS_OUTPUT un missatge indicant que no hi
+ha cap llibre amb l'ID passat. OBLIGATORI mostrar el missatge utilitzant control d'errors (excepció
+NO_DATA_FOUND).
+*/
+
+/*3. Defineix una excepció nova LLIBRE_ID_DESCONEGUT i modifica el procedure anterior perquè, en lloc de
+mostrar un missatge al DBMS_OUTPUT quan el llibre no existeix, aixequi l'excepció LLIBRE_ID_DESCONEGUT.
+Crida la funció des del bloc anònim utilitzant l'ID d'un llibre inexistent i mostra un missatge al
+DBMS_OUTPUT quan ocorri l'excepció que has declarat anteriorment.
+.*/
