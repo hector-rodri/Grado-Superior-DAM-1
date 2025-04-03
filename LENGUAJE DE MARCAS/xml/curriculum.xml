@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cv>
+
+    <nombre></nombre>
+
+    <apellido></apellido>
+
+    <edad></edad>
+
+    <residencia>
+        <ciutat></ciutat>
+        <pais></pais>
+    </residencia>
+
+    <datos>
+        <telefon></telefon>
+        <email></email>
+    </datos>
+
+    <redes>
+        <likedin></likedin>
+    </redes>
+
+    <descripcion></descripcion>
+
+    <competencias>
+        <competencia>
+            <nom></nom>
+            <nivell></nivell>
+        </competencia>
+
+    </competencias>
+
+    <educacion>
+        <titulacion></titulacion>
+        <centro></centro>
+        <ano></ano>
+    </educacion>
+
+    <experiencia>
+        <empresa></empresa>
+        <funcio></funcio>
+        <anys></anys>
+        <descripcio></descripcio>
+    </experiencia>
+
+</cv>
