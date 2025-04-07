@@ -306,12 +306,33 @@ END;
 
 
 /*3. Utilitzant el mateix mètode que a l'activitat anterior, crea un bloc anònim que, donat un rang d'IDs de llibres, mostri en pantalla els seus títols separats per comes.
-Declara un associative array de VARCHAR2 indexat per un PLS_INTEGER i introdueix el titol de cada llibre a l'índex que coincideixi amb la seva ID.
+Declara un associative array de VARCHAR2 indexat per un NUMBER i introdueix el titol de cada llibre a l'índex que coincideixi amb la seva ID.
 Després, itera sobre l'associative array, només pel rang d'IDs demanat, i concatena els VARCHAR2 (títols dels llibres), separant-los per comes.
 OUTPUT d'exemple:
 Rang IDs: 2, 4
 Títols: Yerma, La casa de Bernarda Alba, Poeta en Nueva York, 
 */
+DECLARE /* iterar sobre varray y sobre nasted table tambien se haria así */
+    TYPE t_LlibresExemp IS TABLE OF LLIBRE.TITOL%ROWTYPE INDEX BY PLS_INTEGER;
+    llibres_array t_LlibresExemp;
+    v_Exemplars NUMBER := 0;
+    c_min CONSTANT NUMBER := 2;
+    c_max CONSTANT NUMBER := 4;
+    v_i PLS_INTEGER;
+    v_titols VARCHAR2(4000);
+BEGIN
+    FOR i IN c_min..c_max LOOP
+        SELECT TITOL INTO llibres_array(i) FROM LLIBRE WHERE ID = i;
+    END LOOP;
+
+    WHILE v_i IS NOT NULL LOOP
+    v_titols := v_titols ||','|| v_Exemplars(v_i)
+    v_i := llibres_array.NEXT(v_i);
+    END LOOP;
+    
+    DBMS_OUTPUT.PUT_LINE(v_titols);
+
+END;
 
 --SUBPROGRAMES I EXCEPCIONS
 
