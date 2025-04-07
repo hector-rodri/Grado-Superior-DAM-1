@@ -1,0 +1,20 @@
+{
+    "academia": {
+        "curso": {
+            "nombre": "1 DAM",
+            "profesor": "Elena",
+            "duracion": 500,
+            "precio": 200,
+            "estudiantes": [
+                {
+                    "nombre": "Hector",
+                    "edad": 20
+                },
+                {
+                    "nombre": "Juan",
+                    "edad": 22
+                }
+            ]
+        }
+    }
+}
