@@ -1,0 +1,18 @@
+<academia>
+    <curso>
+        <nombre>1 DAM</nombre>
+        <profesor>Elena</profesor>
+        <duracion>500</duracion>
+        <precio>200</precio>
+        <estudiantes>
+            <estudiante>
+                <nombre>Hector</nombre>
+                <edad>20</edad>
+            </estudiante>
+            <estudiante>
+                <nombre>Juan</nombre>
+                <edad>22</edad>
+            </estudiante>
+        </estudiantes>
+    </curso>
+</academia>
