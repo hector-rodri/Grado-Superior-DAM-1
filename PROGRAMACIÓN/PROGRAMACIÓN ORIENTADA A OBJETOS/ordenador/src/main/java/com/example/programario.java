@@ -1,10 +1,13 @@
 package com.example;
 
+import java.util.ArrayList;
+
 public class programario {
     private String nombreProgramario;
     private String versionProgramario;
     private double espacioProgramario;
     private double memRamProgramario;
+    private ArrayList<programario> listaProgramarioSo;
 
 
     public programario(String nombreProgramarioIntroducido, String versionProgramarioIntroducida, double espacioProgramarioIntroducido, double memRamProgramarioIntroducida) {
@@ -28,6 +31,10 @@ public class programario {
 
     public double getMemRamProgramario() {
         return memRamProgramario;
+    }
+
+    public ArrayList<programario> geListaProgramario(){
+        return listaProgramarioSo;
     }
 
     public void setNombreProgramario(String nombreProgramarioIntroducido) {
