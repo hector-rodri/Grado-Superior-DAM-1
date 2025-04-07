@@ -285,6 +285,24 @@ OUTPUT d'exemple:
 Rang IDs: 2, 4
 Recompte total: 17
 */
+DECLARE 
+    TYPE t_LlibresExemp IS TABLE OF LLIBRE%ROWTYPE INDEX BY PLS_INTEGER;
+    llibres_array t_LlibresExemp;
+    v_Exemplars NUMBER := 0;
+    c_min CONSTANT NUMBER := 2;
+    c_max CONSTANT NUMBER := 4;
+    v_i PLS_INTEGER;
+BEGIN
+    FOR i IN c_min..c_max LOOP
+        SELECT exemplars INTO llibres_array(i) FROM LLIBRE WHERE ID = i;
+    END LOOP;
+
+    WHILE v_i IS NOT NULL LOOP
+    v_Exemplars := v_Exemplars + llibres_array(v_i);
+    v_i := llibres_array.NEXT(v_i);
+    END LOOP;
+
+END;
 
 
 /*3. Utilitzant el mateix mètode que a l'activitat anterior, crea un bloc anònim que, donat un rang d'IDs de llibres, mostri en pantalla els seus títols separats per comes.
