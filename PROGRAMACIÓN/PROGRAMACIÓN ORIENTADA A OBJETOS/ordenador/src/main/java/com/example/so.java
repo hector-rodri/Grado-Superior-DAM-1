@@ -18,7 +18,7 @@ public class so {
         this.onlyCommandsSo = onlyCommandsSoIndicado;
         this.espacioRequeridoSo = espacioRequeridoSoIndicado;
         this.memRamRequeridaSo = memRamRequeridaSoIndicado;
-
+        
     }
 
     public String getNombreSo(){

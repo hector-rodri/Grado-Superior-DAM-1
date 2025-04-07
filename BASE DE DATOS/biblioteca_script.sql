@@ -226,7 +226,7 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('Exemplars finals: ' || exemplars_nuevo_llibre);
 END;
 
-/*1. Crea una funció GET_LLIBRES_BY_AUTOR_ID que, donat un ID d'autor, retorni una NESTED
+/*Crea una funció GET_LLIBRES_BY_AUTOR_ID que, donat un ID d'autor, retorni una NESTED
 TABLE amb records dels llibres d'aquest autor.
 Crida aquesta funció des d'un bloc anonim passant-li com a parametre un ID d'autor que tengui
 llibres i mostra (DBMS_OUTPUT) els seus títols utilitzant alguna estructura iterativa.
@@ -249,25 +249,84 @@ DECLARE
         
     END;
 BEGIN
-
-
-   
-
-
-
-
+null;
 END;
 
+--ITERACIONS I COL·LECCIONS
 
-/*2. Crea un procedure nested ACTUALITZA_LLIBRE_TITOL que, donat l'ID d'un llibre i un VARCHAR2, 
-actualitzi el títol del llibre que té l'ID indicat al varchar2 passat.
-Si el llibre no existeix, el procediment ha de mostrar al DBMS_OUTPUT un missatge indicant que no hi
-ha cap llibre amb l'ID passat. OBLIGATORI mostrar el missatge utilitzant control d'errors (excepció
-NO_DATA_FOUND).
+/*1.Compta els exemplars totals d'un conjunt de llibres.
+Utilitza un FOR LOOP per iterar sobre un rang d'IDs de llibres deterc_minat. El mínim i el màxim del rang han de venir donats per dues constants.
+Comença a 0. Per cada iteració, agafa el nombre d'exemplars del llibre corresponent i suma-ho al recompte.
+Al final de les iteracions, mostra el nombre d'exemplars total.
+OUTPUT d'exemple:
+Rang IDs: 3, 6
+Recompte total: 20
+*/
+DECLARE 
+    c_min CONSTANT NUMBER := 3;
+    c_max CONSTANT NUMBER := 9;
+    v_Exemplars NUMBER := 0;
+    v_Aux NUMBER;
+BEGIN
+    FOR i IN c_min..c_max LOOP
+        SELECT exemplars INTO v_Aux FROM LLIBRE WHERE ID = i;
+        v_Exemplars := v_Exemplars + v_Aux;
+    END LOOP;
+
+    DBMS_OUTPUT.PUT_LINE('Rang: ' || c_min || ', ' || c_max);
+    DBMS_OUTPUT.PUT_LINE('Total: ' || v_Exemplars);
+END;
+
+/*2. Fes el mateix que a l'activitat anterior però havent guardat els exemplars de cada llibre dins un associative array.
+Declara un associative array de NUMBER indexat per un NUMBER i introduieix els exemplars de cada llibre a l'índex que coincideixi amb la seva ID (només dels llibres demanats o de tots). Utilitza un bucle per fer-ho.
+Utilitza un FOR LOOP per iterar sobre el rang d'IDs demanat (mínim i màxim), però aquesta vegada. En lloc de fer SELECT per fer el recompte, agafa la informació de l'associative array emplenat anteriorment.
+Al final de les iteracions, mostra el nombre d'exemplars total.
+OUTPUT d'exemple:
+Rang IDs: 2, 4
+Recompte total: 17
 */
 
-/*3. Defineix una excepció nova LLIBRE_ID_DESCONEGUT i modifica el procedure anterior perquè, en lloc de
-mostrar un missatge al DBMS_OUTPUT quan el llibre no existeix, aixequi l'excepció LLIBRE_ID_DESCONEGUT.
-Crida la funció des del bloc anònim utilitzant l'ID d'un llibre inexistent i mostra un missatge al
-DBMS_OUTPUT quan ocorri l'excepció que has declarat anteriorment.
-.*/
+
+/*3. Utilitzant el mateix mètode que a l'activitat anterior, crea un bloc anònim que, donat un rang d'IDs de llibres, mostri en pantalla els seus títols separats per comes.
+Declara un associative array de VARCHAR2 indexat per un PLS_INTEGER i introdueix el titol de cada llibre a l'índex que coincideixi amb la seva ID.
+Després, itera sobre l'associative array, només pel rang d'IDs demanat, i concatena els VARCHAR2 (títols dels llibres), separant-los per comes.
+OUTPUT d'exemple:
+Rang IDs: 2, 4
+Títols: Yerma, La casa de Bernarda Alba, Poeta en Nueva York, 
+*/
+
+--SUBPROGRAMES I EXCEPCIONS
+
+/*1. Declara una funció que agafi com a paràmetre un col·lecció de noms de gènere ("Misteri", "Poesia",...)
+i retorni el total d'exemplars dels llibres d'aquests gèneres.
+Si algun dels gèneres passats com a paràmetre no existeix o no té cap llibre,
+l'execució ha de seguir i comptar la resta de gèneres.
+Executa la funció i mostra el total d'exemplars.
+EXEMPLE D'OUTPUT:
+S'han demanat els exemplars totals dels gèneres: Misteri, Aventura
+Total exemplars: 14
+*/
+
+/*2.Declara una funció que agafi com a paràmetre una col·lecció de noms d'autor i retorni
+un col·lecció d'un tipus record propi amb l'ID de l'autor, el nombre de llibres registrats que ha escrit,
+i el nombre d'exemplars guardats en base de dades dels llibres d'aquest autor.
+Executa la funció i mostra el contingut dels records que retorna.
+Si un autor no existeix la funció ha de seguir i retornar la informació de la resta.
+EXEMPLE:
+Autors: Federico, Manuel
+	ID	LLIBRES	EXEMPLARS
+1: 	1	5		39
+2: 	2	5		19
+*/
+
+--SUBPROGRAMES I COL·LECCIONS
+/*1. Crea una funció NESTED que retorni, dins una nested table de (records de) LLIBRE, 
+els llibres amb un nombre d'exemplars igual o inferior al passat per paràmetre.
+Crida aquesta funció dins el bloc anònim i utilitza un FOR per mostrar el títol
+dels llibres que hagi retornat la funció.*/
+
+
+/*2. Converteix la funció anterior a un procediment, que fiqui els llibres amb un
+nombre d'exemplars igual o inferior al del paràmetre dins un paràmetre OUT.
+Crida aquest procediment dins el bloc anònim i utilitza un FOR per mostrar el títol
+dels llibres que el procediment hagi guardat dins el paràmetre OUT./*

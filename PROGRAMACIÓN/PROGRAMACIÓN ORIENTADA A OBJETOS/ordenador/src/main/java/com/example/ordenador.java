@@ -5,6 +5,7 @@ public class ordenador {
     private String nombreOrdenador;
     private double memoriaRamOrdenador;
     private double hddOrdenador;
+    private so sistemaOperativo;
     
     public ordenador(double memoriaRamOrdenadorIndicada, double hddOrdenadorIndicado){
         this.nombreOrdenador = "PC 1";
@@ -34,5 +35,12 @@ public class ordenador {
 
     public void setHddOrdenador(double hddOrdenadorIntro){
         this.hddOrdenador = hddOrdenadorIntro;
+    }
+
+    public void instalacionSistemaOperativo(){
+
+        if (hddOrdenador > 20) {
+            
+        }
     }
 }
