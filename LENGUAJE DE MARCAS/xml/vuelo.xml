@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<viaje>
+    <vuelo_ida>
+        <origen>Madrid</origen>
+        <destino>MAD</destino>
+        <fecha_vuelo>2025-04-10T10:30:00</fecha_vuelo>
+        <precio></precio>
+    </vuelo_ida>
+    <vuelo_vuelta>
+        <origen>Barcelona</origen>
+        <destino>BCN</destino>
+        <fecha_vuelo>2025-04-10T10:30:00</fecha_vuelo>
+        <precio></precio>
+    </vuelo_vuelta>
+</viaje>
+
