@@ -400,6 +400,48 @@ BEGIN
             DBMS_OUTPUT.PUT_LINE('ERROR, EL LIBRO NO EXISTE, NO TE INVENTES LIBROS PORFA');
 END;
 
+--SUBPROGRAMES I EXCEPCIONS
 
+/*1. Declara una funció que agafi com a paràmetre un col·lecció de noms de gènere ("Misteri", "Poesia",...)
+i retorni el total d'exemplars dels llibres d'aquests gèneres.
+Si algun dels gèneres passats com a paràmetre no existeix o no té cap llibre,
+l'execució ha de seguir i comptar la resta de gèneres.
+Executa la funció i mostra el total d'exemplars.
+EXEMPLE D'OUTPUT:
+S'han demanat els exemplars totals dels gèneres: Misteri, Aventura
+Total exemplars: 14
+*/
+
+CREATE OR REPLACE TYPE t_generes IS TABLE OF VARCHAR2(50);
+/
+CREATE OR REPLACE FUNCTION GET_TOTAL_EXEMPLARS_BY_GENERES(v_generes t_generes)
+RETURN NUMBER
+IS
+    v_total_exemplars NUMBER := 0;
+BEGIN
+    FOR i IN 1..v_generes.COUNT LOOP
+        BEGIN
+            SELECT SUM(L.EXEMPLARS)
+            INTO v_total_exemplars
+            FROM LLIBRE L
+            JOIN LLIBRE_GENERE LG ON L.ID = LG.ID_LLIBRE
+            WHERE LG.NOM_GENERE = v_generes(i);
+        EXCEPTION
+            WHEN NO_DATA_FOUND THEN
+                NULL; 
+        END;
+    END LOOP;
+
+    RETURN v_total_exemplars;
+END;
+/
+DECLARE
+    v_generes t_generes := t_generes('Misteri', 'Aventura');
+    v_total_exemplars NUMBER;
+BEGIN
+    v_total_exemplars := GET_TOTAL_EXEMPLARS_BY_GENERES(v_generes);
+    DBMS_OUTPUT.PUT_LINE('S''han demanat els exemplars totals dels gèneres: ' || v_generes(1) || ', ' || v_generes(2));
+    DBMS_OUTPUT.PUT_LINE('Total exemplars: ' || v_total_exemplars);
+END;
 
 
