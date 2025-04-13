@@ -96,6 +96,7 @@ DELETE FROM LLIBRE_GENERE WHERE id_llibre = (SELECT ID FROM LLIBRE WHERE TITOL =
 DELETE FROM LLIBRE_GENERE WHERE id_llibre = (SELECT ID FROM LLIBRE WHERE TITOL = 'Harry Potter i el calze de foc');
 DELETE FROM LLIBRE_GENERE WHERE id_llibre = (SELECT ID FROM LLIBRE WHERE TITOL = 'Bellas durmientes');
 
+--Condicionals i iteracions simples 
 /*1. Escriu un bloc anònim que, donat un ID de llibre, miri si el llibre és seqüela d'algun altre.
 Si no ho és, mostra un missatge indicant-ho. Si ho és, mostra un missatge indicant que
 el llibre és seqüela d'un altre, juntament amb el títol i l'autor d'aquest altre llibre.
@@ -226,32 +227,6 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('Exemplars finals: ' || exemplars_nuevo_llibre);
 END;
 
-/*Crea una funció GET_LLIBRES_BY_AUTOR_ID que, donat un ID d'autor, retorni una NESTED
-TABLE amb records dels llibres d'aquest autor.
-Crida aquesta funció des d'un bloc anonim passant-li com a parametre un ID d'autor que tengui
-llibres i mostra (DBMS_OUTPUT) els seus títols utilitzant alguna estructura iterativa.
-*/
-
-DECLARE
-    TYPE llibres_t IS TABLE OF LLIBRE%ROWTYPE;
-    llibres llibres_t;
-    
-    FUNCTION GET_LLIBRES_BY_AUTOR_ID(p_autor_id NUMBER) 
-    RETURN T_TITOLS 
-    IS
-    v_titols T_TITOLS := T_TITOLS();
-    
-    BEGIN
-        SELECT L.TITOL 
-        BULK COLLECT INTO v_titols
-        FROM LLIBRE L
-        JOIN AUTOR_LLIBRE AL ON L.ID = AL.ID_LLIBRE
-        
-    END;
-BEGIN
-null;
-END;
-
 --ITERACIONS I COL·LECCIONS
 
 /*1.Compta els exemplars totals d'un conjunt de llibres.
@@ -334,38 +309,97 @@ BEGIN
 
 END;
 
---SUBPROGRAMES I EXCEPCIONS
 
-/*1. Declara una funció que agafi com a paràmetre un col·lecció de noms de gènere ("Misteri", "Poesia",...)
-i retorni el total d'exemplars dels llibres d'aquests gèneres.
-Si algun dels gèneres passats com a paràmetre no existeix o no té cap llibre,
-l'execució ha de seguir i comptar la resta de gèneres.
-Executa la funció i mostra el total d'exemplars.
-EXEMPLE D'OUTPUT:
-S'han demanat els exemplars totals dels gèneres: Misteri, Aventura
-Total exemplars: 14
+--ACTIVIDAD ENTREGABLE Subprogrames i control d'errors 
+
+/*1. Crea una funció GET_LLIBRES_BY_AUTOR_ID que, donat un ID d'autor, retorni una NESTED
+TABLE amb records dels llibres d'aquest autor.
+Crida aquesta funció des d'un bloc anonim passant-li com a parametre un ID d'autor que tengui
+llibres i mostra (DBMS_OUTPUT) els seus títols utilitzant alguna estructura iterativa.
 */
 
-/*2.Declara una funció que agafi com a paràmetre una col·lecció de noms d'autor i retorni
-un col·lecció d'un tipus record propi amb l'ID de l'autor, el nombre de llibres registrats que ha escrit,
-i el nombre d'exemplars guardats en base de dades dels llibres d'aquest autor.
-Executa la funció i mostra el contingut dels records que retorna.
-Si un autor no existeix la funció ha de seguir i retornar la informació de la resta.
-EXEMPLE:
-Autors: Federico, Manuel
-	ID	LLIBRES	EXEMPLARS
-1: 	1	5		39
-2: 	2	5		19
+CREATE OR REPLACE TYPE n_titulos AS TABLE OF VARCHAR2(50);
+/
+CREATE OR REPLACE FUNCTION GET_LLIBRES_BY_AUTOR_ID(v_autor_id NUMBER) 
+RETURN n_titulos 
+IS
+    v_titols n_titulos;
+BEGIN
+    SELECT L.TITOL 
+    BULK COLLECT INTO v_titols
+    FROM LLIBRE L
+    JOIN AUTOR_LLIBRE AL ON L.ID = AL.ID_LLIBRE
+    WHERE AL.ID_AUTOR = v_autor_id;
+
+    RETURN v_titols;
+END;
+/
+DECLARE
+    v_autor_id NUMBER := 3;
+    v_titols n_titulos;
+BEGIN
+    v_titols := GET_LLIBRES_BY_AUTOR_ID(v_autor_id);
+
+    FOR i IN 1..v_titols.COUNT LOOP
+        DBMS_OUTPUT.PUT_LINE('Titol: ' || v_titols(i));
+    END LOOP;
+END;
+
+/*2. Crea un procedure nested ACTUALITZA_LLIBRE_TITOL que, donat l'ID d'un llibre i un VARCHAR2, 
+actualitzi el títol del llibre que té l'ID indicat al varchar2 passat.
+Si el llibre no existeix, el procediment ha de mostrar al DBMS_OUTPUT un missatge indicant que no hi
+ha cap llibre amb l'ID passat. OBLIGATORI mostrar el missatge utilitzant control d'errors (excepció
+NO_DATA_FOUND).
 */
+DECLARE
+    v_aux NUMBER;
+    PROCEDURE ACTUALITZA_LLIBRE_TITOL(v_id_libro NUMBER, v_nuevo_titulo VARCHAR2) 
+    IS
+    BEGIN
+    SELECT L.ID INTO v_aux FROM LLIBRE L WHERE L.ID = v_id_libro;
+    UPDATE LLIBRE L SET titol = v_nuevo_titulo WHERE L.ID = v_id_libro;
+    DBMS_OUTPUT.PUT_LINE('EL TITULO DEL LIBRO ESTA ACTUALIZADP');
 
---SUBPROGRAMES I COL·LECCIONS
-/*1. Crea una funció NESTED que retorni, dins una nested table de (records de) LLIBRE, 
-els llibres amb un nombre d'exemplars igual o inferior al passat per paràmetre.
-Crida aquesta funció dins el bloc anònim i utilitza un FOR per mostrar el títol
-dels llibres que hagi retornat la funció.*/
+    EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('ERROR, EL LIBRO ' || v_id_libro || ' NO EXISTE');
+    END;
+
+BEGIN
+    ACTUALITZA_LLIBRE_TITOL(12, 'Primer Libro Harry Potter');
+    ACTUALITZA_LLIBRE_TITOL(52, 'La biblia 2');
+END;
+
+SELECT TITOL FROM LLIBRE WHERE ID=12;
+
+/*3. Defineix una excepció nova LLIBRE_ID_DESCONEGUT i modifica el procedure anterior perquè, en lloc de
+mostrar un missatge al DBMS_OUTPUT quan el llibre no existeix, aixequi l'excepció LLIBRE_ID_DESCONEGUT.
+Crida la funció des del bloc anònim utilitzant l'ID d'un llibre inexistent i mostra un missatge al
+DBMS_OUTPUT quan ocorri l'excepció que has declarat anteriorment.
+.*/
+
+DECLARE
+    v_aux NUMBER;
+    LLIBRE_ID_DESCONEGUT EXCEPTION; 
+
+    PROCEDURE ACTUALITZA_LLIBRE_TITOL(v_id_libro NUMBER, v_nuevo_titulo VARCHAR2) 
+    IS
+    BEGIN
+        SELECT L.ID INTO v_aux FROM LLIBRE L WHERE L.ID = v_id_libro;
+        UPDATE LLIBRE L SET titol = v_nuevo_titulo WHERE L.ID = v_id_libro;
+        DBMS_OUTPUT.PUT_LINE('EL TITULO DEL LIBRO ESTA ACTUALIZADO');
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            RAISE LLIBRE_ID_DESCONEGUT;
+    END;
+
+BEGIN
+    ACTUALITZA_LLIBRE_TITOL(52, 'La biblia 2');
+    EXCEPTION
+        WHEN LLIBRE_ID_DESCONEGUT THEN
+            DBMS_OUTPUT.PUT_LINE('ERROR, EL LIBRO NO EXISTE, NO TE INVENTES LIBROS PORFA');
+END;
 
 
-/*2. Converteix la funció anterior a un procediment, que fiqui els llibres amb un
-nombre d'exemplars igual o inferior al del paràmetre dins un paràmetre OUT.
-Crida aquest procediment dins el bloc anònim i utilitza un FOR per mostrar el títol
-dels llibres que el procediment hagi guardat dins el paràmetre OUT./*
+
+
