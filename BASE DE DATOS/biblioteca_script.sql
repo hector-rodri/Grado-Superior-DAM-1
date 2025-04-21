@@ -444,4 +444,162 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('Total exemplars: ' || v_total_exemplars);
 END;
 
+/*2. Declara una funció que agafi com a paràmetre una col·lecció de noms d'autor i retorni
+un col·lecció d'un tipus record propi amb l'ID de l'autor, el nombre de llibres registrats que ha escrit,
+i el nombre d'exemplars guardats en base de dades dels llibres d'aquest autor.
+Executa la funció i mostra el contingut dels records que retorna.
+Si un autor no existeix la funció ha de seguir i retornar la informació de la resta.
+EXEMPLE:
+Autors: Federico, Manuel
+    ID	LLIBRES	EXEMPLARS
+1: 	1	5		39
+2: 	2	5		19
+*/
 
+CREATE OR REPLACE TYPE t_autor_info IS RECORD (
+    id_autor NUMBER,
+    num_llibres NUMBER,
+    num_exemplars NUMBER
+);
+/
+CREATE OR REPLACE TYPE t_autor_info_table IS TABLE OF t_autor_info;
+/
+CREATE OR REPLACE FUNCTION GET_AUTOR_INFO(v_autors t_generes)
+RETURN t_autor_info_table
+IS
+    v_autor_info t_autor_info_table := t_autor_info_table();
+    v_record t_autor_info;
+BEGIN
+    FOR i IN 1..v_autors.COUNT LOOP
+        BEGIN
+            SELECT A.ID, COUNT(L.ID), SUM(L.EXEMPLARS)
+            INTO v_record.id_autor, v_record.num_llibres, v_record.num_exemplars
+            FROM AUTOR A
+            LEFT JOIN AUTOR_LLIBRE AL ON A.ID = AL.ID_AUTOR
+            LEFT JOIN LLIBRE L ON AL.ID_LLIBRE = L.ID
+            WHERE A.NOM = v_autors(i)
+            GROUP BY A.ID;
+
+            v_autor_info.EXTEND;
+            v_autor_info(v_autor_info.COUNT) := v_record;
+        EXCEPTION
+            WHEN NO_DATA_FOUND THEN
+                NULL; 
+        END;
+    END LOOP;
+
+    RETURN v_autor_info;
+END;
+/
+DECLARE
+    v_autors t_generes := t_generes('Federico', 'Manuel');
+    v_autor_info t_autor_info_table;
+BEGIN
+    v_autor_info := GET_AUTOR_INFO(v_autors);
+
+    DBMS_OUTPUT.PUT_LINE('Autors: ' || v_autors(1) || ', ' || v_autors(2));
+    DBMS_OUTPUT.PUT_LINE('ID' || CHR(9) || 'LLIBRES' || CHR(9) || 'EXEMPLARS');
+    FOR i IN 1..v_autor_info.COUNT LOOP
+        DBMS_OUTPUT.PUT_LINE(v_autor_info(i).id_autor || CHR(9) || v_autor_info(i).num_llibres || CHR(9) || v_autor_info(i).num_exemplars);
+    END LOOP;
+END;
+/
+
+
+
+--1
+DECLARE
+  -- Declaració del tipus de nested table
+  TYPE ProductIDTable IS TABLE OF PRODUCTS.PRODUCT_ID%TYPE;
+
+  -- Funció per calcular el preu total
+  FUNCTION total_price(p_ids ProductIDTable) RETURN NUMBER IS
+    v_total NUMBER := 0;
+    v_price PRODUCTS.LIST_PRICE%TYPE;
+    
+    -- Excepció personalitzada
+    PRODUCT_NOT_FOUND EXCEPTION;
+  BEGIN
+    FOR i IN 1 .. p_ids.COUNT LOOP
+      BEGIN
+        SELECT LIST_PRICE INTO v_price
+        FROM PRODUCTS
+        WHERE PRODUCT_ID = p_ids(i);
+        v_total := v_total + v_price;
+      EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+          RAISE PRODUCT_NOT_FOUND;
+      END;
+    END LOOP;
+    
+    RETURN v_total;
+  EXCEPTION
+    WHEN PRODUCT_NOT_FOUND THEN
+      DBMS_OUTPUT.PUT_LINE('ERROR: Producte no trobat!');
+      RETURN -1;
+  END;
+
+  -- Declaració de la nested table amb alguns IDs
+  v_ids ProductIDTable := ProductIDTable(1, 2, 3);
+  v_result NUMBER;
+BEGIN
+  v_result := total_price(v_ids);
+  DBMS_OUTPUT.PUT_LINE('Preu total: ' || v_result);
+END;
+
+
+
+--2
+
+DECLARE
+  -- Tipus per guardar un registre sencer de la taula PRODUCTS
+  TYPE ProductRec IS RECORD (
+    product_id     PRODUCTS.PRODUCT_ID%TYPE,
+    product_name   PRODUCTS.PRODUCT_NAME%TYPE,
+    category_id    PRODUCTS.CATEGORY_ID%TYPE,
+    list_price     PRODUCTS.LIST_PRICE%TYPE
+  );
+
+  -- Tipus de nested table de registres
+  TYPE ProductTable IS TABLE OF ProductRec;
+
+  -- Funció que retorna els productes d'una categoria
+  FUNCTION get_products_by_category(p_cat_id NUMBER) RETURN ProductTable IS
+    v_products ProductTable;
+  BEGIN
+    SELECT PRODUCT_ID, PRODUCT_NAME, CATEGORY_ID, LIST_PRICE
+    BULK COLLECT INTO v_products
+    FROM PRODUCTS
+    WHERE CATEGORY_ID = p_cat_id;
+    RETURN v_products;
+  END;
+
+  v_result ProductTable;
+BEGIN
+  v_result := get_products_by_category(2);
+  FOR i IN 1 .. v_result.COUNT LOOP
+    DBMS_OUTPUT.PUT_LINE('Producte: ' || v_result(i).product_name);
+  END LOOP;
+END;
+
+--3
+
+CREATE OR REPLACE PROCEDURE update_product_price(
+  p_product_id IN PRODUCTS.PRODUCT_ID%TYPE,
+  p_new_price  IN PRODUCTS.LIST_PRICE%TYPE
+) IS
+BEGIN
+  IF p_new_price <= 0 OR p_new_price >= 10000 THEN
+    DBMS_OUTPUT.PUT_LINE('Preu invàlid');
+  ELSE
+    UPDATE PRODUCTS
+    SET LIST_PRICE = p_new_price
+    WHERE PRODUCT_ID = p_product_id;
+
+    IF SQL%ROWCOUNT = 0 THEN
+      DBMS_OUTPUT.PUT_LINE('No s''ha trobat el producte');
+    ELSE
+      DBMS_OUTPUT.PUT_LINE('Preu actualitzat correctament');
+    END IF;
+  END IF;
+END;
