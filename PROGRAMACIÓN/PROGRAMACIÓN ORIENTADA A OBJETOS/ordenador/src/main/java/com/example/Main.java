@@ -17,7 +17,7 @@ public class Main {
         programario oracle = new programario("s3","last-version",40,0.3);
         soHector.instalarProgramario(pcHector, java);
         soHector.instalarProgramario(pcHector, python);
-        soHector.instalarProgramario(pcHector, oracle);
+        soHector.instalarProgramario(pcHector, oracle);//Este no se instala
 
         soHector.desinstalarProgramario(pcHector, python);//Desinstalación s2
         pcHector.formatearOrdenador();//Formateo

@@ -45,10 +45,10 @@ public class ordenador {
         this.sistemaOperativo = sistemaOperativoIntro;
     }
 
-    public boolean instalacionSistemaOperativo(so sistemaOperativo) {
+    public boolean instalacionSistemaOperativo(so sistemaOperativo) {//Método que instala un so
 
         if (sistemaOperativo.getespacioRequeridoSo() < hddOrdenador
-                && sistemaOperativo.getmemRamRequeridaSo() < memoriaRamOrdenador) {
+                && sistemaOperativo.getmemRamRequeridaSo() < memoriaRamOrdenador) {//Si el ordenador tiene lo necesario para la instalación le quita el espacio requerido por el so
             hddOrdenador = hddOrdenador - sistemaOperativo.getespacioRequeridoSo();
             memoriaRamOrdenador = memoriaRamOrdenador - sistemaOperativo.getmemRamRequeridaSo();
             this.sistemaOperativo = sistemaOperativo;
@@ -59,17 +59,17 @@ public class ordenador {
         }
     }
 
-    public void formatearOrdenador() {
+    public void formatearOrdenador() {//Formatea el ordenador usando el método desinstalarTodosLosProgramas y uso el método actualizar recursos para desinstalar el so
         sistemaOperativo.desinstalarTodosLosProgramas(this);
         actualizarRecursos(sistemaOperativo.getespacioRequeridoSo(), sistemaOperativo.getmemRamRequeridaSo());
     }
 
-    public void actualizarRecursos(double hdd, double ram) {
+    public void actualizarRecursos(double hdd, double ram) {//Actualiza el hdd y la ram
         hddOrdenador += hdd;
         memoriaRamOrdenador += ram;
     }
 
-    public void infoOrdenador() {
+    public void infoOrdenador() {//Muestra la info del pc
         System.out.println("El pc " + nombreOrdenador + " tiene disponible:");
         System.out.println("RAM: " + memoriaRamOrdenador);
         System.out.println("HDD: " + hddOrdenador);

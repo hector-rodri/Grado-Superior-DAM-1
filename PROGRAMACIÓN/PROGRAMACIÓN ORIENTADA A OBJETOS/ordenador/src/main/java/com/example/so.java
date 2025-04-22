@@ -71,8 +71,8 @@ public class so {
         this.memRamRequeridaSo = memRamRequeridaSoIntro;
     }
 
-    public boolean instalarProgramario(ordenador pc, programario program) {
-        if (pc.getHddOrdenador() > program.getEspacioProgramario() && pc.getMemoriaRamOrdenador() > program.getMemRamProgramario()) {
+    public boolean instalarProgramario(ordenador pc, programario program) {//Método que instala un programa
+        if (pc.getHddOrdenador() > program.getEspacioProgramario() && pc.getMemoriaRamOrdenador() > program.getMemRamProgramario()) {//Si el espacio del hdd y la ram es suficiente, añade el programa al arraylist y le quita el espacio requerido al pc
             listaProgramario.add(program);
             pc.actualizarRecursos(-program.getEspacioProgramario(), -program.getMemRamProgramario());
             System.out.println("Programa instalado con éxito "+ program.getNombreProgramario());
@@ -84,8 +84,8 @@ public class so {
 
     }
 
-    public boolean desinstalarProgramario(ordenador pc, programario program) {
-        if (listaProgramario.contains(program)) {
+    public boolean desinstalarProgramario(ordenador pc, programario program) {//Método que desisntala un programa en especifico
+        if (listaProgramario.contains(program)) {//Si el programa está en el arraylist lo borra y le devuelve el espacio ocupado al pc
             listaProgramario.remove(program);
             pc.actualizarRecursos(program.getEspacioProgramario(), program.getMemRamProgramario());
             System.out.println("Programa desinstalado correctamente " + program.getNombreProgramario());
@@ -97,19 +97,19 @@ public class so {
     }
     
 
-    public void desinstalarTodosLosProgramas(ordenador pc) {
-        for (programario p : listaProgramario) {
+    public void desinstalarTodosLosProgramas(ordenador pc) {//Método que desinstala todos los programas
+        for (programario p : listaProgramario) {//Itera sobr el arraylist con un bucle for, mostrando el nombre de los programas desinstalados y devuelve el espacio que ocupaba al pc
             pc.actualizarRecursos(p.getEspacioProgramario(), p.getMemRamProgramario());
             System.out.println("Desinstalado: " + p.getNombreProgramario());
         }
-        listaProgramario.clear();
+        listaProgramario.clear();//Borra todos los programas del arraylist
         System.out.println("Todos los programas están desinstalados");
     }
     
-    public void mostrarProgramasInstalados() {
-        if (listaProgramario.isEmpty()) {
+    public void mostrarProgramasInstalados() {//Método que muestra todos los programas instalados
+        if (listaProgramario.isEmpty()) {//Si el arraylist está vacío
             System.out.println("No hay programas instalados");
-        } else {
+        } else {//Si contiene programas muestra su nombre, uno por uno iterando con un bucle for sobre el arraylist
             System.out.println("Programas instalados en el sistema operativo:");
             for (programario p : listaProgramario) {
                 System.out.println(p.getNombreProgramario());
