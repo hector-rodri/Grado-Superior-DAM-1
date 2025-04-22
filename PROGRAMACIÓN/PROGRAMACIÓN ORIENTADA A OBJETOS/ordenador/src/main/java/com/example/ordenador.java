@@ -47,10 +47,12 @@ public class ordenador {
 
     public boolean instalacionSistemaOperativo(so sistemaOperativo) {
 
-        if (sistemaOperativo.getespacioRequeridoSo() > hddOrdenador
-                && sistemaOperativo.getmemRamRequeridaSo() > memoriaRamOrdenador) {
+        if (sistemaOperativo.getespacioRequeridoSo() < hddOrdenador
+                && sistemaOperativo.getmemRamRequeridaSo() < memoriaRamOrdenador) {
             hddOrdenador = hddOrdenador - sistemaOperativo.getespacioRequeridoSo();
             memoriaRamOrdenador = memoriaRamOrdenador - sistemaOperativo.getmemRamRequeridaSo();
+            this.sistemaOperativo = sistemaOperativo;
+            System.out.println("Sistema operativo "+ sistemaOperativo.getNombreSo()+" instalado");
             return true;
         } else {
             return false;

@@ -75,10 +75,10 @@ public class so {
         if (pc.getHddOrdenador() > program.getEspacioProgramario() && pc.getMemoriaRamOrdenador() > program.getMemRamProgramario()) {
             listaProgramario.add(program);
             pc.actualizarRecursos(-program.getEspacioProgramario(), -program.getMemRamProgramario());
-            System.out.println("Programa instalado con éxito");
+            System.out.println("Programa instalado con éxito "+ program.getNombreProgramario());
             return true;
         } else {
-            System.out.println("No hay suficiente espacio para instalar el programa");
+            System.out.println("No hay suficiente espacio para instalar el programa "+program.getNombreProgramario());
             return false;
         }
 
@@ -88,7 +88,7 @@ public class so {
         if (listaProgramario.contains(program)) {
             listaProgramario.remove(program);
             pc.actualizarRecursos(program.getEspacioProgramario(), program.getMemRamProgramario());
-            System.out.println("Programa desinstalado correctamente: " + program.getNombreProgramario());
+            System.out.println("Programa desinstalado correctamente " + program.getNombreProgramario());
             return true;
         } else {
             System.out.println("El programa no está instalado");
