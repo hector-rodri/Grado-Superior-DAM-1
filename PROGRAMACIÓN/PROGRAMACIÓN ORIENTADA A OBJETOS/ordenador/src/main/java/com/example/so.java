@@ -84,4 +84,37 @@ public class so {
 
     }
 
+    public boolean desinstalarProgramario(ordenador pc, programario program) {
+        if (listaProgramario.contains(program)) {
+            listaProgramario.remove(program);
+            pc.actualizarRecursos(program.getEspacioProgramario(), program.getMemRamProgramario());
+            System.out.println("Programa desinstalado correctamente: " + program.getNombreProgramario());
+            return true;
+        } else {
+            System.out.println("El programa no está instalado");
+            return false;
+        }
+    }
+    
+
+    public void desinstalarTodosLosProgramas(ordenador pc) {
+        for (programario p : listaProgramario) {
+            pc.actualizarRecursos(p.getEspacioProgramario(), p.getMemRamProgramario());
+            System.out.println("Desinstalado: " + p.getNombreProgramario());
+        }
+        listaProgramario.clear();
+        System.out.println("Todos los programas están desinstalados");
+    }
+    
+    public void mostrarProgramasInstalados() {
+        if (listaProgramario.isEmpty()) {
+            System.out.println("No hay programas instalados");
+        } else {
+            System.out.println("Programas instalados en el sistema operativo:");
+            for (programario p : listaProgramario) {
+                System.out.println(p.getNombreProgramario());
+            }
+        }
+    }
+
 }

@@ -47,7 +47,8 @@ public class ordenador {
 
     public boolean instalacionSistemaOperativo(so sistemaOperativo) {
 
-        if (sistemaOperativo.getespacioRequeridoSo() > hddOrdenador && sistemaOperativo.getmemRamRequeridaSo() > memoriaRamOrdenador) {
+        if (sistemaOperativo.getespacioRequeridoSo() > hddOrdenador
+                && sistemaOperativo.getmemRamRequeridaSo() > memoriaRamOrdenador) {
             hddOrdenador = hddOrdenador - sistemaOperativo.getespacioRequeridoSo();
             memoriaRamOrdenador = memoriaRamOrdenador - sistemaOperativo.getmemRamRequeridaSo();
             return true;
@@ -56,14 +57,19 @@ public class ordenador {
         }
     }
 
+    public void formatearOrdenador() {
+        sistemaOperativo.desinstalarTodosLosProgramas(this);
+        actualizarRecursos(sistemaOperativo.getespacioRequeridoSo(), sistemaOperativo.getmemRamRequeridaSo());
+    }
+
     public void actualizarRecursos(double hdd, double ram) {
         hddOrdenador += hdd;
         memoriaRamOrdenador += ram;
     }
 
-    public void infoOrdenador(){
-        System.out.println("El pc "+ nombreOrdenador+" tiene disponible:");
-        System.out.println("RAM: "+ memoriaRamOrdenador);
-        System.out.println("HDD: "+ hddOrdenador);
+    public void infoOrdenador() {
+        System.out.println("El pc " + nombreOrdenador + " tiene disponible:");
+        System.out.println("RAM: " + memoriaRamOrdenador);
+        System.out.println("HDD: " + hddOrdenador);
     }
 }
