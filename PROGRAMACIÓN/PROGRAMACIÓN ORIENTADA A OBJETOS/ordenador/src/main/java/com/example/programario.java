@@ -53,5 +53,9 @@ public class programario {
         this.memRamProgramario = memRamProgramarioIntroducida;
     }
 
-    
+    public void infoProgramario() {
+        System.out.println("Nombre del programa: " + nombreProgramario);
+        System.out.println("Espacio requerido: " + espacioProgramario);
+        System.out.println("RAM requerida: " + memRamProgramario);
+    }
 }
