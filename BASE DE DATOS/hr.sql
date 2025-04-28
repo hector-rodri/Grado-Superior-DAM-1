@@ -3369,12 +3369,33 @@ EXCEPTION
 END;
 
 CREATE OR REPLACE PACKAGE order_mgmt AS
-    --TIPOS
-    TYPE products_table IS TABLE OF PRODUCTS%ROWTYPE;
-    --SUBPROGRAMES
-    FUNCTION get_status(v_order_id orders.order_id%type) return orders.status%type;
-    FUNCTION get_products_by_order_id(v_order_id orders.order_id%type) RETURN products_table;
-    
+  --TIPOS
+  TYPE products_table IS TABLE OF PRODUCTS%ROWTYPE;
+  --SUBPROGRAMES
+  FUNCTION get_status(v_order_id orders.order_id%type) RETURN orders.status%type;
+  FUNCTION get_products_by_order_id(v_order_id orders.order_id%type) RETURN products_table;
+END order_mgmt;
+
+
+CREATE OR REPLACE PACKAGE BODY order_mgmt AS
+
+  FUNCTION get_status(v_order_id orders.order_id%type) RETURN orders.status%type IS
+    v_status orders.status%type;
+  BEGIN
+    SELECT status INTO v_status FROM orders WHERE order_id = v_order_id;
+    RETURN v_status;
+  END get_status;
+
+  FUNCTION get_products_by_order_id(v_order_id orders.order_id%type) RETURN products_table IS
+    v_products products_table;
+  BEGIN
+    SELECT CAST(COLLECT(p) AS products_table)
+    INTO v_products
+    FROM products p
+    JOIN order_items oi ON p.product_id = oi.product_id
+    WHERE oi.order_id = v_order_id;
+    RETURN v_products;
+  END get_products_by_order_id;
 
 END order_mgmt;
 
