@@ -3389,13 +3389,13 @@ CREATE OR REPLACE PACKAGE BODY order_mgmt AS
   FUNCTION get_products_by_order_id(v_order_id orders.order_id%type) RETURN products_table IS
     v_products products_table;
   BEGIN
-    SELECT CAST(COLLECT(p) AS products_table)
-    INTO v_products
-    FROM products p
-    JOIN order_items oi ON p.product_id = oi.product_id
-    WHERE oi.order_id = v_order_id;
-    RETURN v_products;
+  SELECT PRODUCTS BULK COLLECT INTO v_products 
+  FROM products 
+  JOIN order_items ON order_items.product_id = products.product_id 
+  WHERE order_items.order_id = v_order_id;
+  RETURN v_products;
   END get_products_by_order_id;
-
+BEGIN
+  
 END order_mgmt;
 
