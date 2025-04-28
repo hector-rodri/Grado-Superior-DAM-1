@@ -3369,7 +3369,12 @@ EXCEPTION
 END;
 
 CREATE OR REPLACE PACKAGE order_mgmt AS
-
+    --TIPOS
+    TYPE products_table IS TABLE OF PRODUCTS%ROWTYPE;
+    --SUBPROGRAMES
+    FUNCTION get_status(v_order_id orders.order_id%type) return orders.status%type;
+    FUNCTION get_products_by_order_id(v_order_id orders.order_id%type) RETURN products_table;
+    
 
 END order_mgmt;
 
