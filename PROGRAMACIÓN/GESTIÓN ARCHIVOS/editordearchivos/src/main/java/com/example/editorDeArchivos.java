@@ -43,7 +43,12 @@ public class editorDeArchivos extends JFrame {
         JButton leer = new JButton("LEER");
         leer.addActionListener(e -> leerArchivo());
         JButton escribir = new JButton("ESCRIBIR");
-        escribir.addActionListener(e -> escribirArchivo());
+        // try {
+        //     escribir.addActionListener(e -> escribirArchivo());
+        // } catch (IOException io) {
+            
+        // }
+        
         JCheckBox implementar = new JCheckBox("AÑADIR");
         panelBotones.add(leer);
         panelBotones.add(escribir);
@@ -57,20 +62,22 @@ public class editorDeArchivos extends JFrame {
         
     }
 
-    private void escribirArchivo(){
+    private void escribirArchivo() throws IOException{
         // JOptionPane.showMessageDialog(rootPane, "EN DESARROLLO...", "Advertencia", 2);
-        // FileOutputStream fileEscribir = null;
-        // char caracter;
-        // try {
-        //     fileEscribir = new FileOutputStream("datos.txt");
-        //     for (int i = 0; i < inputUsuario; i++) {
-                
-        //     }
-        // } catch (Exception e) {
-            
-        // }
-    
-    
+        FileOutputStream fileEscribir = null;
+        char caracter;
+        String texto = inputUsuario.getText();
+        try {
+            fileEscribir = new FileOutputStream("datos.txt");
+            for (int i = 0; i < texto.length(); i++) {
+                caracter = texto.charAt(i);
+                fileEscribir.write((byte)caracter);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            fileEscribir.close();
+        }
     
     }
 
