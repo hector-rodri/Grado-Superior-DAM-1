@@ -8,6 +8,7 @@ import java.io.*;
 public class editorDeArchivos extends JFrame {
 
     private JTextField inputUsuario;
+    private JTextField escaparate;
 
     public editorDeArchivos(){
         //LOOK AND FEEL
@@ -35,7 +36,7 @@ public class editorDeArchivos extends JFrame {
         inputUsuario = new JTextField();// Creamos zonas de texto
         panelTexto.add(inputUsuario);
         //TEXTO 
-        JTextField escaparate = new JTextField();
+        escaparate = new JTextField();
         panelPrincipal.add(escaparate);
         //PANEL DE BOTONES Y CHECKBOX
         JPanel panelBotones = new JPanel();
@@ -43,11 +44,13 @@ public class editorDeArchivos extends JFrame {
         JButton leer = new JButton("LEER");
         leer.addActionListener(e -> leerArchivo());
         JButton escribir = new JButton("ESCRIBIR");
-        // try {
-        //     escribir.addActionListener(e -> escribirArchivo());
-        // } catch (IOException io) {
-            
-        // }
+        escribir.addActionListener(e -> {
+            try {
+                escribirArchivo();
+            } catch (IOException io) {
+                io.printStackTrace();
+            }
+        });
         
         JCheckBox implementar = new JCheckBox("AÑADIR");
         panelBotones.add(leer);
@@ -58,17 +61,17 @@ public class editorDeArchivos extends JFrame {
     }
 
     public static void main(String[] args) {
-        editorDeArchivos miEditor = new editorDeArchivos();
+        new editorDeArchivos();//Creamos una nueva ventana
         
     }
 
     private void escribirArchivo() throws IOException{
-        // JOptionPane.showMessageDialog(rootPane, "EN DESARROLLO...", "Advertencia", 2);
         FileOutputStream fileEscribir = null;
         char caracter;
-        String texto = inputUsuario.getText();
+        String nombreArchivo = inputUsuario.getText();
+        String texto = escaparate.getText();
         try {
-            fileEscribir = new FileOutputStream("datos.txt");
+            fileEscribir = new FileOutputStream(nombreArchivo);
             for (int i = 0; i < texto.length(); i++) {
                 caracter = texto.charAt(i);
                 fileEscribir.write((byte)caracter);
@@ -85,11 +88,3 @@ public class editorDeArchivos extends JFrame {
         JOptionPane.showMessageDialog(rootPane, "EN DESARROLLO...", "Advertencia", 2);  
     }  
 }
-
-
-
-
-    
-
-    
-    
