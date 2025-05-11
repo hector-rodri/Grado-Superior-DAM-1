@@ -80,7 +80,7 @@ public class editorDeArchivos extends JFrame {
         }
 
         if (nombreArchivo.isEmpty() || texto.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor ingrese un nombre de archivo y contenido", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Por favor escribe un nombre de archivo y el texto que deseas escribir", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -91,6 +91,7 @@ public class editorDeArchivos extends JFrame {
                 fileEscribir.write((byte)caracter);
             }
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al escribir el archivo", "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }finally{
             fileEscribir.close();
@@ -103,6 +104,11 @@ public class editorDeArchivos extends JFrame {
         String texto = "";
         char caracter;
 
+        if (nombreArchivo.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor escribe un nombre de archivo", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         try {
             file = new FileInputStream(nombreArchivo);
             int tamano = file.available();
@@ -111,8 +117,8 @@ public class editorDeArchivos extends JFrame {
                 texto += caracter;
             }
             escaparate.setText(texto);
-
         } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error al leer el archivo", "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         } finally {
             file.close();
