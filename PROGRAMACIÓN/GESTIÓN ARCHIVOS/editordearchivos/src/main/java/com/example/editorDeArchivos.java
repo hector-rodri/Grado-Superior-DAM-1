@@ -9,6 +9,7 @@ public class editorDeArchivos extends JFrame {
 
     private JTextField inputUsuario;
     private JTextField escaparate;
+    private JCheckBox implementar;
 
     public editorDeArchivos(){
         //LOOK AND FEEL
@@ -52,7 +53,7 @@ public class editorDeArchivos extends JFrame {
             }
         });
         
-        JCheckBox implementar = new JCheckBox("AÑADIR");
+        implementar = new JCheckBox("AÑADIR");
         panelBotones.add(leer);
         panelBotones.add(escribir);
         panelBotones.add(implementar);
@@ -70,8 +71,19 @@ public class editorDeArchivos extends JFrame {
         char caracter;
         String nombreArchivo = inputUsuario.getText();
         String texto = escaparate.getText();
+        Boolean masTexto = false;
+
+        if (implementar.isSelected()){
+            masTexto = true;
+        }
+
+        if (nombreArchivo.isEmpty() || texto.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor ingrese un nombre de archivo y contenido", "Error", 2);
+            return;
+        }
+
         try {
-            fileEscribir = new FileOutputStream(nombreArchivo);
+            fileEscribir = new FileOutputStream(nombreArchivo,masTexto);
             for (int i = 0; i < texto.length(); i++) {
                 caracter = texto.charAt(i);
                 fileEscribir.write((byte)caracter);
