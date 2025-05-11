@@ -68,29 +68,29 @@ public class editorDeArchivos extends JFrame {
         new editorDeArchivos();//Creamos una nueva ventana de editor de archivos
     }
 
-    private void escribirArchivo() throws IOException{
-        FileOutputStream fileEscribir = null;
-        char caracter;
-        String nombreArchivo = archivoUsuario.getText();
-        String texto = escaparate.getText();
-        Boolean masTexto = false;
+    private void escribirArchivo() throws IOException{//Método para escribir en el archivo
+        FileOutputStream fileEscribir = null;//Creamos un FileOutputStream para escribir el archivo
+        char caracter;//caracter para guardar el texto
+        String nombreArchivo = archivoUsuario.getText();//Nombre del archivo
+        String texto = escaparate.getText();//Texto que se va a escribir en el archivo
+        Boolean masTexto = false;//Variable para saber si se va a añadir texto o no
 
-        if (implementar.isSelected()){
+        if (implementar.isSelected()){//Si el checkbox está seleccionado, se añade texto al archivo
             masTexto = true;
         }
 
-        if (nombreArchivo.isEmpty() || texto.isEmpty()) {
+        if (nombreArchivo.isEmpty() || texto.isEmpty()) {//Si el nombre del archivo o el texto están vacíos, se muestra un mensaje de error
             JOptionPane.showMessageDialog(this, "Por favor escribe un nombre de archivo y el texto que deseas escribir", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
-            fileEscribir = new FileOutputStream(nombreArchivo,masTexto);
-            for (int i = 0; i < texto.length(); i++) {
-                caracter = texto.charAt(i);
-                fileEscribir.write((byte)caracter);
+            fileEscribir = new FileOutputStream(nombreArchivo,masTexto);//Creamos un FileOutputStream para escribir el archivo
+            for (int i = 0; i < texto.length(); i++) {//Recorremos el texto
+                caracter = texto.charAt(i);//El caracter se guarda en una variable
+                fileEscribir.write((byte)caracter);//Escribimos el caracter en el archivo
             }
-        } catch (Exception e) {
+        } catch (Exception e) {//Si hay un error al escribir el archivo, se muestra un mensaje de error
             JOptionPane.showMessageDialog(this, "Error al escribir el archivo", "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }finally{
@@ -98,26 +98,26 @@ public class editorDeArchivos extends JFrame {
         }
     }
 
-    private void leerArchivo() throws IOException{
-        FileInputStream file = null;
-        String nombreArchivo = archivoUsuario.getText();
-        String texto = "";
-        char caracter;
+    private void leerArchivo() throws IOException{//Método para leer el archivo
+        FileInputStream file = null;//Creamos un FileInputStream para leer el archivo
+        String nombreArchivo = archivoUsuario.getText();//Nombre del archivo
+        String texto = "";//Guardamos un texto vacío que nos servirá para guardar el texto del archivo
+        char caracter;//Caracter para guardar el texto
 
-        if (nombreArchivo.isEmpty()) {
+        if (nombreArchivo.isEmpty()) {//Si el nombre del archivo está vacío, se muestra un mensaje de error
             JOptionPane.showMessageDialog(this, "Por favor escribe un nombre de archivo", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
-            file = new FileInputStream(nombreArchivo);
-            int tamano = file.available();
-            for (int i = 0; i < tamano; i++) {
-                caracter = (char) file.read();
-                texto += caracter;
+            file = new FileInputStream(nombreArchivo);//Creamos un FileInputStream para leer el archivo
+            int tamano = file.available();//Guardamos el tamaño del archivo en una variable
+            for (int i = 0; i < tamano; i++) {//Recorremos el archivo
+                caracter = (char) file.read();//Leemos el caracter del archivo
+                texto += caracter;//Guardamos el caracter en la variable texto
             }
-            escaparate.setText(texto);
-        } catch (IOException e) {
+            escaparate.setText(texto);//Escribimos el texto en el JTextArea
+        } catch (IOException e) {//Si hay un error al leer el archivo, se muestra un mensaje de error
             JOptionPane.showMessageDialog(this, "Error al leer el archivo", "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         } finally {
