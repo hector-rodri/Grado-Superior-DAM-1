@@ -95,3 +95,25 @@ INSERT INTO LLIBRE_GENERE SELECT id_llibre, 'Misteri' FROM AUTOR_LLIBRE WHERE id
 DELETE FROM LLIBRE_GENERE WHERE id_llibre = (SELECT ID FROM LLIBRE WHERE TITOL = 'Totes les bèsties de càrrega');
 DELETE FROM LLIBRE_GENERE WHERE id_llibre = (SELECT ID FROM LLIBRE WHERE TITOL = 'Harry Potter i el calze de foc');
 DELETE FROM LLIBRE_GENERE WHERE id_llibre = (SELECT ID FROM LLIBRE WHERE TITOL = 'Bellas durmientes');
+
+CREATE OR REPLACE PACKAGE LLIBRES_API AS
+
+    --FALTAN EXCEPTIONS
+
+    TYPE nested_llibres IS TABLE OF LLIBRE%ROWTYPE;
+
+    PROCEDURE alta_llibre(
+        v_titol in LLIBRE.titol%TYPE,
+        v_any in LLIBRE.an%TYPE,
+        v_exemplars in LLIBRE.exemplars%TYPE,
+        v_id_editorial in LLIBRE.id_editorial%TYPE,
+        v_id_sequela_de in LLIBRE.id_sequela_de%TYPE DEFAULT NULL
+    );
+
+    FUNCTION get_llibre_by_id(v_id in LLIBRE.id%TYPE) RETURN LLIBRE%ROWTYPE;
+
+    FUNCTION get_llibres_by_genere(v_genere in GENERE.nom%TYPE) RETURN nested_llibres;
+    
+    FUNCTION search_by_titol(v_text_usuari in VARCHAR2) RETURN nested_llibres;
+
+END LLIBRES_API;
