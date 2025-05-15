@@ -1,110 +1,135 @@
-let xmlDisponibilitat;
-let jsonVols;
-let xmlHotels;
+let xmlDisponibilitat;  
+let jsonDisponibilitat; 
+let mostrar = false;
 
 async function cercarDisponibilitat(event) {
-
-    let origen = document.getElementById("origen").value.trim();
-    let desti = document.getElementById("desti").value.trim();
-    let adults = document.getElementById("adults").value.trim();
-    let infants = document.getElementById("infants").value.trim();
-    let dataInici = document.getElementById("dataInici").value.trim();
-    let dataFi = document.getElementById("dataFi").value.trim();
+    //LIMPIEZA
+    document.getElementById("disponibilitat").textContent = "";
+    document.getElementById("resultatsHotels").textContent = "";
+    document.getElementById("resultatsVols").textContent = "";
+    document.getElementById("conversio").textContent = "";
+    mostrar = false;
+    jsonDisponibilitat = null;
+    xmlDisponibilitat = null;
+    //VALIDACIONES
+    let origen = document.getElementById("origen").value;
+    let desti = document.getElementById("desti").value;
+    let adults = document.getElementById("adults").value;
+    let infants = document.getElementById("infants").value;
+    let dataInici = document.getElementById("dataInici").value;
+    let dataFi = document.getElementById("dataFi").value;
 
     if (!origen || !desti || !adults || !infants || !dataInici || !dataFi) {
-        alert("Tots els camps són obligatoris");
+        alert("Ningún campo puede estar vacío");
         event.preventDefault();
         return;
     }
+    //CREACIÓN XML
+    const xmlString = `
+  <disponibilitat>
+    <origen>${origen}</origen>
+    <desti>${desti}</desti>
+    <adults>${adults}</adults>
+    <infants>${infants}</infants>
+    <dataInici>${dataInici}</dataInici>
+    <dataFi>${dataFi}</dataFi>
+  </disponibilitat>
+  `.trim();
 
-    const xmlString = `<disponibilitat>
-  <origen>${origen}</origen>
-  <desti>${desti}</desti>
-  <adults>${adults}</adults>
-  <infants>${infants}</infants>
-  <dataInici>${dataInici}</dataInici>
-  <dataFi>${dataFi}</dataFi></disponibilitat>`.trim();
-
-    document.getElementById("disponibilitat").textContent = formatXML(xmlString);
+    document.getElementById("disponibilitat").textContent = xmlString;
     const parser = new DOMParser();
     xmlDisponibilitat = parser.parseFromString(xmlString, "application/xml");
-
+    //LLAMADA A LAS FUNCIONES PARA BÚSQUEDA DE HOTELES Y VUELOS
     try {
-
         const respostaHotels = await fetch("hotels.xml");
         if (!respostaHotels.ok) throw new Error("No s'ha pogut carregar hotels.xml");
         const textHotels = await respostaHotels.text();
-        xmlHotels = parser.parseFromString(textHotels, "application/xml");
-
-        mostrarHotelsDesti(desti);
+        const parser = new DOMParser();
+        const xmlHotels = parser.parseFromString(textHotels, "application/xml");
+        mostrarHotelsDesti(desti, xmlHotels);
 
         const respostaVols = await fetch("vols.json");
         if (!respostaVols.ok) throw new Error("No s'ha pogut carregar vols.json");
-        jsonVols = await respostaVols.json();
-
-        mostrarVolsOrigenDesti(origen, desti);
-
+        const jsonVols = await respostaVols.json();
+        mostrarVolsOrigenDesti(origen, desti, jsonVols);
     } catch (error) {
-        alert("Error en carregar fitxers: " + error.message);
+        alert(error.message);
     }
 }
 
-// Funció per formatar XML per mostrar (amb indentació)
-function formatXML(xml) {
-    // Senzill formatador d'indentació (per mostrar)
-    let formatted = '';
-    const reg = /(>)(<)(\/*)/g;
-    xml = xml.replace(reg, '$1\n$2$3');
-    let pad = 0;
-    xml.split('\n').forEach(function(node) {
-        let indent = 0;
-        if (node.match(/.+<\/\w[^>]*>$/)) indent = 0;
-        else if (node.match(/^<\/\w/)) pad -= 1;
-        else if (node.match(/^<\w([^>]*[^/])?>.*$/)) indent = 1;
-        else indent = 0;
+function convertir() {
+    const convertido = document.getElementById("conversio");
 
-        formatted += '  '.repeat(pad) + node + '\n';
-        pad += indent;
-    });
-    return formatted.trim();
+    if (!xmlDisponibilitat) {
+        convertido.textContent = "El fitxer no existeix";
+        return;
+    }
+
+    if (!mostrar) {
+        jsonDisponibilitat = convertirXMLaJSON(xmlDisponibilitat);
+        convertido.textContent = JSON.stringify(jsonDisponibilitat, null, 2);
+        mostrar = true;
+    } else {
+        const xmlReconvertit = convertirJSONaXML(jsonDisponibilitat);
+        convertido.textContent = xmlReconvertit;
+        mostrar = false;
+    }
 }
 
-// Mostrar hotels que coincideixin amb el destí
-function mostrarHotelsDesti(desti) {
+function convertirXMLaJSON(xml) {
+    let obj = {};
+    const nodes = xml.documentElement ? xml.documentElement.children : xml.children;
+    for (let node of nodes) {
+        obj[node.nodeName] = node.textContent;
+    }
+    return obj;
+}
+
+function convertirJSONaXML(json) {
+    let xml = "";
+    for (let key in json) {
+        xml += `<${key}>${json[key]}</${key}>\n`;
+    }
+    return xml;
+}
+function mostrarHotelsDesti(desti, xmlHotels) {
     const hotels = xmlHotels.getElementsByTagName("hotel");
     let resultats = [];
 
-    for (let hotel of hotels) {
-        const destiHotel = hotel.getElementsByTagName("desti")[0]?.textContent.trim();
-        if (destiHotel && destiHotel.toLowerCase() === desti.toLowerCase()) {
-            const nomHotel = hotel.getElementsByTagName("nom")[0]?.textContent || "Sense nom";
-            resultats.push(`Nom: ${nomHotel}`);
+    //Recorre cada hotel y mira si el destino coincide
+    for (let i = 0; i < hotels.length; i++) {
+        let hotel = hotels[i];
+        let destiHotel = hotel.getElementsByTagName("desti")[0];
+        if (destiHotel && destiHotel.textContent.trim().toLowerCase() === desti.toLowerCase()) {
+            let nomHotel = hotel.getElementsByTagName("nom")[0];
+            if (nomHotel) {
+                resultats.push("Nom: " + nomHotel.textContent);
+            }
         }
     }
-
-    const contenidor = document.getElementById("resultatsHotels");
+    //Muestra los resultad
+    let contenidor = document.getElementById("resultatsHotels");
     if (resultats.length > 0) {
-        contenidor.innerHTML = "<b>Hotels disponibles a " + desti + ":</b><br>" + resultats.join("<br>");
+        contenidor.innerHTML = "Hotels disponibles a " + desti + ":<br>" + resultats.join("<br>");
     } else {
-        contenidor.textContent = "No s'han trobat hotels al destí indicat.";
+        contenidor.textContent = "No s'han trobat hotels al destí indicat";
     }
 }
 
-// Mostrar vols que coincideixin amb origen i destí
-function mostrarVolsOrigenDesti(origen, desti) {
+function mostrarVolsOrigenDesti(origen, desti, jsonVols) {
     let resultats = [];
-
-    for (let vol of jsonVols) {
+    //Recorre cada vuelo y mira si origen y destino coinciden
+    for (let i = 0; i < jsonVols.length; i++) {
+        let vol = jsonVols[i];
         if (vol.origen.toLowerCase() === origen.toLowerCase() && vol.desti.toLowerCase() === desti.toLowerCase()) {
-            resultats.push(`Vol: ${vol.origen} → ${vol.desti}, Preu: ${vol.preu.toFixed(2)}€`);
+            resultats.push("Vol: " + vol.origen + " → " + vol.desti + ", Preu: " + vol.preu.toFixed(2) + "€");
         }
     }
-
-    const contenidor = document.getElementById("resultatsVols");
+    //Muestra los resultados
+    let contenidor = document.getElementById("resultatsVols");
     if (resultats.length > 0) {
-        contenidor.innerHTML = "<b>Vols disponibles d'" + origen + " a " + desti + ":</b><br>" + resultats.join("<br>");
+        contenidor.innerHTML = "Vols disponibles de " + origen + " a " + desti + ":<br>" + resultats.join("<br>");
     } else {
-        contenidor.textContent = "No s'han trobat vols per a l'origen i destí indicats.";
+        contenidor.textContent = "No s'han trobat vols per a l'origen i destí indicats";
     }
 }
-
