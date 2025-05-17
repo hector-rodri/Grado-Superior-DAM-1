@@ -98,8 +98,6 @@ DELETE FROM LLIBRE_GENERE WHERE id_llibre = (SELECT ID FROM LLIBRE WHERE TITOL =
 
 CREATE OR REPLACE PACKAGE LLIBRES_API AS
 
-    --FALTAN EXCEPTIONS
-
     TYPE nested_llibres IS TABLE OF LLIBRE%ROWTYPE;
 
     llibre_sequela_no_existeix EXCEPTION;
@@ -107,29 +105,29 @@ CREATE OR REPLACE PACKAGE LLIBRES_API AS
     editorial_no_existeix   EXCEPTION;
 
     PROCEDURE alta_llibre(
-        v_titol in LLIBRE.titol%TYPE,
-        v_any in LLIBRE.an%TYPE,
-        v_exemplars in LLIBRE.exemplars%TYPE,
-        v_id_editorial in LLIBRE.id_editorial%TYPE,
-        v_id_sequela_de in LLIBRE.id_sequela_de%TYPE DEFAULT NULL
+        v_titol  LLIBRE.titol%TYPE,
+        v_any  LLIBRE.an%TYPE,
+        v_exemplars  LLIBRE.exemplars%TYPE,
+        v_id_editorial  LLIBRE.id_editorial%TYPE,
+        v_id_sequela_de  LLIBRE.id_sequela_de%TYPE DEFAULT NULL
     );
 
-    FUNCTION get_llibre_by_id(v_id in LLIBRE.id%TYPE) RETURN LLIBRE%ROWTYPE;
+    FUNCTION get_llibre_by_id(v_id  LLIBRE.id%TYPE) RETURN LLIBRE%ROWTYPE;
 
-    FUNCTION get_llibres_by_genere(v_genere in GENERE.nom%TYPE) RETURN nested_llibres;
+    FUNCTION get_llibres_by_genere(v_genere  GENERE.nom%TYPE) RETURN nested_llibres;
     
-    FUNCTION search_by_titol(v_text_usuari in VARCHAR2) RETURN nested_llibres;
+    FUNCTION search_by_titol(v_text_usuari  VARCHAR2) RETURN nested_llibres;
 
 END LLIBRES_API;
 
 
-CREATE OR REPLACE OR REPLACE PACKAGE BODY LLIBRES_API AS
+CREATE OR REPLACE PACKAGE BODY LLIBRES_API AS
     PROCEDURE alta_llibre(
-        v_titol in LLIBRE.titol%TYPE,
-        v_any in LLIBRE.an%TYPE,
-        v_exemplars in LLIBRE.exemplars%TYPE,
-        v_id_editorial in LLIBRE.id_editorial%TYPE,
-        v_id_sequela_de in LLIBRE.id_sequela_de%TYPE DEFAULT NULL
+        v_titol  LLIBRE.titol%TYPE,
+        v_any  LLIBRE.an%TYPE,
+        v_exemplars  LLIBRE.exemplars%TYPE,
+        v_id_editorial  LLIBRE.id_editorial%TYPE,
+        v_id_sequela_de  LLIBRE.id_sequela_de%TYPE DEFAULT NULL
     ) IS v_count NUMBER
 
     BEGIN
@@ -146,11 +144,28 @@ CREATE OR REPLACE OR REPLACE PACKAGE BODY LLIBRES_API AS
 
     END;
 
-    FUNCTION get_llibre_by_id(v_id in LLIBRE.id%TYPE) RETURN LLIBRE%ROWTYPE;
+    FUNCTION get_llibre_by_id(v_id  LLIBRE.id%TYPE) RETURN LLIBRE%ROWTYPE;
 
-    FUNCTION get_llibres_by_genere(v_genere in GENERE.nom%TYPE) RETURN nested_llibres;
+    FUNCTION get_llibres_by_genere(v_genere  GENERE.nom%TYPE) RETURN nested_llibres;
     
-    FUNCTION search_by_titol(v_text_usuari in VARCHAR2) RETURN nested_llibres;
+    FUNCTION search_by_titol(v_text_usuari  VARCHAR2) RETURN nested_llibres;
 BEGIN
 
+END;
+
+CREATE TABLE LLIBRES_LOG(
+    ID_LLIBRE NUMBER,
+    EJEMPLARES_OLD NUMBER,
+    FECHA DATE
+);
+
+CREATE OR REPLACE TRIGGER guardar_datos_LLIBRES_LOG
+BEFORE UPDATE 
+ON LLIBRE 
+FOR EACH ROW
+BEGIN
+    IF (:NEW.exemplars != :OLD.exemplars) THEN
+    INSERT INTO LLIBRES_LOG(ID_LLIBRE,EJEMPLARES_OLD,FECHA) VALUES (:OLD.ID,:OLD.exemplars,SYSDATE);
+    DMBS_OUTPUT.PUT_LINE('Información guardada');
+    END IF;
 END;
