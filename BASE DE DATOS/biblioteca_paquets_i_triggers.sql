@@ -123,35 +123,73 @@ END LLIBRES_API;
 
 CREATE OR REPLACE PACKAGE BODY LLIBRES_API AS
     PROCEDURE alta_llibre(
-        v_titol  LLIBRE.titol%TYPE,
-        v_any  LLIBRE.an%TYPE,
-        v_exemplars  LLIBRE.exemplars%TYPE,
-        v_id_editorial  LLIBRE.id_editorial%TYPE,
+        v_titol          LLIBRE.titol%TYPE,
+        v_any            LLIBRE.an%TYPE,
+        v_exemplars      LLIBRE.exemplars%TYPE,
+        v_id_editorial   LLIBRE.id_editorial%TYPE,
         v_id_sequela_de  LLIBRE.id_sequela_de%TYPE DEFAULT NULL
-    ) IS v_count NUMBER
-
+    ) IS
+        v_count NUMBER;
     BEGIN
-
         IF v_exemplars < 0 THEN
             RAISE exemplars_negatius;
         END IF;
 
         SELECT COUNT(*) INTO v_count
         FROM EDITORIAL
-        WHERE ID_EDITORIAL = p_id_editorial;    
+        WHERE id = v_id_editorial;
+
+        IF v_count = 0 THEN
+            RAISE editorial_no_existeix;
+        END IF;
+        
+        IF v_id_sequela_de IS NOT NULL THEN
+            SELECT COUNT(*) INTO v_count
+            FROM LLIBRE
+            WHERE id = v_id_sequela_de;
+
+            IF v_count = 0 THEN
+                RAISE llibre_sequela_no_existeix;
+            END IF;
+        END IF;
+
+        INSERT INTO LLIBRE(titol, an, exemplars, id_editorial, id_sequela_de)
+        VALUES (v_titol, v_any, v_exemplars, v_id_editorial, v_id_sequela_de);
+    END alta_llibre;
 
 
+    FUNCTION get_llibre_by_id(v_id LLIBRE.id%TYPE) RETURN LLIBRE%ROWTYPE IS
+        v_llibre LLIBRE%ROWTYPE;
+    BEGIN
+        SELECT * INTO v_llibre
+        FROM LLIBRE
+        WHERE id = v_id;
+        RETURN v_llibre;
+    END get_llibre_by_id;
 
-    END;
+    FUNCTION get_llibres_by_genere(v_genere GENERE.nom%TYPE) RETURN nested_llibres IS
+        v_llibres nested_llibres;
+    BEGIN
+        SELECT l.*
+        BULK COLLECT INTO v_llibres
+        FROM LLIBRE l
+        JOIN LLIBRE_GENERE lg ON l.id = lg.id_llibre
+        WHERE lg.nom_genere = v_genere
+        ORDER BY l.titol;
+        RETURN v_llibres;
+    END get_llibres_by_genere;
 
-    FUNCTION get_llibre_by_id(v_id  LLIBRE.id%TYPE) RETURN LLIBRE%ROWTYPE;
 
-    FUNCTION get_llibres_by_genere(v_genere  GENERE.nom%TYPE) RETURN nested_llibres;
-    
-    FUNCTION search_by_titol(v_text_usuari  VARCHAR2) RETURN nested_llibres;
-BEGIN
-
-END;
+    FUNCTION search_by_titol(v_text_usuari VARCHAR2) RETURN nested_llibres IS
+        v_resultats nested_llibres;
+    BEGIN
+        SELECT *
+        BULK COLLECT INTO v_resultats
+        FROM LLIBRE
+        WHERE LOWER(titol) LIKE LOWER('%' || v_text_usuari || '%');
+        RETURN v_resultats;
+    END search_by_titol;
+END LLIBRES_API;
 
 CREATE TABLE LLIBRES_LOG(
     ID_LLIBRE NUMBER,
@@ -166,6 +204,5 @@ FOR EACH ROW
 BEGIN
     IF (:NEW.exemplars != :OLD.exemplars) THEN
     INSERT INTO LLIBRES_LOG(ID_LLIBRE,EJEMPLARES_OLD,FECHA) VALUES (:OLD.ID,:OLD.exemplars,SYSDATE);
-    DMBS_OUTPUT.PUT_LINE('Información guardada');
     END IF;
 END;
