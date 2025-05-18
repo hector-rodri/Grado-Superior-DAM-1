@@ -206,3 +206,17 @@ BEGIN
     INSERT INTO LLIBRES_LOG(ID_LLIBRE,EJEMPLARES_OLD,FECHA) VALUES (:OLD.ID,:OLD.exemplars,SYSDATE);
     END IF;
 END;
+
+--TRIGGERS
+
+-- 1. Crea un trigger de manera que qualsevol llibre amb exemplars negatius que s'introdueixi quedi a 0 exemplars
+
+CREATE OR REPLACE TRIGGER exemplars_negatius
+BEFORE INSERT
+ON LLIBRE
+FOR EACH ROW
+BEGIN
+    IF (:NEW.exemplars < 0) THEN
+    :NEW.exemplars := 0;
+    END IF;
+END;
