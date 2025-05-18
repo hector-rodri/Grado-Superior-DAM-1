@@ -239,10 +239,30 @@ BEFORE INSERT
 ON LLIBRE 
 FOR EACH ROW
 DECLARE
-    v_id_editorial
+    v_id_editorial NUMBER;
 BEGIN
     IF (:NEW.ID_editorial IS NULL) THEN
     SELECT ID INTO v_id_editorial FROM EDITORIAL FETCH FIRST ROW ONLY;
     :NEW.ID_editorial := v_id_editorial;
+    END IF;
+END;
+
+/*4. Crea un trigger que faci que, quan s'introdueix un llibre amb seqüela a LLIBRES,
+es copiin automàticament l'autor i gèneres del llibre anterior.*/
+
+CREATE OR REPLACE TRIGGER copiar_datos_secuela
+AFTER INSERT 
+ON LLIBRE
+FOR EACH ROW
+DECLARE
+    v_autor_secuela VA
+BEGIN
+    IF (:NEW.ID_sequela_de IS NOT NULL) THEN
+        FOR gen IN (SELECT nom_genere FROM LLIBRE_GENERE WHERE id_llibre = :NEW.ID_sequela_de) LOOP
+			INSERT INTO LLIBRE_GENERE(id_llibre, nom_genere) VALUES (:NEW.ID, gen.nom_genere);
+		END LOOP;
+        FOR aut IN (SELECT id_autor FROM AUTOR_LLIBRE WHERE id_llibre = :NEW.ID_sequela_de) LOOP
+			INSERT INTO AUTOR_LLIBRE(id_autor, id_llibre) VALUES (aut.id_autor, :NEW.ID);
+		END LOOP;
     END IF;
 END;
