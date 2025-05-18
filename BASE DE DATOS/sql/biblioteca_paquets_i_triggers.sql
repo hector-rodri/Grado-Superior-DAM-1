@@ -230,3 +230,19 @@ FOR EACH ROW
 BEGIN
     :NEW.NOM := UPPER(:NEW.NOM);
 END;
+
+/*3. Crea un trigger que s'activi si s'introdueix un llibre sense editorial, 
+de manera que al llibre se li assigni qualsevol editorial de la base de dades.*/
+
+CREATE OR REPLACE TRIGGER llibre_sense_editorial
+BEFORE INSERT 
+ON LLIBRE 
+FOR EACH ROW
+DECLARE
+    v_id_editorial
+BEGIN
+    IF (:NEW.ID_editorial IS NULL) THEN
+    SELECT ID INTO v_id_editorial FROM EDITORIAL FETCH FIRST ROW ONLY;
+    :NEW.ID_editorial := v_id_editorial;
+    END IF;
+END;
