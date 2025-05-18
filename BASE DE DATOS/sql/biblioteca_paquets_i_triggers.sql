@@ -220,3 +220,13 @@ BEGIN
     :NEW.exemplars := 0;
     END IF;
 END;
+
+-- 2. Crea un trigger que asseguri que totes les editorials que s'introdueixin tenguin el nom en majúscula
+
+CREATE OR REPLACE TRIGGER editorial_mayus
+BEFORE INSERT OR UPDATE
+ON EDITORIAL
+FOR EACH ROW
+BEGIN
+    :NEW.NOM := UPPER(:NEW.NOM);
+END;
