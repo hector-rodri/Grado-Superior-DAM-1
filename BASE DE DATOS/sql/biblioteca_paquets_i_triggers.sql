@@ -266,3 +266,48 @@ BEGIN
 		END LOOP;
     END IF;
 END;
+
+
+/*5. Crea un trigger que faci que, quan s'introdueix l'autor d'un llibre que encara no té gènere,
+s'introduexi automàticament el gènere més freqüent d'aquell autor.*/
+CREATE OR REPLACE TRIGGER trg_afegir_genere_frequent
+BEFORE INSERT ON AUTOR_LLIBRE
+FOR EACH ROW
+DECLARE
+    v_max_count NUMBER := 0;
+    v_max_genere VARCHAR2(50);
+    v_aux NUMBER := 0;
+BEGIN
+    SELECT COUNT(*) INTO v_aux
+    FROM LLIBRE_GENERE
+    WHERE ID_llibre = :NEW.ID_llibre;
+
+    IF v_aux = 0 THEN
+        FOR r IN (
+            SELECT LG.nom_genere, COUNT(*) AS total
+            FROM AUTOR_LLIBRE AL
+            JOIN LLIBRE_GENERE LG ON AL.ID_llibre = LG.ID_llibre
+            WHERE AL.ID_autor = :NEW.ID_autor
+            GROUP BY LG.nom_genere
+        ) LOOP
+            IF r.total > v_max_count THEN
+                v_max_count := r.total;
+                v_max_genere := r.nom_genere;
+            END IF;
+        END LOOP;
+
+        IF v_max_count > 0 THEN
+            INSERT INTO LLIBRE_GENERE (ID_llibre, nom_genere)
+            VALUES (:NEW.ID_llibre, v_max_genere);
+        END IF;
+    END IF;
+END;
+
+INSERT INTO LLIBRE(titol, an, exemplars, id_editorial, id_sequela_de)
+VALUES (
+    'sadfrt',
+    2007,
+    5,
+    (SELECT ID FROM EDITORIAL WHERE NOM = 'Planeta'),''
+);
+INSERT INTO AUTOR_LLIBRE(ID_AUTOR, ID_LLIBRE) VALUES (2, (SELECT MAX(ID) FROM LLIBRE)); --Posar autor Manuel de Pedrolo
