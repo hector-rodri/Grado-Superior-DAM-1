@@ -132,7 +132,7 @@ CREATE OR REPLACE PACKAGE BODY LLIBRES_API AS
     SELECT * BULK COLLECT INTO v_aux FROM LLIBRE WHERE id_editorial = v_id_editorial;
     RETURN v_aux;
     END get_llibres_by_editorial;
-    
+
     PROCEDURE alta_llibre(
         v_titol          LLIBRE.titol%TYPE,
         v_any            LLIBRE.an%TYPE,
@@ -322,3 +322,19 @@ VALUES (
     (SELECT ID FROM EDITORIAL WHERE NOM = 'Planeta'),''
 );
 INSERT INTO AUTOR_LLIBRE(ID_AUTOR, ID_LLIBRE) VALUES (2, (SELECT MAX(ID) FROM LLIBRE)); --Posar autor Manuel de Pedrolo
+
+
+CREATE OR REPLACE PACKAGE AUTORS_API AS
+    TYPE autores_registros AS TABLE OF AUTOR%ROWTYPE;
+    FUNCTION get_autors_by_nacionalitat(v_autor_nacionalitat AUTOR.nacionalitat%type) RETURN autores_registros;
+END AUTORS_API;
+
+CREATE OR REPLACE PACKAGE BODY AUTORS_API AS
+    FUNCTION get_autors_by_nacionalitat(v_autor_nacionalitat AUTOR.nacionalitat%type) RETURN autores_registros
+    IS
+    v_aux autores_registros;
+    BEGIN
+    SELECT * BULK COLLECT INTO v_aux FROM AUTOR WHERE nacionalitat = v_autor_nacionalitat;
+    RETURN v_aux;
+    END;
+END AUTORS_API;
