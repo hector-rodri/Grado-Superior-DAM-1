@@ -112,6 +112,8 @@ CREATE OR REPLACE PACKAGE LLIBRES_API AS
         v_id_sequela_de  LLIBRE.id_sequela_de%TYPE DEFAULT NULL
     );
 
+    FUNCTION get_llibres_by_editorial(v_id_editorial llibre.id_editorial%type) RETURN nested_llibres;
+
     FUNCTION get_llibre_by_id(v_id  LLIBRE.id%TYPE) RETURN LLIBRE%ROWTYPE;
 
     FUNCTION get_llibres_by_genere(v_genere  GENERE.nom%TYPE) RETURN nested_llibres;
@@ -122,6 +124,15 @@ END LLIBRES_API;
 
 
 CREATE OR REPLACE PACKAGE BODY LLIBRES_API AS
+
+    FUNCTION get_llibres_by_editorial(v_id_editorial llibre.id_editorial%type) RETURN nested_llibres
+    IS
+    v_aux nested_llibres;
+    BEGIN
+    SELECT * BULK COLLECT INTO v_aux FROM LLIBRE WHERE id_editorial = v_id_editorial;
+    RETURN v_aux;
+    END get_llibres_by_editorial;
+    
     PROCEDURE alta_llibre(
         v_titol          LLIBRE.titol%TYPE,
         v_any            LLIBRE.an%TYPE,
