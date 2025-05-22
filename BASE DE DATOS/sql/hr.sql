@@ -3369,33 +3369,28 @@ EXCEPTION
 END;
 
 CREATE OR REPLACE PACKAGE order_mgmt AS
-  --TIPOS
   TYPE products_table IS TABLE OF PRODUCTS%ROWTYPE;
-  --SUBPROGRAMES
-  FUNCTION get_status(v_order_id orders.order_id%type) RETURN orders.status%type;
-  FUNCTION get_products_by_order_id(v_order_id orders.order_id%type) RETURN products_table;
-END order_mgmt;
 
+  FUNCTION get_order_status(ID orders.id%type) RETURN orders.status%type;
+  FUNCTION get_info_products(ID orders.id%type) RETURN products_table;
+END order_mgmt;
 
 CREATE OR REPLACE PACKAGE BODY order_mgmt AS
-
-  FUNCTION get_status(v_order_id orders.order_id%type) RETURN orders.status%type IS
-    v_status orders.status%type;
+  FUNCTION get_order_status(ID orders.id%type) RETURN orders.status%type
+  IS
+  v_status orders.status%type;
   BEGIN
-    SELECT status INTO v_status FROM orders WHERE order_id = v_order_id;
-    RETURN v_status;
-  END get_status;
+  SELECT status INTO v_status FROM orders WHERE orders.id = ID;
+  RETURN v_status;
+  END  get_order_status;
 
-  FUNCTION get_products_by_order_id(v_order_id orders.order_id%type) RETURN products_table IS
-    v_products products_table;
+  FUNCTION get_info_products(ID orders.id%type) RETURN products_table
+  IS
+  v_info products_table;
   BEGIN
-  SELECT PRODUCTS BULK COLLECT INTO v_products 
-  FROM products 
-  JOIN order_items ON order_items.product_id = products.product_id 
-  WHERE order_items.order_id = v_order_id;
-  RETURN v_products;
-  END get_products_by_order_id;
-BEGIN
-  
+  SELECT * BULK COLLECT INTO v_info FROM products 
+  JOIN order_items ON order_items.product_id = products.product_id
+  WHERE order_items.product_id = ID;
+  RETURN v_info;
+  END get_info_products;
 END order_mgmt;
-
