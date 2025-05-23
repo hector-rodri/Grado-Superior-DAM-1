@@ -118,3 +118,32 @@ BEGIN
         :NEW.pla := EXTRACT(YEAR FROM SYSDATE);
     END IF;
 END;
+
+/*2. Crea un trigger que s'activi cada vegada que es canvia qualsevol nota d'un alumne per 
+guardar un registre dels canvis a la nota. A la taula d'històric hi ha d'haver, almenys:
+- ID de la nota que s'ha canviat
+- Nota abans del canvia
+- Data de canvi
+Per exemple, si dia 16/05/2025 a les 15:55 canviam la nota amb ID 3 i passa d'un 7 a un 8, 
+a la taula d'històric hi ha d'haver un registre així: 
+ID_CANVI    ID	NOTA	DATA_CANVI
+1           3	7		16/05/2025 15:55
+Mentre que a la taula normal de NOTA hi haurà un 8, amb tota la informació de la taula.
+Proporciona el codi del trigger i el CREATE TABLE de la taula d'històric.
+(3 punts)*/
+
+CREATE TABLE HISTORIC(
+    ID_CANVI NUMBER GENERATED AS IDENTITY PRIMARY KEY,
+    ID_NOTA NUMBER,
+    NOTA NUMBER,
+    DATA_CANVI DATE
+);
+
+CREATE OR REPLACE TRIGGER canvi_nota
+BEFORE UPDATE ON NOTA 
+FOR EACH ROW
+BEGIN
+    IF(:NEW.nota != :OLD.nota) THEN
+    INSERT INTO HISTORIC(id_nota,nota,data_canvi) VALUES (:OLD.ID,:OLD.nota,sysdate);
+    END IF;
+END;
