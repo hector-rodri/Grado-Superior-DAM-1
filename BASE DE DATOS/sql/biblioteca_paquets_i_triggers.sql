@@ -338,3 +338,150 @@ CREATE OR REPLACE PACKAGE BODY AUTORS_API AS
     RETURN v_aux;
     END;
 END AUTORS_API;
+-- === APUNTS BÀSICS DE PL/SQL PER L'EXAMEN ===
+
+-- Bloc bàsic
+BEGIN
+  -- instruccions
+EXCEPTION
+  WHEN error THEN
+    -- gestió d'error
+END;
+/
+
+-- IF-THEN
+IF condició THEN
+  -- acció
+END IF;
+
+-- Bucle FOR sobre col·lecció
+FOR i IN 1..coleccio.COUNT LOOP
+  -- accions
+END LOOP;
+
+-- Output
+DBMS_OUTPUT.PUT_LINE('Text');
+
+-- WHILE loop
+i := 1;
+WHILE i <= v_exemple.COUNT LOOP
+  DBMS_OUTPUT.PUT_LINE(v_exemple(i).titol);
+  i := i + 1;
+END LOOP;
+
+
+-- === SUBPROGRAMES ===
+
+-- PROCEDURE: executa codi
+-- FUNCTION: executa codi i retorna un valor
+
+-- NESTED PROCEDURE (dins bloc anònim)
+DECLARE
+  PROCEDURE mostra_hola IS
+  BEGIN
+    DBMS_OUTPUT.PUT_LINE('Hola!');
+  END;
+BEGIN
+  mostra_hola;
+END;
+/
+
+-- STANDALONE PROCEDURE
+CREATE OR REPLACE PROCEDURE mostra_data IS
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('Avui és: ' || SYSDATE);
+END;
+/
+
+-- STANDALONE FUNCTION
+CREATE OR REPLACE FUNCTION doble_valor(num NUMBER)
+RETURN NUMBER IS
+BEGIN
+  RETURN num * 2;
+END;
+/
+
+-- Eliminar subprogrames
+-- DROP PROCEDURE mostra_data;
+-- DROP FUNCTION doble_valor;
+
+
+-- === PARÀMETRES DE SUBPROGRAMES ===
+-- nom_parametre [IN | OUT | IN OUT] tipus
+
+-- Exemple:
+-- PROCEDURE exemple(par1 IN NUMBER, par2 OUT NUMBER)
+-- par1 entra valor, par2 retorna valor
+
+
+-- === EXECUCIÓ DE PROCEDURES / FUNCTIONS ===
+-- dins bloc: nom_proc(par1);
+-- o: EXECUTE nom_proc(par1);
+
+-- === PAQUETS ===
+
+-- SPEC
+CREATE OR REPLACE PACKAGE paquet_util IS
+  PROCEDURE hola;
+  FUNCTION doble(num NUMBER) RETURN NUMBER;
+END paquet_util;
+/
+
+-- BODY
+CREATE OR REPLACE PACKAGE BODY paquet_util IS
+  PROCEDURE hola IS
+  BEGIN
+    DBMS_OUTPUT.PUT_LINE('Hola des del paquet!');
+  END;
+
+  FUNCTION doble(num NUMBER) RETURN NUMBER IS
+  BEGIN
+    RETURN num * 2;
+  END;
+END paquet_util;
+/
+
+-- Crida: paquet_util.hola;
+--        paquet_util.doble(5);
+
+
+-- === CURSORS ===
+
+-- Cursor simple amb bucle FOR
+DECLARE
+  CURSOR c_llibres IS
+    SELECT titol FROM LLIBRE;
+
+BEGIN
+  FOR llibre IN c_llibres LOOP
+    DBMS_OUTPUT.PUT_LINE('Títol: ' || llibre.titol);
+  END LOOP;
+END;
+/
+
+-- === TRIGGERS ===
+
+-- Trigger bàsic BEFORE INSERT
+CREATE OR REPLACE TRIGGER trigger_insercio
+BEFORE INSERT ON LLIBRE
+FOR EACH ROW
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('Inserint nou llibre...');
+END;
+/
+
+-- Exemple pràctic: evitar valors negatius
+CREATE OR REPLACE TRIGGER evitar_exemplars_negatius
+BEFORE INSERT OR UPDATE ON LLIBRE
+FOR EACH ROW
+BEGIN
+  IF :NEW.exemplars < 0 THEN
+    RAISE_APPLICATION_ERROR(-20001, 'No es permeten exemplars negatius!');
+  END IF;
+END;
+/
+
+-- AFTER / BEFORE → quan s'executa.
+-- FOR EACH ROW → per cada fila afectada.
+-- :NEW.camp → accés al nou valor.
+-- :OLD.camp → accés al valor anterior.
