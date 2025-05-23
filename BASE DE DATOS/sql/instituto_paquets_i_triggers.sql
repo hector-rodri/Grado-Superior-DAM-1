@@ -175,4 +175,37 @@ CREATE OR REPLACE PACKAGE BODY NOTES_API AS
         DBMS_OUTPUT.PUT_LINE('ELIMINADO');
     END DELETE_BY_ALUMNE;
 
+    FUNCTION GET_NOTA(v_dni_alumne alumne.dni%type, 
+    v_id_assig assignatura.id%type, 
+    v_convocatoria nota.convocatoria%type) RETURN NUMBER
+    IS
+    v_nota number;
+    v_count_alumne number;
+    v_count_assig number;
+    BEGIN
+        SELECT COUNT(*) INTO v_count_alumne FROM ALUMNE
+        WHERE dni = v_dni_alumne;
+
+        if v_dni_alumne = 0 then 
+        raise alumne_no_existeix;
+        end if;
+
+        SELECT COUNT(*) INTO v_count_assig FROM ASSIGNATURA
+        WHERE ID = v_id_assig;
+
+        if v_id_assig = 0 then
+        raise assignatura_no_existeix;
+        end if;
+
+        SELECT nota INTO v_nota FROM NOTA
+        WHERE dni_alumne = p_dni_alumne AND ID_assignatura = p_id_assignatura AND convocatoria = p_convocatoria;
+        RETURN v_result;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            RAISE nota_no_trobada;
+    END GET_NOTA;
+    
+    END;
+
 END NOTES_API;
