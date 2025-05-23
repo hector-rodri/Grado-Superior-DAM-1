@@ -147,3 +147,16 @@ BEGIN
     INSERT INTO HISTORIC(id_nota,nota,data_canvi) VALUES (:OLD.ID,:OLD.nota,sysdate);
     END IF;
 END;
+
+CREATE OR REPLACE PACKAGE NOTES_API AS
+    no_existeixen_notes EXCEPTION;
+    alumne_no_existeix EXCEPTION;
+    assignatura_no_existeix EXCEPTION;
+
+    PROCEDURE DELETE_BY_ALUMNE(v_dni_alumne alumne.dni%type);
+
+    FUNCTION GET_NOTA(v_dni_alumne alumne.dni%type, 
+    v_id_assig assignatura.id%type, 
+    v_convocatoria nota.convocatoria%type) RETURN NUMBER;
+
+END NOTES_API;
