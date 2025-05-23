@@ -160,3 +160,19 @@ CREATE OR REPLACE PACKAGE NOTES_API AS
     v_convocatoria nota.convocatoria%type) RETURN NUMBER;
 
 END NOTES_API;
+
+CREATE OR REPLACE PACKAGE BODY NOTES_API AS
+
+    PROCEDURE DELETE_BY_ALUMNE(v_dni_alumne alumne.dni%type) IS
+    v_count number;
+    BEGIN
+        SELECT COUNT(*) INTO v_count
+        FROM ALUMNE where dni = v_dni_alumne;
+        if v_count = 0 THEN
+        raise no_existeixen_notes;
+        end if;
+        DELETE FROM nota WHERE dni_alumne= v_dni_alumne;
+        DBMS_OUTPUT.PUT_LINE('ELIMINADO');
+    END DELETE_BY_ALUMNE;
+
+END NOTES_API;
