@@ -104,3 +104,17 @@ INSERT INTO NOTA (dni_alumne, ID_assignatura, convocatoria, nota) VALUES ('90123
 INSERT INTO NOTA (dni_alumne, ID_assignatura, convocatoria, nota) VALUES ('01234567J', 8, 2021, 8.5);
 INSERT INTO NOTA (dni_alumne, ID_assignatura, convocatoria, nota) VALUES ('01234567J', 9, 2021, 9.0);
 INSERT INTO NOTA (dni_alumne, ID_assignatura, convocatoria, nota) VALUES ('01234567J', 10, 2021, 9.5);
+
+/*1. Crea un trigger que s'activi cada vegada que s'introdueix una assignatura
+i que si l'assignatura que s'introdueix no té pla li assigni el pla 
+corresponent a l'any actual. 
+(2 punts)*/
+
+CREATE OR REPLACE TRIGGER insert_assignatura 
+BEFORE INSERT ON ASSIGNATURA 
+FOR EACH ROW
+BEGIN
+    IF (:NEW.pla is null) then 
+        :NEW.pla := EXTRACT(YEAR FROM SYSDATE);
+    END IF;
+END;
