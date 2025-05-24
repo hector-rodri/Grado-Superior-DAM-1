@@ -11,6 +11,5 @@ def a6():
         print("DEL NÚMERO",A, "SU POTENCIA ES",A*A, "Y SU RAIZ ES", (math.sqrt(A)))
     
 
-
 if __name__ == "__main__":
     a6()

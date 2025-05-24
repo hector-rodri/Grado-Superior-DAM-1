@@ -1,12 +1,9 @@
 if __name__ == "__main__":
     print("Teclea el primer numero:")
-     
     A = input()
-
 
     print("Teclea el segundo numero:")
     B= input()
-
 
     A, B = B, A
      
