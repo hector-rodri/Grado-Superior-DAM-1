@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="adivinaElNumero.js" defer></script>
+    <link rel="stylesheet" href="adivinaElNumero.css">
+</head>
+
+<body>
+    <h1>Adivina el número</h1>
+    <div id="botonesDificultad">
+        <h2>Elige la dificultad:</h2>
+        <select id="dificultad">
+            <option value="patata">ESCOGE</option>
+            <option value="10">FÁCIL</option>
+            <option value="50">MEDIO</option>
+            <option value="100">DIFÍCIL</option>
+        </select>
+        <button onclick="jugar()" id="jugar">JUGAR</button>
+    </div>
+
+    <div id="tipoJuego">
+        <h2 id="titulo"></h2>
+        <input type="number" id="inputNumero" placeholder="Introduce un número">
+        <button onclick="comprovarNumero()">Comprovar</button>
+        <button onclick="reiniciar()">Reiniciar</button>
+        <p id="mensaje"></p>
+        <p id="intentos"></p>
+    </div>
+
+
+</body>
+
+</html>
