@@ -1,0 +1,14 @@
+CONSULTAS MONGODB – BASE DE DATOS
+
+
+1. Obtener todos los productos que han sido vendidos
+{ "estat": "venut" }
+
+2. Obtener todos los productos que tienen el tag "informàtica"
+{ "tags": "informàtica" }
+
+3. Obtener todos los productos del usuario "u2" que están DISPONIBLES
+{ "id_usuari": "u2", "estat": "disponible" }
+
+4. Obtener todos los usuarios que viven en la provincia de "Balears"
+{ "ubicacio.provincia": "Balears" }
