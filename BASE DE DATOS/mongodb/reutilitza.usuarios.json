@@ -1,0 +1,50 @@
+[{
+  "_id": "u1",
+  "nom": "Hector Rodriguez",
+  "email": "hector@gmail.com",
+  "ubicacio": {
+    "provincia": "Balears",
+    "municipi": "Marratxi",
+    "codi_postal": "07000",
+    "adreça": "C/ Cabana, 666"
+  },
+  "data_registre": {
+    "$date": "2025-01-10T00:00:00.000Z"
+  },
+  "valoracions": [
+    {
+      "id_usuari": "u2",
+      "tipus": "comprador",
+      "puntuacio": 4.5,
+      "comentari": "Molt bon venedor",
+      "data_valoracio": {
+        "$date": "2025-03-10T00:00:00.000Z"
+      }
+    }
+  ]
+},
+{
+  "_id": "u2",
+  "nom": "Samuel de Luque",
+  "email": "samu777@gmail.com",
+  "ubicacio": {
+    "provincia": "Balears",
+    "municipi": "Palma",
+    "codi_postal": "07000",
+    "adreça": "Av. Alemanya, 0"
+  },
+  "data_registre": {
+    "$date": "2024-01-12T00:00:00.000Z"
+  },
+  "valoracions": [
+    {
+      "id_usuari": "u1",
+      "tipus": "comprador",
+      "puntuacio": 4.7,
+      "comentari": "Molt bon venedor",
+      "data_valoracio": {
+        "$date": "2025-03-10T00:00:00.000Z"
+      }
+    }
+  ]
+}]

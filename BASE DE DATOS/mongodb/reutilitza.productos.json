@@ -1,0 +1,66 @@
+[{
+  "_id": {
+    "$oid": "6832e0804345dc1e9cf8ddbb"
+  },
+  "nom": "Portàtil ASUS",
+  "descripcio": "Portàtil d'ús general amb 8GB de RAM",
+  "categoria": "Informàtica",
+  "tags": [
+    "informàtica",
+    "portàtil",
+    "asus"
+  ],
+  "preu": 300,
+  "id_usuari": "u2",
+  "data_publicacio": {
+    "$date": "2024-01-20T00:00:00.000Z"
+  },
+  "estat": "disponible",
+  "imatges": [
+    "asus1.jpg",
+    "asus2.jpg"
+  ]
+},
+{
+  "_id": {
+    "$oid": "6832e0ce4345dc1e9cf8ddbd"
+  },
+  "nom": "Bicicleta de muntanya",
+  "descripcio": "Ideal per rutes",
+  "categoria": "Esport",
+  "tags": [
+    "bicis",
+    "esport"
+  ],
+  "preu": 150,
+  "id_usuari": "u2",
+  "data_publicacio": {
+    "$date": "2024-02-15T00:00:00.000Z"
+  },
+  "estat": "venut",
+  "imatges": [
+    "bici1.jpg"
+  ]
+},
+{
+  "_id": {
+    "$oid": "6832e0d44345dc1e9cf8ddbf"
+  },
+  "nom": "Targeta gràfica GTX 1660",
+  "descripcio": "Bona per gaming",
+  "categoria": "Informàtica",
+  "tags": [
+    "informàtica",
+    "components",
+    "gaming"
+  ],
+  "preu": 200,
+  "id_usuari": "u2",
+  "data_publicacio": {
+    "$date": "2024-03-01T00:00:00.000Z"
+  },
+  "estat": "reservat",
+  "imatges": [
+    "gtx1660.jpg"
+  ]
+}]
